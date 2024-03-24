@@ -6,7 +6,7 @@
 
 /* For logging round startup. */
 /proc/start_log(log)
-	WRITE_LOG(log, "START: Starting up [log_path].")
+	WRITE_LOG(log, "START: Starting up [log].")
 	return log
 
 /* Close open log handles. This should be called as late as possible, and no logging should hapen after. */
@@ -274,6 +274,14 @@
 
 /proc/log_unit_test(text)
 	to_world_log("## UNIT_TEST: [text]")
+
+// CHOMPEdit Start
+#if defined(UNIT_TESTS) || defined(SPACEMAN_DMM)
+/proc/log_test(text)
+	WRITE_LOG(test_log, text)
+	SEND_TEXT(world.log, text)
+#endif
+// CHOMPEdit End
 
 #ifdef REFERENCE_TRACKING_LOG
 #define log_reftracker(msg) log_world("## REF SEARCH [msg]")
