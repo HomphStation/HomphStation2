@@ -90,11 +90,11 @@
 			delete_me = 1
 			return
 		if("endgame_exit")
-			endgame_safespawns += loc
+			GLOB.endgame_safespawns += loc // CHOMPEdit - Globals
 			delete_me = 1
 			return
 		if("bluespacerift")
-			endgame_exits += loc
+			GLOB.endgame_exits += loc // CHOMPEdit - Globals
 			delete_me = 1
 			return
 		//VOREStation Add Start
@@ -104,7 +104,7 @@
 			return
 		//VORE Station Add End
 
-	landmarks_list += src
+	GLOB.landmarks_list += src // CHOMPEdit - Globals
 	return 1
 
 /obj/effect/landmark/proc/delete()
@@ -117,7 +117,7 @@
 
 /obj/effect/landmark/Destroy(var/force = FALSE)
 	if(delete_me || force)
-		landmarks_list -= src
+		GLOB.landmarks_list -= src // CHOMPEdit - Globals
 		return ..()
 	return QDEL_HINT_LETMELIVE
 
