@@ -1205,13 +1205,6 @@
 	icon_state = "steel"
 	},
 /area/centcom/main_hall)
-"boo" = (
-/obj/structure/shuttle/falsewall_no_join{
-	icon = 'icons/turf/wall_masks_tgmc.dmi';
-	icon_state = "white2"
-	},
-/turf/simulated/floor/plating,
-/area/shuttle/escape/centcom)
 "bos" = (
 /obj/effect/floor_decal/techfloor{
 	dir = 10
@@ -2989,23 +2982,6 @@
 	icon_state = "white"
 	},
 /area/centcom/medical)
-"dzV" = (
-/obj/structure/table/steel_reinforced,
-/obj/item/book/manual/wiki/engineering_hacking,
-/obj/item/radio/intercom{
-	desc = "Talk through this. Evilly";
-	dir = 4;
-	frequency = 1213;
-	name = "Subversive Intercom";
-	pixel_x = 32;
-	subspace_transmission = 1;
-	syndie = 1
-	},
-/turf/unsimulated/floor{
-	dir = 5;
-	icon_state = "vault"
-	},
-/area/wizard_station)
 "dAl" = (
 /obj/machinery/button/remote/blast_door{
 	id = "tradestationshutters";
@@ -8168,6 +8144,23 @@
 	icon_state = "steel_dirty"
 	},
 /area/skipjack_station)
+"jnj" = (
+/obj/structure/table/steel_reinforced,
+/obj/item/book/manual/wiki/engineering_hacking,
+/obj/item/radio/intercom{
+	desc = "Talk through this. Evilly";
+	dir = 4;
+	frequency = 1213;
+	name = "Subversive Intercom";
+	pixel_x = 32;
+	subspace_transmission = 1;
+	syndie = 1
+	},
+/turf/unsimulated/floor{
+	dir = 5;
+	icon_state = "vault"
+	},
+/area/wizard_station)
 "jnM" = (
 /obj/structure/bed/chair/comfy/black{
 	dir = 1
@@ -79429,7 +79422,7 @@ lXr
 xIh
 xIh
 xIh
-dzV
+jnj
 epV
 jeX
 kDD

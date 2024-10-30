@@ -55135,9 +55135,7 @@
 	},
 /area/survivalpod)
 "qef" = (
-/obj/item/reagent_containers/glass/beaker/stopperedbottle{
-	desc = s
-	},
+/obj/item/reagent_containers/glass/beaker/stopperedbottle,
 /turf/simulated/fitness{
 	icon_state = "vault"
 	},
@@ -63532,9 +63530,7 @@
 /turf/simulated/floor/atoll,
 /area/survivalpod)
 "sGg" = (
-/obj/item/storage/vore_egg/human{
-	desc = s
-	},
+/obj/item/storage/vore_egg/human,
 /turf/simulated/fitness{
 	icon_state = "vault"
 	},
@@ -68870,12 +68866,6 @@
 	icon_state = "vault"
 	},
 /area/survivalpod)
-"ujN" = (
-/obj/item/flag,
-/turf/simulated/fitness{
-	icon_state = "vault"
-	},
-/area/survivalpod)
 "ujS" = (
 /obj/item/implant/reagent_generator/eldi,
 /turf/simulated/fitness{
@@ -69740,12 +69730,6 @@
 /area/survivalpod)
 "uxF" = (
 /obj/item/flashlight/lantern,
-/turf/simulated/fitness{
-	icon_state = "vault"
-	},
-/area/survivalpod)
-"uxH" = (
-/obj/item/stamp,
 /turf/simulated/fitness{
 	icon_state = "vault"
 	},
@@ -74670,12 +74654,6 @@
 	icon_state = "vault"
 	},
 /area/survivalpod)
-"vTa" = (
-/obj/item/camera_bug,
-/turf/simulated/fitness{
-	icon_state = "vault"
-	},
-/area/survivalpod)
 "vTc" = (
 /obj/item/rig/zero/equipped,
 /turf/simulated/fitness{
@@ -76676,12 +76654,6 @@
 /area/survivalpod)
 "wvz" = (
 /obj/machinery/atmospherics/pipe/simple/visible/cyan,
-/turf/simulated/fitness{
-	icon_state = "vault"
-	},
-/area/survivalpod)
-"wvD" = (
-/obj/item/clothing/mask/gas,
 /turf/simulated/fitness{
 	icon_state = "vault"
 	},
@@ -81263,7 +81235,6 @@
 /area/survivalpod)
 "xLZ" = (
 /mob/living/simple_mob/vore/alienanimals/space_ghost{
-	desc = s;
 	ai_holder_type = null
 	},
 /turf/simulated/floor/atoll,
@@ -103643,7 +103614,7 @@ lFO
 dXm
 suK
 bop
-wvD
+rlD
 ubX
 bpf
 vpF
@@ -110638,7 +110609,7 @@ dNa
 elf
 hbd
 dsl
-vTa
+aNs
 kIm
 kle
 wOB
@@ -111201,7 +111172,7 @@ uGP
 kIg
 bbG
 kwU
-ujN
+hvM
 jxS
 dyO
 fUB
@@ -117095,7 +117066,7 @@ brz
 (170,1,1) = {"
 brz
 vOT
-uxH
+sCz
 vOT
 jRg
 hwZ

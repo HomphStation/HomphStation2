@@ -16,11 +16,6 @@
 	},
 /turf/simulated/floor/wood/alt,
 /area/redgate/facility/office7)
-"aca" = (
-/obj/structure/table/standard,
-/obj/structure/table/standard,
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/nw)
 "adz" = (
 /obj/structure/window/basic/full,
 /turf/simulated/floor/wood/alt,
@@ -76,42 +71,11 @@
 /obj/item/shield/riot,
 /turf/simulated/floor/tiled/milspec,
 /area/redgate/facility/ne)
-"akB" = (
-/obj/structure/table/rack/shelf/steel,
-/obj/item/clothing/suit/storage/vest/heavy/officer{
-	pixel_x = -4;
-	pixel_y = 4
-	},
-/obj/item/clothing/suit/storage/vest/heavy/officer{
-	pixel_x = -4;
-	pixel_y = -6
-	},
-/obj/item/clothing/suit/storage/vest/heavy/officer{
-	pixel_x = 5;
-	pixel_y = -6
-	},
-/obj/item/clothing/suit/storage/vest/heavy/officer{
-	pixel_x = 5;
-	pixel_y = 4
-	},
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/milspec,
-/area/redgate/facility/ne)
 "alk" = (
 /obj/structure/table/steel_reinforced,
 /obj/random/technology_scanner,
 /turf/simulated/floor/tiled/techfloor,
 /area/redgate/facility/cell14)
-"alo" = (
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/milspec,
-/area/redgate/facility/ne)
 "alz" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -1749,6 +1713,17 @@
 /obj/random/tool/alien,
 /turf/simulated/floor/tiled,
 /area/redgate/facility/cell29)
+"cBr" = (
+/obj/structure/table/rack/shelf/steel,
+/obj/item/storage/box/trackimp{
+	pixel_x = 5;
+	pixel_y = 1
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/milspec,
+/area/redgate/facility/ne)
 "cBx" = (
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/cell5)
@@ -3906,14 +3881,6 @@
 /mob/living/simple_mob/vore/alienanimals/succlet,
 /turf/simulated/floor/tiled/steel,
 /area/redgate/facility/ne)
-"fAP" = (
-/obj/structure/flora/ausbushes/fullgrass,
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/grass,
-/area/redgate/facility/cell3)
 "fBu" = (
 /obj/structure/closet/walllocker_double/science/south,
 /obj/random/maintenance/foodstuff,
@@ -4691,12 +4658,6 @@
 	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/redgate/facility/tram)
-"gAt" = (
-/obj/structure/closet/secure_closet/engineering_electrical/double{
-	anchored = 1
-	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/redgate/facility/cell29)
 "gAV" = (
 /obj/effect/floor_decal/spline/plain,
 /obj/structure/closet/walllocker_double/medical/west,
@@ -4907,12 +4868,6 @@
 	},
 /turf/simulated/wall/tgmc/whitewall,
 /area/redgate/facility/ne)
-"gPW" = (
-/obj/structure/table/standard,
-/obj/structure/table/standard,
-/obj/random/forgotten_tram,
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/nw)
 "gQm" = (
 /obj/machinery/disease2/isolator,
 /obj/machinery/light{
@@ -5358,6 +5313,13 @@
 /obj/item/pen/blue,
 /turf/simulated/floor/carpet/tealcarpet,
 /area/redgate/facility/nw)
+"hsr" = (
+/obj/structure/table/hardwoodtable,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/wood/alt,
+/area/redgate/facility/ne)
 "hsx" = (
 /obj/structure/table/steel_reinforced,
 /obj/item/paper_bin,
@@ -5492,6 +5454,12 @@
 /obj/machinery/atmospherics/pipe/manifold/hidden/supply,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/lab1)
+"hEX" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/steel,
+/area/redgate/facility/cell11)
 "hFv" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_y = 30
@@ -5630,13 +5598,6 @@
 /obj/item/stamp/accepted,
 /turf/simulated/floor/tiled,
 /area/redgate/facility/nw)
-"hLq" = (
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/grass,
-/area/redgate/facility/cell3)
 "hLH" = (
 /turf/unsimulated/wall/dark,
 /area/redgate/facility/cell9)
@@ -5862,6 +5823,12 @@
 	},
 /turf/simulated/floor/tiled,
 /area/redgate/facility/nw)
+"iaB" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/grass,
+/area/redgate/facility/cell3)
 "iaS" = (
 /obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled,
@@ -6189,14 +6156,6 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/ne)
-"itM" = (
-/obj/structure/table/hardwoodtable,
-/obj/structure/table/hardwoodtable,
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/simulated/floor/wood/alt,
-/area/redgate/facility/ne)
 "iue" = (
 /obj/machinery/atmospherics/pipe/vent{
 	dir = 1
@@ -6503,24 +6462,6 @@
 /obj/item/megaphone,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/ne)
-"iRl" = (
-/obj/item/modular_computer/console,
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/ne)
-"iRw" = (
-/obj/structure/table/standard,
-/obj/machinery/microwave,
-/obj/effect/floor_decal/corner/grey/diagonal,
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/nw)
 "iSB" = (
 /obj/structure/table/standard,
 /obj/random/forgotten_tram,
@@ -6594,6 +6535,13 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/ne)
+"iVV" = (
+/obj/structure/flora/ausbushes/fullgrass,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/grass,
+/area/redgate/facility/cell3)
 "iWh" = (
 /obj/item/paper/crumpled/bloody{
 	info = "Report: The Canidfelanis specimens have take a sudden disliking to the lights in their study cell. It's becoming difficult to obser"
@@ -7375,6 +7323,10 @@
 "kgZ" = (
 /turf/simulated/floor/maglev,
 /area/redgate/facility/tram)
+"khm" = (
+/obj/machinery/light,
+/turf/simulated/floor/tiled/steel,
+/area/redgate/facility/cell11)
 "khn" = (
 /obj/structure/table/steel_reinforced,
 /obj/item/gun/energy/sizegun,
@@ -7830,6 +7782,10 @@
 /obj/structure/table/hardwoodtable,
 /turf/simulated/floor/wood/alt,
 /area/redgate/facility/ne)
+"kTj" = (
+/obj/structure/closet/secure_closet/engineering_electrical/double,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/redgate/facility/cell29)
 "kTY" = (
 /turf/simulated/wall/tgmc/whitewall,
 /area/redgate/facility/cell24)
@@ -8690,13 +8646,6 @@
 /obj/random/mug,
 /turf/simulated/floor/carpet/blucarpet,
 /area/redgate/facility/office9)
-"miQ" = (
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/grass,
-/area/redgate/facility/cell13)
 "mjq" = (
 /obj/structure/flora/ausbushes/fernybush,
 /turf/simulated/floor/water/pool,
@@ -8717,6 +8666,14 @@
 "mkB" = (
 /obj/structure/closet/secure_closet/freezer/meat,
 /obj/effect/floor_decal/corner/grey/diagonal,
+/turf/simulated/floor/tiled/white,
+/area/redgate/facility/nw)
+"mkS" = (
+/obj/machinery/appliance/cooker/oven,
+/obj/effect/floor_decal/corner/grey/diagonal,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/nw)
 "mlk" = (
@@ -9859,13 +9816,6 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/sw)
-"nPs" = (
-/obj/machinery/door/airlock/angled_tgmc/cell{
-	dir = 4;
-	req_one_access = null
-	},
-/turf/simulated/floor/tiled/steel,
-/area/redgate/facility/cell12)
 "nRx" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -10370,6 +10320,29 @@
 	},
 /turf/simulated/floor/carpet/oracarpet,
 /area/redgate/facility/ne)
+"oAL" = (
+/obj/structure/table/rack/shelf/steel,
+/obj/item/clothing/suit/storage/vest/heavy/officer{
+	pixel_x = -4;
+	pixel_y = 4
+	},
+/obj/item/clothing/suit/storage/vest/heavy/officer{
+	pixel_x = -4;
+	pixel_y = -6
+	},
+/obj/item/clothing/suit/storage/vest/heavy/officer{
+	pixel_x = 5;
+	pixel_y = -6
+	},
+/obj/item/clothing/suit/storage/vest/heavy/officer{
+	pixel_x = 5;
+	pixel_y = 4
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/milspec,
+/area/redgate/facility/ne)
 "oAY" = (
 /turf/simulated/wall/tgmc/darkwall,
 /area/redgate/facility/cell9)
@@ -10383,6 +10356,12 @@
 "oEx" = (
 /turf/simulated/floor/gorefloor2,
 /area/redgate/facility/ne)
+"oEX" = (
+/obj/machinery/door/airlock/angled_tgmc/personal{
+	name = "Research Facility"
+	},
+/turf/simulated/floor/tiled/white,
+/area/redgate/facility/cell5)
 "oFg" = (
 /obj/structure/closet/firecloset,
 /turf/simulated/floor,
@@ -11901,6 +11880,11 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/cell23)
+"qLq" = (
+/obj/structure/table/standard,
+/obj/random/forgotten_tram,
+/turf/simulated/floor/tiled/white,
+/area/redgate/facility/nw)
 "qLz" = (
 /obj/structure/bed/chair/sofa/corp/left{
 	dir = 4
@@ -12293,6 +12277,11 @@
 /obj/effect/floor_decal/industrial/warning/tile,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/cell15)
+"rsO" = (
+/obj/structure/table/steel_reinforced,
+/obj/item/book/manual/wiki/robotics_manual,
+/turf/simulated/floor/tiled/steel_grid,
+/area/redgate/facility/ne)
 "rty" = (
 /obj/machinery/biogenerator,
 /obj/machinery/light{
@@ -12808,6 +12797,15 @@
 /obj/item/clothing/gloves/circuitry,
 /turf/simulated/floor/tiled/steel_ridged,
 /area/redgate/facility/cell8)
+"sbU" = (
+/obj/structure/table/standard,
+/obj/machinery/microwave,
+/obj/effect/floor_decal/corner/grey/diagonal,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/white,
+/area/redgate/facility/nw)
 "sdd" = (
 /turf/simulated/floor/tiled/steel,
 /area/redgate/facility/nw)
@@ -12990,6 +12988,12 @@
 /obj/item/material/shard,
 /turf/simulated/floor,
 /area/redgate/facility/cell25)
+"snc" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/milspec,
+/area/redgate/facility/ne)
 "snf" = (
 /turf/simulated/floor/tiled,
 /area/redgate/facility/cell29)
@@ -13037,6 +13041,13 @@
 /obj/effect/floor_decal/corner/red/border,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/cell22)
+"sqJ" = (
+/obj/item/modular_computer/console,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/white,
+/area/redgate/facility/ne)
 "ssb" = (
 /obj/effect/floor_decal/corner/pink/border,
 /obj/machinery/atmospherics/pipe/manifold4w/hidden/supply,
@@ -13251,13 +13262,6 @@
 /obj/random/mainttoyloot/nofail,
 /turf/simulated/floor,
 /area/redgate/facility/cell23)
-"sIR" = (
-/obj/machinery/door/airlock/angled_tgmc/personal{
-	id_tag = null;
-	name = "Research Facility"
-	},
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/cell5)
 "sJl" = (
 /turf/simulated/floor/tiled/milspec,
 /area/redgate/facility/office4)
@@ -13814,12 +13818,6 @@
 /obj/structure/lightpost/atoll,
 /turf/simulated/floor/atoll,
 /area/redgate/facility/cell16)
-"txy" = (
-/obj/machinery/light{
-	stat = 0
-	},
-/turf/simulated/floor/tiled/steel,
-/area/redgate/facility/cell11)
 "txD" = (
 /obj/item/bone/ribs,
 /turf/simulated/floor/tiled/steel,
@@ -14487,15 +14485,6 @@
 /obj/item/modular_computer/console,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/redgate/facility/ne)
-"utZ" = (
-/obj/machinery/appliance/cooker/oven,
-/obj/effect/floor_decal/corner/grey/diagonal,
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/nw)
 "uuj" = (
 /obj/structure/table/glass,
 /obj/random/maintenance/research,
@@ -14587,15 +14576,6 @@
 /obj/structure/closet/l3closet/janitor,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/cell6)
-"uCR" = (
-/obj/structure/table/reinforced,
-/obj/structure/salvageable/personal,
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/white,
-/area/redgate/facility/cell25)
 "uCW" = (
 /obj/effect/floor_decal/borderfloorwhite/corner,
 /obj/machinery/light{
@@ -14691,12 +14671,6 @@
 /obj/random/forgotten_tram,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/entrance)
-"uHO" = (
-/obj/structure/table/hardwoodtable,
-/obj/structure/table/hardwoodtable,
-/obj/item/modular_computer/laptop/preset/custom_loadout/rugged,
-/turf/simulated/floor/wood/alt,
-/area/redgate/facility/ne)
 "uIp" = (
 /obj/effect/floor_decal/spline/plain{
 	dir = 8
@@ -15802,11 +15776,6 @@
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/redgate/facility/cell29)
-"wmm" = (
-/obj/structure/table/steel_reinforced,
-/obj/item/book/manual/wiki/robotics_manual,
-/turf/simulated/floor/tiled/steel_grid,
-/area/redgate/facility/ne)
 "wmn" = (
 /obj/machinery/photocopier,
 /turf/simulated/floor/wood/alt,
@@ -16349,6 +16318,14 @@
 /obj/random/mre,
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/cell19)
+"xbI" = (
+/obj/structure/table/reinforced,
+/obj/structure/salvageable/personal,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/simulated/floor/tiled/white,
+/area/redgate/facility/cell25)
 "xcb" = (
 /obj/structure/filingcabinet/filingcabinet{
 	pixel_x = 11
@@ -16468,13 +16445,6 @@
 	},
 /obj/item/pen{
 	pixel_y = 4
-	},
-/turf/simulated/floor/tiled/steel,
-/area/redgate/facility/cell11)
-"xiY" = (
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
 	},
 /turf/simulated/floor/tiled/steel,
 /area/redgate/facility/cell11)
@@ -17273,18 +17243,6 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/se)
-"ykE" = (
-/obj/structure/table/rack/shelf/steel,
-/obj/item/storage/box/trackimp{
-	pixel_x = 5;
-	pixel_y = 1
-	},
-/obj/machinery/light{
-	dir = 1;
-	stat = 0
-	},
-/turf/simulated/floor/tiled/milspec,
-/area/redgate/facility/ne)
 
 (1,1,1) = {"
 hcZ
@@ -20172,7 +20130,7 @@ kBo
 tAi
 mSE
 pXQ
-hLq
+iaB
 dST
 xDU
 vmt
@@ -20740,7 +20698,7 @@ kTY
 tAi
 mSE
 cDe
-fAP
+iVV
 vmt
 vmt
 vmt
@@ -20788,7 +20746,7 @@ rwD
 aOv
 twU
 xWb
-sIR
+oEX
 cBx
 cBx
 tVM
@@ -21308,7 +21266,7 @@ kTY
 tAi
 mSE
 cDe
-fAP
+iVV
 vmt
 vmt
 vmt
@@ -22516,7 +22474,7 @@ wtc
 aOv
 stt
 iIY
-uCR
+xbI
 xyt
 qpK
 smZ
@@ -24135,14 +24093,14 @@ fbb
 fbb
 fbb
 hcZ
-utZ
+mkS
 vio
 vio
 vio
 xxi
 dvk
 jZu
-aca
+iHH
 buD
 wJW
 fnR
@@ -24284,7 +24242,7 @@ vio
 xxi
 dvk
 jZu
-aca
+iHH
 tCX
 wJW
 fnR
@@ -24710,7 +24668,7 @@ vio
 xxi
 dvk
 jZu
-gPW
+qLq
 buD
 wJW
 fnR
@@ -24845,7 +24803,7 @@ hcZ
 hcZ
 hcZ
 hcZ
-iRw
+sbU
 vio
 vio
 ecQ
@@ -28509,7 +28467,7 @@ pQc
 pQc
 pQc
 pQc
-ykE
+cBr
 qfn
 eKf
 qfn
@@ -28935,7 +28893,7 @@ pQc
 pQc
 pQc
 pQc
-akB
+oAL
 qfn
 eKf
 qfn
@@ -29432,7 +29390,7 @@ hTz
 gqM
 oce
 oce
-nPs
+mSi
 oce
 oce
 nfd
@@ -29463,7 +29421,7 @@ aSC
 aSC
 aSC
 aSC
-xiY
+hEX
 bSl
 dKn
 yhz
@@ -29473,7 +29431,7 @@ sQK
 rrU
 dKn
 bSl
-txy
+khm
 nfd
 oeb
 hgj
@@ -29549,7 +29507,7 @@ bip
 bip
 bip
 pQc
-iRl
+sqJ
 xWX
 xWX
 ldG
@@ -29645,7 +29603,7 @@ pQc
 pQc
 pQc
 pQc
-alo
+snc
 ixZ
 ixZ
 ixZ
@@ -29929,7 +29887,7 @@ pQc
 pQc
 pQc
 pQc
-alo
+snc
 ixZ
 ixZ
 ixZ
@@ -30104,7 +30062,7 @@ pSC
 cRb
 bvQ
 gbm
-wmm
+rsO
 bvQ
 ldG
 mKQ
@@ -31413,7 +31371,7 @@ hTY
 mPf
 nzw
 kuI
-miQ
+lcG
 gzb
 gzb
 gzb
@@ -36208,7 +36166,7 @@ bip
 bip
 bip
 pQc
-itM
+hsr
 xua
 hAX
 tgs
@@ -36350,7 +36308,7 @@ eCT
 eYi
 fmS
 pQc
-uHO
+eKY
 uta
 hAX
 fVF
@@ -36576,7 +36534,7 @@ xZv
 xGT
 tYm
 vQf
-gAt
+kTj
 nfd
 nfd
 nfd
