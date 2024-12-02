@@ -27,6 +27,8 @@
 	darkness = 1-brightness //Invert
 
 	var/watcher = 0
+	//HomphEdit Start
+	/*
 	//Chompedit start - Nerf to phasing
 	for(var/thing in orange(7, src))
 		if(istype(thing, /mob/living/carbon/human))
@@ -45,6 +47,8 @@
 				if(src in watchers.can_see())
 					watcher++	//The camera is watching us!
 	//CHOMPedit end
+	*/
+	//HomphEdit End
 
 
 	ability_cost = CLAMP(ability_cost/(0.01+darkness*2),50, 80)//This allows for 1 watcher in full light
@@ -242,16 +246,13 @@
 		name = get_visible_name()
 
 		//CHOMPEdit begin - Unequipping slots when phasing in, and preventing pulling stuff while phased.
-		//HomphEdit Start
-		/*
 		if(l_hand)
 			unEquip(l_hand)
 		if(r_hand)
 			unEquip(r_hand)
 		if(back)
 			unEquip(back)
-		*/
-		//HomphEdit End
+
 		can_pull_size = 0
 		can_pull_mobs = MOB_PULL_NONE
 		hovering = TRUE
