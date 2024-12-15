@@ -15,7 +15,7 @@
 		return FALSE
 	//RS Port #658 Start
 	var/area/A = get_area(src)
-	if(!client?.holder && A.block_phase_shift)
+	if(!client?.holder && A.flag_check(AREA_BLOCK_PHASE_SHIFT))
 		to_chat(src, span_warning("You can't do that here!"))
 		return FALSE
 	//RS Port #658 End
@@ -27,9 +27,9 @@
 	darkness = 1-brightness //Invert
 
 	var/watcher = 0
-	//HomphEdit Start
-	/*
 	//Chompedit start - Nerf to phasing
+	//Homphedit, unnerf
+	/*
 	for(var/thing in orange(7, src))
 		if(istype(thing, /mob/living/carbon/human))
 			var/mob/living/carbon/human/watchers = thing
@@ -46,9 +46,8 @@
 			if(watchers.can_use())
 				if(src in watchers.can_see())
 					watcher++	//The camera is watching us!
+	*/ //Homphedit end
 	//CHOMPedit end
-	*/
-	//HomphEdit End
 
 
 	ability_cost = CLAMP(ability_cost/(0.01+darkness*2),50, 80)//This allows for 1 watcher in full light
@@ -218,9 +217,10 @@
 			pulledby.stop_pulling()
 		stop_pulling()
 		canmove = FALSE
-		//HomphStation Edit start
-		/*
+
 		//CHOMPAdd Start
+		//HomphEdit Unnerf
+		/*
 		var/list/allowed_implants = list(
 			/obj/item/implant/sizecontrol,
 			/obj/item/implant/compliance,
@@ -235,9 +235,8 @@
 				organ.implants -= O
 		if(!has_embedded_objects())
 			clear_alert("embeddedobject")
+		*/ //HomphEdit End
 		//CHOMPAdd End
-		*/
-		//HomphStation Edit End
 
 		// change
 		ability_flags |= AB_PHASE_SHIFTED
@@ -246,7 +245,7 @@
 		name = get_visible_name()
 
 		//CHOMPEdit begin - Unequipping slots when phasing in, and preventing pulling stuff while phased.
-		//Homph Edit Start
+		//Homphedit unnerf
 		/*
 		if(l_hand)
 			unEquip(l_hand)
@@ -254,8 +253,7 @@
 			unEquip(r_hand)
 		if(back)
 			unEquip(back)
-		*/
-		//Homph Edit End
+		*/ //Homphedit end
 		can_pull_size = 0
 		can_pull_mobs = MOB_PULL_NONE
 		hovering = TRUE
@@ -299,7 +297,7 @@
 
 
 	log_admin("[key_name_admin(src)] was stunned out of phase at [T.x],[T.y],[T.z] by [dephaser.name], last touched by [dephaser.fingerprintslast].")
-	message_admins("[key_name_admin(src)] was stunned out of phase at [T.x],[T.y],[T.z] by [dephaser.name], last touched by [dephaser.fingerprintslast]. (<A HREF='?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>JMP</a>)", 1)
+	message_admins("[key_name_admin(src)] was stunned out of phase at [T.x],[T.y],[T.z] by [dephaser.name], last touched by [dephaser.fingerprintslast]. (<A href='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>JMP</a>)", 1)
 	// start the dephase
 	phase_in(T)
 	shadekin_adjust_energy(-20) // loss of energy for the interception
