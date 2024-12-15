@@ -1,6 +1,7 @@
 /obj/machinery/computer/pandemic
 	name = "PanD.E.M.I.C 2200"
 	desc = "Used to work with viruses."
+	circuit = /obj/item/circuitboard/pandemic
 	density = TRUE
 	anchored = TRUE
 	icon = 'icons/obj/pandemic.dmi'
@@ -114,12 +115,12 @@
 				default_name = replacetext(beaker.name, new/regex(" culture bottle\\Z", "g"), "")
 			else
 				default_name = D.name
-			var/name = tgui_input_text(usr, "Name:", "Name the culture", default_name, MAX_NAME_LEN)
+			var/name = tgui_input_text(ui.user, "Name:", "Name the culture", default_name, MAX_NAME_LEN)
 			if(name == null || wait)
 				return
 			var/obj/item/reagent_containers/glass/bottle/B = create_culture(name)
 			B.desc = "A small bottle. Contains [D.agent] culture in synthblood medium."
-			B.reagents.add_reagent("blood", 20, list("viruses" = list(D)))
+			B.reagents.add_reagent(REAGENT_ID_BLOOD, 20, list("viruses" = list(D)))
 		if("clone_vaccine")
 			if(wait)
 				atom_say("The replicator is not ready yet.")
@@ -145,8 +146,8 @@
 				atom_say("Unable to synthesize requested antibody.")
 				return
 
-			var/obj/item/reagent_containers/glass/bottle/B = create_culture(vaccine_name, "vaccine", 200)
-			B.reagents.add_reagent("vaccine", 15, list(vaccine_type))
+			var/obj/item/reagent_containers/glass/bottle/B = create_culture(vaccine_name, REAGENT_ID_VACCINE, 200)
+			B.reagents.add_reagent(REAGENT_ID_VACCINE, 15, list(vaccine_type))
 		if("eject_beaker")
 			eject_beaker()
 			update_tgui_static_data(ui.user)
@@ -167,7 +168,7 @@
 			if(!A)
 				atom_say("Unable to find requested strain.")
 				return
-			print_form(A, usr)
+			print_form(A, ui.user)
 		if("name_strain")
 			var/strain_index = text2num(params["strain_index"])
 			if(isnull(strain_index))
@@ -184,7 +185,7 @@
 			if(A.name != "Unknown")
 				atom_say("Request rejected. Strain already has a name.")
 				return
-			var/new_name = tgui_input_text(usr, "Name the Strain", "New Name", max_length = MAX_NAME_LEN)
+			var/new_name = tgui_input_text(ui.user, "Name the Strain", "New Name", max_length = MAX_NAME_LEN)
 			if(!new_name)
 				return
 			A.AssignName(new_name)
@@ -325,7 +326,7 @@
 		printing = 1
 		var/obj/item/paper/P = new /obj/item/paper(loc)
 		visible_message(span_notice("[src] rattles and prints out a sheet of paper."))
-		// playsound(loc, 'sound/goonstation/machines/printer_dotmatrix.ogg', 50, 1)
+		playsound(loc, 'sound/machines/printer.ogg', 50, 1)
 
 		P.info = "<U><font size=\"4\"><B><center> Releasing Virus </B></center></font></U>"
 		P.info += "<HR>"

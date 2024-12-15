@@ -5,13 +5,12 @@
 /* FOR LIVE SERVER   */
 /*********************/
 
-//#define USE_MAP_SOUTHERN_CROSS
+#define USE_MAP_SOUTHERN_CROSS
 // #define USE_MAP_SOLUNA_NEXUS
 // #define USE_MAP_RELIC_BASE
-#define USE_MAP_SOUTHERN_SUN
 
 // Debug
-// #define USE_MAP_MINITEST
+//#define USE_MAP_MINITEST
 
 /*********************/
 /* End Map Selection */
@@ -36,8 +35,4 @@
 
 #ifdef USE_MAP_MINITEST
 #include "../virgo_minitest/virgo_minitest.dm"
-#endif
-
-#ifdef USE_MAP_SOUTHERN_SUN
-#include "../southern_sun_homph_fix/southern_cross.dm"
 #endif

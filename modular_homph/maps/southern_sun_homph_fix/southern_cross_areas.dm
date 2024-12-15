@@ -180,11 +180,7 @@
 /area/surface/outpost/shelter/dorms
 	name = "Wilderness Shelter Dorms"
 	icon_state = "Sleep"
-	soundproofed = TRUE
-	limit_mob_size = FALSE
-	block_suit_sensors = TRUE
-	flags = RAD_SHIELDED
-	block_tracking = TRUE
+	flags = RAD_SHIELDED | AREA_SOUNDPROOF | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING
 
 /area/surface/outpost/shelter/exterior
 	name = "Wilderness Shelter Exterior"
@@ -907,7 +903,6 @@ z
 /area/hallway/primary/firstdeck/auxdockaft
 	name = "\improper First Deck Aft Auxiliary Dock"
 	icon_state = "docking_hallway"
-	forbid_events = TRUE
 
 /area/hallway/primary/firstdeck/auxdockfore
 	name = "\improper First Deck Fore Auxiliary Dock"
@@ -2572,62 +2567,32 @@ End Chompstation Edit*/
 /area/SouthernCrossV2/Bridge/HoP_Quarters
     name = "\improper HoP Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/CE_Quarters
     name = "\improper CE Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/CMO_Quarters
     name = "\improper CMO Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/RD_Quarters
     name = "\improper RD Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/HoS_Quarters
     name = "\improper HoS Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/Secretary_Quarters
     name = "\improper Secretary Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/Leisure_Room
     name = "\improper Leisure Room"
@@ -2648,12 +2613,7 @@ End Chompstation Edit*/
 /area/SouthernCrossV2/Bridge/Captain_Quarters
     name = "\improper Captain Quarters"
     icon_state = "bridge"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Bridge/Conference_Room
     name = "\improper Conference Room"
@@ -3485,125 +3445,66 @@ End Chompstation Edit*/
 /area/SouthernCrossV2/Domicile/Dormitory_01
     name = "\improper Dormitory 01"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    lightswitch = 0
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_02
     name = "\improper Dormitory 02"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
     lightswitch = 0
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+
 
 /area/SouthernCrossV2/Domicile/Dormitory_03
     name = "\improper Dormitory 03"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
     lightswitch = 0
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+
 
 /area/SouthernCrossV2/Domicile/Dormitory_04
     name = "\improper Dormitory 04"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_05
     name = "\improper Dormitory 05"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_06
     name = "\improper Dormitory 06"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_07
     name = "\improper Dormitory 07"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_08
     name = "\improper Dormitory 08"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_09
     name = "\improper Dormitory 09"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_10
     name = "\improper Dormitory 10"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_11
     name = "\improper Dormitory 11"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dormitory_12
     name = "\improper Dormitory 12"
     icon_state = "gaming"
-    flags = RAD_SHIELDED
-    limit_mob_size = FALSE
-    block_suit_sensors = TRUE
-    block_tracking = TRUE
-    soundproofed = TRUE
-    forbid_events = TRUE
+    flags = RAD_SHIELDED | AREA_ALLOW_LARGE_SIZE | AREA_BLOCK_SUIT_SENSORS | AREA_BLOCK_TRACKING | AREA_SOUNDPROOF | AREA_FORBID_EVENTS
 
 /area/SouthernCrossV2/Domicile/Dorm_Corridor_1
     name = "\improper Dorm Corridor 1"
