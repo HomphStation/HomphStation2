@@ -5,8 +5,9 @@
 /* FOR LIVE SERVER   */
 /*********************/
 
-#define USE_MAP_SOUTHERN_CROSS
-// #define USE_MAP_SOLUNA_NEXUS
+//#define USE_MAP_SOUTHERN_CROSS
+//#define USE_MAP_SOUTHERN_CROSS
+	#define USE_MAP_SOLUNA_NEXUS
 // #define USE_MAP_RELIC_BASE
 
 // Debug
@@ -35,4 +36,8 @@
 
 #ifdef USE_MAP_MINITEST
 #include "../virgo_minitest/virgo_minitest.dm"
+#endif
+
+#ifdef USE_MAP_SOUTHERN_SUN
+#include "../southern_sun_homph_fix/southern_cross.dm"
 #endif
