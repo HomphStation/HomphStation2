@@ -34,7 +34,7 @@
 
 	..()
 
-	if(!data["donor"] || istype(data["donor"], /mob/living/carbon/human))
+	if(!data["donor"] || ishuman(data["donor"]))
 		blood_splatter(T, src, 1)
 	else if(istype(data["donor"], /mob/living/carbon/alien))
 		var/obj/effect/decal/cleanable/blood/B = blood_splatter(T, src, 1)
@@ -242,6 +242,8 @@
 	else if(volume >= 10)
 		T.wet_floor(1)
 
+	T.apply_fire_protection() // CHOMPAdd - Apply fire protection so fires can actually be put out.
+
 /datum/reagent/water/touch_obj(var/obj/O, var/amount)
 	..()
 	if(istype(O, /obj/item/reagent_containers/food/snacks/monkeycube))
@@ -270,7 +272,7 @@
 		L.water_act(amount / 25) // Div by 25, as water_act multiplies it by 5 in order to calculate firestack modification.
 		remove_self(needed)
 		// Put out cigarettes if splashed.
-		if(istype(L, /mob/living/carbon/human))
+		if(ishuman(L))
 			var/mob/living/carbon/human/H = L
 			if(H.wear_mask)
 				if(istype(H.wear_mask, /obj/item/clothing/mask/smokable))

@@ -101,7 +101,7 @@
 			dat += span_boldnotice("Subject died [DisplayTimeText(tdelta)] ago - resuscitation may be possible!")
 			dat += "<br>"
 	//VOREStation edit/addition ends
-	if(istype(M, /mob/living/carbon/human) && mode == 1)
+	if(ishuman(M) && mode == 1)
 		var/mob/living/carbon/human/H = M
 		var/list/damaged = H.get_damaged_organs(1,1)
 		dat += 	span_notice("Localized Damage, Brute/Burn:")
@@ -248,15 +248,15 @@
 				else
 					dat += span_warning("Unknown substance[(unknown > 1)?"s":""] found in subject's dermis.")
 					dat += "<br>"
-		if(LAZYLEN(C.resistances))
+		if(LAZYLEN(C.viruses))
 			for (var/datum/disease/virus in C.GetViruses())
 				if(virus.visibility_flags & HIDDEN_SCANNER || virus.visibility_flags & HIDDEN_PANDEMIC)
 					continue
-				if(virus.discovered)
-					dat += span_warning("Warning: [virus.name] detected in subject's blood.")
-					dat += "<br>"
-					dat += span_warning("Severity: [virus.severity]")
-					dat += "<br>"
+				virus.discovered = TRUE
+				dat += span_warning("Warning: [virus.name] detected in subject's blood.")
+				dat += "<br>"
+				dat += span_warning("Severity: [virus.severity]")
+				dat += "<br>"
 	if (M.getCloneLoss())
 		dat += span_warning("Subject appears to have been imperfectly cloned.")
 		dat += "<br>"
@@ -279,6 +279,29 @@
 		dat += "<br>"
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		//CHOMPedit begin - malignant organs
+		for(var/obj/item/organ/internal/io in H.internal_organs)
+			if(istype(io,/obj/item/organ/internal/appendix))
+				var/obj/item/organ/internal/appendix/a = io
+				var/severity = ""
+				if(a.inflamed > 3)
+					severity = "Severe"
+				else if(a.inflamed > 2)
+					severity = "Moderate"
+				else if(a.inflamed >= 1)
+					severity = "Mild"
+				if(severity)
+					dat += span_warning("[severity] inflammation detected in subject [a.name].")
+					dat += "<br>"
+			else if(istype(io,/obj/item/organ/internal/malignant))
+				if(advscan >= 2)
+					var/obj/item/organ/internal/ORG = H.organs_by_name[io.parent_organ]
+					dat += span_warning("Anatomical irregularities detected in subject's [ORG.name].")
+					dat += "<br>"
+				else
+					dat += span_warning("Anatomical irregularities detected in subject.")
+					dat += "<br>"
+		//CHOMPedit end
 		for(var/obj/item/organ/internal/appendix/a in H.internal_organs)
 			var/severity = ""
 			if(a.inflamed > 3)

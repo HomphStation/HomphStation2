@@ -146,7 +146,7 @@
 
 		var/fullness = M.nutrition + (M.reagents.get_reagent_amount(REAGENT_ID_NUTRIMENT) * 25)
 		if(M == user)								//If you're eating it yourself
-			if(istype(M,/mob/living/carbon/human))
+			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
 				if(!H.check_has_mouth())
 					// to_chat(user, "Where do you intend to put \the [src]? You don't have a mouth!")
@@ -190,7 +190,7 @@
 			return ..()
 
 		else
-			if(istype(M,/mob/living/carbon/human))
+			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
 				if(!H.check_has_mouth())
 					// to_chat(user, "Where do you intend to put \the [src]? \The [H] doesn't have a mouth!")
@@ -1472,6 +1472,18 @@
 	nutriment_desc = list("bun" = 2, "clown shoe" = 3)
 	bitesize = 2
 
+// CHOMPedit begin - honkwork infection
+/obj/item/reagent_containers/food/snacks/clownburger/Initialize()
+	. = ..()
+	reagents.add_reagent("protein", 2) // needed to call On_Consume()... Is this actually an issue?
+
+/obj/item/reagent_containers/food/snacks/clownburger/On_Consume(var/mob/living/user)
+	if(user && ishuman(user) && prob(3))
+		var/mob/living/carbon/human/H = user
+		H.malignant_organ_spawn( /obj/item/organ/internal/malignant/parasite/honker )
+	. = ..()
+// CHOMPedit end
+
 
 /obj/item/reagent_containers/food/snacks/mimeburger
 	name = JOB_MIME + " Burger"
@@ -2019,6 +2031,7 @@
 	H.real_name = H.species.get_random_name()
 	H.name = H.real_name
 	H.low_sorting_priority = TRUE
+	H.species.produceCopy(H.species.traits.Copy(),H,null,FALSE)
 	if(ismob(loc))
 		var/mob/M = loc
 		M.unEquip(src)
@@ -2070,27 +2083,27 @@
 
 /obj/item/reagent_containers/food/snacks/monkeycube/farwacube
 	name = "farwa cube"
-	monkey_type = "Farwa"
+	monkey_type = SPECIES_MONKEY_TAJ
 
 /obj/item/reagent_containers/food/snacks/monkeycube/wrapped/farwacube
 	name = "farwa cube"
-	monkey_type = "Farwa"
+	monkey_type = SPECIES_MONKEY_TAJ
 
 /obj/item/reagent_containers/food/snacks/monkeycube/stokcube
 	name = "stok cube"
-	monkey_type = "Stok"
+	monkey_type = SPECIES_MONKEY_UNATHI
 
 /obj/item/reagent_containers/food/snacks/monkeycube/wrapped/stokcube
 	name = "stok cube"
-	monkey_type = "Stok"
+	monkey_type = SPECIES_MONKEY_UNATHI
 
 /obj/item/reagent_containers/food/snacks/monkeycube/neaeracube
 	name = "neaera cube"
-	monkey_type = "Neaera"
+	monkey_type = SPECIES_MONKEY_SKRELL
 
 /obj/item/reagent_containers/food/snacks/monkeycube/wrapped/neaeracube
 	name = "neaera cube"
-	monkey_type = "Neaera"
+	monkey_type = SPECIES_MONKEY_SKRELL
 
 /obj/item/reagent_containers/food/snacks/spellburger
 	name = "Spell Burger"

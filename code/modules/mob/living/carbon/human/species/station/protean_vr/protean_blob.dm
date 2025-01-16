@@ -339,6 +339,9 @@
 			healing = null
 
 /mob/living/simple_mob/protean_blob/lay_down()
+	if(hiding)
+		to_chat(src, span_warning("You can't rest while hiding."))
+		return
 	var/obj/item/rig/rig = src.get_rig()
 	if(rig)
 		rig.force_rest(src)
@@ -349,6 +352,10 @@
 	set name = "Hide Self"
 	set desc = "Disperses your mass into a thin veil, making a trap to snatch prey with, or simply hide."
 	set category = "Abilities.Protean"
+
+	if(resting)
+		to_chat(src, span_warning("You can't hide while resting."))
+		return
 
 	if(!hiding)
 		cut_overlays()
@@ -739,8 +746,58 @@
 			I.plane = PLANE_LIGHTING_ABOVE
 			add_overlay(I)
 			qdel(I)
+		// CHOMPEdit Start
+		if(S.blob_appearance == "dullahan")
+			icon = 'modular_chomp/icons/mob/dullahanborg/Dullahanprotean64x64.dmi'
+			vis_height = 64
+			var/image/I = image(icon, "[S.dullahan_overlays[1]][resting? "-rest" : (vore_fullness? "-[vore_fullness]" : null)]", pixel_x = -16)
+			I.color = S.dullahan_overlays[S.dullahan_overlays[1]]
+			I.appearance_flags |= (RESET_COLOR|PIXEL_SCALE)
+			I.plane = MOB_PLANE
+			I.layer = MOB_LAYER
+			add_overlay(I)
+			qdel(I)
 
-		//You know technically I could just put all the icons into the 128x64.dmi file and off-set them to fit..
+			I = image(icon, "[S.dullahan_overlays[2]][resting? "-rest" : (vore_fullness? "-[vore_fullness]" : null)]", pixel_x = -16)
+			I.color = S.dullahan_overlays[S.dullahan_overlays[2]]
+			I.appearance_flags |= (RESET_COLOR|PIXEL_SCALE)
+			I.plane = MOB_PLANE
+			I.layer = MOB_LAYER
+			add_overlay(I)
+			qdel(I)
+
+			I = image(icon, "[S.dullahan_overlays[3]][resting? "-rest" : (vore_fullness? "-[vore_fullness]" : null)]", pixel_x = -16)
+			I.color = S.dullahan_overlays[S.dullahan_overlays[3]]
+			I.appearance_flags |= (RESET_COLOR|PIXEL_SCALE)
+			I.plane = MOB_PLANE
+			I.layer = MOB_LAYER
+			add_overlay(I)
+			qdel(I)
+
+			I = image(icon, "[S.dullahan_overlays[4]][resting? "-rest" : (vore_fullness? "-[vore_fullness]" : null)]", pixel_x = -16)
+			I.color = S.dullahan_overlays[S.dullahan_overlays[4]]
+			I.appearance_flags |= (RESET_COLOR|PIXEL_SCALE)
+			I.plane = MOB_PLANE
+			I.layer = MOB_LAYER
+			add_overlay(I)
+			qdel(I)
+
+			I = image(icon, "[S.dullahan_overlays[5]][resting? "-rest" : (vore_fullness? "-[vore_fullness]" : null)]", pixel_x = -16)
+			I.color = S.dullahan_overlays[S.dullahan_overlays[5]]
+			I.appearance_flags |= (RESET_COLOR|PIXEL_SCALE)
+			I.plane = MOB_PLANE
+			I.layer = MOB_LAYER
+			add_overlay(I)
+			qdel(I)
+
+			I = image(icon, "[S.dullahan_overlays[6]][resting? "-rest" : (vore_fullness? "-[vore_fullness]" : null)]", pixel_x = -16)
+			I.color = S.dullahan_overlays[S.dullahan_overlays[6]]
+			I.appearance_flags |= (RESET_COLOR|PIXEL_SCALE)
+			I.plane = MOB_PLANE
+			I.layer = MOB_LAYER
+			add_overlay(I)
+			qdel(I)
+			// CHOMPEdit End
 		if(S.blob_appearance in wide_icons)
 			icon = 'icons/mob/species/protean/protean64x32.dmi'
 			default_pixel_x = -16
