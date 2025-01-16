@@ -76,7 +76,7 @@ var/global/list/image/splatter_cache=list()
 /obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
 	if(perp.is_incorporeal())
 		return
-	if (!istype(perp))
+	if(!istype(perp))
 		return
 	if(amount < 1)
 		return
@@ -274,27 +274,39 @@ var/global/list/image/splatter_cache=list()
 	return ..()
 
 /obj/effect/decal/cleanable/mucus/Crossed(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
 	if(viruses)
 		for(var/datum/disease/D in viruses)
-			if(D.IsSpreadByTouch())
-				perp.ContractDisease(D)
+			perp.ContractDisease(D)
 
 /obj/effect/decal/cleanable/mucus/attack_hand(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
 	if(viruses)
 		for(var/datum/disease/D in viruses)
-			if(D.IsSpreadByTouch())
-				perp.ContractDisease(D)
+			perp.ContractDisease(D)
 
 /obj/effect/decal/cleanable/vomit/Crossed(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
 	if(viruses)
 		for(var/datum/disease/D in viruses)
-			if(D.IsSpreadByTouch())
-				perp.ContractDisease(D)
+			perp.ContractDisease(D)
 
 /obj/effect/decal/cleanable/vomit/Crossed(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
 	if(viruses)
 		for(var/datum/disease/D in viruses)
-			if(D.IsSpreadByTouch())
-				perp.ContractDisease(D)
+			perp.ContractDisease(D)
 
 #undef DRYING_TIME

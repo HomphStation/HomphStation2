@@ -42,6 +42,7 @@ GLOBAL_LIST_INIT(diseases, subtypesof(/datum/disease))
 	var/allow_dead = FALSE
 	var/infect_synthetics = FALSE
 	var/processing = FALSE
+	var/has_timer = FALSE
 
 /datum/disease/Destroy()
 	affected_mob = null
@@ -73,11 +74,18 @@ GLOBAL_LIST_INIT(diseases, subtypesof(/datum/disease))
 		stage = min(stage + 1, max_stages)
 		if(!discovered && stage >= CEILING(max_stages * discovery_threshold, 1))
 			discovered = TRUE
-			BITSET(affected_mob.hud_updateflag, STATUS_HUD)
 
 /datum/disease/proc/handle_cure_testing(has_cure = FALSE)
 	if(has_cure && prob(cure_chance))
 		stage = max(stage -1, 1)
+
+	for(var/organ in required_organs)
+		if(locate(organ) in affected_mob.internal_organs)
+			continue
+		if(locate(organ) in affected_mob.organs)
+			continue
+		cure()
+		return FALSE
 
 	if(disease_flags & CURABLE)
 		if(has_cure && prob(cure_chance))
@@ -128,7 +136,7 @@ GLOBAL_LIST_INIT(diseases, subtypesof(/datum/disease))
 						break
 					var/direction = get_dir(current, target)
 					var/turf/next = get_step(current, direction)
-					if(!current.CanZASPass() || !next.CanZASPass(get_turf(turn(direction, 100))))
+					if(!current.CanZASPass(next))
 						break
 					current = next
 
@@ -139,6 +147,23 @@ GLOBAL_LIST_INIT(diseases, subtypesof(/datum/disease))
 				affected_mob.resistances += type
 		remove_virus()
 	qdel(src)
+
+/datum/disease/proc/start_cure_timer()
+	if(has_timer)
+		return
+	if(!(disease_flags & CURABLE))
+		return
+	has_timer = TRUE
+	addtimer(CALLBACK(src, PROC_REF(check_natural_immunity)), (1 HOUR) + rand( -20 MINUTES, 30 MINUTES), TIMER_DELETE_ME)
+
+/datum/disease/proc/check_natural_immunity()
+	if(!(disease_flags & CURABLE))
+		return
+	if(prob(rand(10, 15)))
+		has_timer = FALSE
+		cure()
+		return
+	addtimer(CALLBACK(src, PROC_REF(check_natural_immunity)), rand(5 MINUTES, 10 MINUTES), TIMER_DELETE_ME)
 
 /datum/disease/proc/IsSame(datum/disease/D)
 	if(ispath(D))
@@ -165,10 +190,15 @@ GLOBAL_LIST_INIT(diseases, subtypesof(/datum/disease))
 
 /datum/disease/proc/remove_virus()
 	affected_mob.viruses -= src
-	BITSET(affected_mob.hud_updateflag, STATUS_HUD)
 
+// Called when a disease is added onto a mob
 /datum/disease/proc/Start()
 	return
 
+// Called when a disease is removed from a mob
 /datum/disease/proc/End()
+	return
+
+// Called when the mob dies
+/datum/disease/proc/OnDeath()
 	return

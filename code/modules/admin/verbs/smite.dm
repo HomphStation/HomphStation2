@@ -16,7 +16,7 @@
 	if(!smite_choice)
 		return
 
-	log_and_message_admins("[key_name(src)] has used SMITE ([smite_choice]) on [key_name(target)].")
+	log_and_message_admins("has used SMITE ([smite_choice]) on [key_name(target)].", src)
 	feedback_add_details("admin_verb","SMITE") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 	switch(smite_choice)
@@ -64,7 +64,7 @@
 			var/mob/living/simple_mob/shadekin/red/shadekin = new(Ts)
 			//Abuse of shadekin
 			shadekin.real_name = shadekin.name
-			shadekin.voremob_loaded = TRUE // CHOMPAdd
+			shadekin.voremob_loaded = TRUE
 			shadekin.init_vore()
 			shadekin.ability_flags |= 0x1
 			shadekin.phase_shift()
@@ -118,7 +118,7 @@
 			target.transforming = TRUE //Cheap hack to stop them from moving
 			var/mob/living/simple_mob/shadekin/shadekin = new kin_type(Tt)
 			shadekin.real_name = shadekin.name
-			shadekin.voremob_loaded = TRUE // CHOMPAdd
+			shadekin.voremob_loaded = TRUE
 			shadekin.init_vore()
 			shadekin.can_be_drop_pred = TRUE
 			shadekin.dir = SOUTH
@@ -214,7 +214,7 @@
 		return
 
 	to_chat(target,"You've been hit by bluespace artillery!")
-	log_and_message_admins("[key_name(target)] has been hit by Bluespace Artillery fired by [key_name(user ? user : usr)]")
+	log_and_message_admins("has been hit by Bluespace Artillery fired by [key_name(user ? user : usr)]", target)
 
 	target.setMoveCooldown(2 SECONDS)
 
