@@ -228,6 +228,8 @@ FIRE ALARM
 	if(!(working))
 		return
 	var/area/area = get_area(src)
+	if(!firewarn && !alarms_hidden) // CHOMPAdd
+		global_announcer.autosay("Tripped [area]", "Fire Alarm Monitor", DEPARTMENT_ENGINEERING)
 	for(var/obj/machinery/firealarm/FA in area)
 		fire_alarm.triggerAlarm(loc, FA, duration, hidden = alarms_hidden)
 		FA.soundloop.start() // CHOMPEdit: Soundloop
@@ -341,7 +343,7 @@ Just a object used in constructing fire alarms
 			var/tp = text2num(href_list["tp"])
 			time += tp
 			time = min(max(round(time), 0), 120)
-		updateUsrDialog()
+		updateUsrDialog(usr)
 
 		add_fingerprint(usr)
 	else

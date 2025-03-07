@@ -82,6 +82,10 @@
 	var/mute_irc = 0
 	var/ip_reputation = 0 //Do we think they're using a proxy/vpn? Only if IP Reputation checking is enabled in config.
 
+	///Used for limiting the rate of topic sends by the client to avoid abuse
+	var/list/topiclimiter
+	///Used for limiting the rate of clicks sends by the client to avoid abuse
+	var/list/clicklimiter
 
 		////////////////////////////////////
 		//things that require the database//
@@ -175,3 +179,6 @@
 
 	/// If this client has been fully initialized or not
 	var/fully_created = FALSE
+
+	/// Token used for the external chatlog api. Only valid for the current round.
+	var/chatlog_token

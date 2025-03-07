@@ -49,11 +49,12 @@
 			continue
 		if(istype(DD.vars[V],/list))
 			var/list/L = D.vars[V]
-			DD.vars[V] = L.Copy()
+			if(L)
+				DD.vars[V] = L.Copy()
 		else
 			DD.vars[V] = D.vars[V]
 
-	log_admin("[key_name(usr)] has contracted the virus \"[DD]\"")
+	log_admin("[key_name(src)] has contracted the virus \"[DD]\"")
 
 /mob/living/carbon/ContractDisease(datum/disease/D)
 	if(!CanContractDisease(D))

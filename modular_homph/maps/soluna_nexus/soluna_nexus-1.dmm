@@ -256,9 +256,7 @@
 /area/shuttle/cryo/station)
 "abq" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/glowshroom{
-	icon_state = "seed"
-	},
+/obj/item/seeds/glowshroom,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Star_1Deck_Atrium)
 "abs" = (
@@ -2424,9 +2422,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/airlock/angled_bay/standard/glass/atmos{
 	dir = 4;
 	name = "Escape Pod 5";
@@ -2888,9 +2883,6 @@
 	id_tag = "escape_pod_1_berth_hatch";
 	req_access = null;
 	frequency = 1380
-	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
 	},
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
@@ -5923,17 +5915,14 @@
 	pixel_x = -3
 	},
 /obj/item/stack/marker_beacon/ten{
-	icon_state = "markerrandom";
 	pixel_y = 3;
 	pixel_x = -6
 	},
 /obj/item/stack/marker_beacon/ten{
-	icon_state = "markerrandom";
 	pixel_y = 6;
 	pixel_x = -6
 	},
 /obj/item/stack/marker_beacon/ten{
-	icon_state = "markerrandom";
 	pixel_y = 9;
 	pixel_x = -6
 	},
@@ -13807,9 +13796,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/blast/regular/open{
 	layer = 3.5;
 	id = "For Lockdown";
@@ -15860,9 +15846,7 @@
 /area/hallway/For_Locker_Room)
 "dOW" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/rose{
-	icon_state = "seed"
-	},
+/obj/item/seeds/rose,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "dPk" = (
@@ -18517,9 +18501,7 @@
 /area/engineering/Telecomms_Control_Room)
 "emw" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/lustflower{
-	icon_state = "seed"
-	},
+/obj/item/seeds/lustflower,
 /turf/simulated/floor/grass,
 /area/hallway/Port_1Deck_Atrium)
 "emE" = (
@@ -24729,9 +24711,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/airlock/angled_bay/standard/glass/atmos{
 	dir = 4;
 	name = "Escape Pod 7";
@@ -27694,7 +27673,6 @@
 /turf/simulated/floor/tiled/dark,
 /area/rnd/PA_Chamber)
 "hCr" = (
-/obj/item/clothing/head/helmet/space/vox/civ/chef,
 /obj/effect/floor_decal/rust,
 /turf/simulated/floor/tiled/white{
 	nitrogen = 101.3;
@@ -28592,9 +28570,7 @@
 /area/harbor/Dock4)
 "hVl" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/sunflowerseed{
-	icon_state = "seed"
-	},
+/obj/item/seeds/sunflowerseed,
 /turf/simulated/floor/grass,
 /area/hallway/Port_1Deck_Atrium)
 "hVG" = (
@@ -30855,9 +30831,7 @@
 /area/maintenance/Deck1_Cargo_Corridor3)
 "iNr" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/rose{
-	icon_state = "seed"
-	},
+/obj/item/seeds/rose,
 /turf/simulated/floor/grass,
 /area/hallway/Port_1Deck_Atrium)
 "iOk" = (
@@ -31671,9 +31645,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/blast/regular/open{
 	layer = 3.5;
 	id = "For Lockdown";
@@ -31898,9 +31869,7 @@
 /area/maintenance/Deck1_ForPort_Chamber1)
 "jkC" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/siflettuce{
-	icon_state = "seed"
-	},
+/obj/item/seeds/siflettuce,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Star_1Deck_Atrium)
 "jkR" = (
@@ -34547,7 +34516,6 @@
 /obj/structure/filingcabinet/chestdrawer,
 /obj/item/radio/intercom/department/security{
 	dir = 4;
-	icon_override = "secintercom";
 	pixel_x = 22
 	},
 /obj/effect/floor_decal/borderfloorblack{
@@ -34847,9 +34815,6 @@
 /obj/effect/floor_decal/industrial/arrows,
 /obj/effect/floor_decal/industrial/arrows{
 	dir = 1
-	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
 	},
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
@@ -41757,9 +41722,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/airlock/angled_bay/standard/glass/atmos{
 	dir = 4;
 	name = "Escape Pod 4";
@@ -46062,9 +46024,7 @@
 /obj/effect/floor_decal/industrial/arrows/yellow{
 	dir = 1
 	},
-/obj/effect/floor_decal/industrial/arrows/yellow{
-	dir = 3
-	},
+/obj/effect/floor_decal/industrial/arrows/yellow,
 /obj/machinery/door/firedoor/glass,
 /obj/effect/floor_decal/industrial/hatch,
 /turf/simulated/floor/tiled/techmaint,
@@ -49109,9 +49069,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/airlock/angled_bay/standard/glass/atmos{
 	dir = 4;
 	name = "Escape Pod 2";
@@ -49192,9 +49149,6 @@
 /obj/effect/floor_decal/industrial/arrows,
 /obj/effect/floor_decal/industrial/arrows{
 	dir = 1
-	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
 	},
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
@@ -50719,9 +50673,7 @@
 "pOj" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
 /obj/structure/flora/ausbushes/ppflowers,
-/obj/item/seeds/rose{
-	icon_state = "seed"
-	},
+/obj/item/seeds/rose,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "pOq" = (
@@ -51895,9 +51847,6 @@
 /obj/effect/floor_decal/industrial/arrows,
 /obj/effect/floor_decal/industrial/arrows{
 	dir = 1
-	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
 	},
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
@@ -55001,9 +54950,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/airlock/angled_bay/standard/glass/atmos{
 	dir = 4;
 	name = "Escape Pod 6";
@@ -55316,9 +55262,7 @@
 /obj/machinery/portable_atmospherics/hydroponics/soil,
 /obj/structure/flora/ausbushes/ppflowers,
 /obj/structure/flora/ausbushes/ywflowers,
-/obj/item/seeds/lustflower{
-	icon_state = "seed"
-	},
+/obj/item/seeds/lustflower,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "rqj" = (
@@ -58860,9 +58804,7 @@
 /area/engineering/GravGen_Room)
 "sER" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/sunflowerseed{
-	icon_state = "seed"
-	},
+/obj/item/seeds/sunflowerseed,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "sET" = (
@@ -58945,9 +58887,7 @@
 /area/crew_quarters/Public_EVA)
 "sGr" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/poppyseed{
-	icon_state = "seed"
-	},
+/obj/item/seeds/poppyseed,
 /turf/simulated/floor/grass,
 /area/hallway/Port_1Deck_Atrium)
 "sGw" = (
@@ -60768,9 +60708,7 @@
 /area/rnd/Xenobotany_Lab)
 "tqp" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/rose/blood{
-	icon_state = "seed"
-	},
+/obj/item/seeds/rose/blood,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "tqB" = (
@@ -61261,9 +61199,7 @@
 /area/harbor/Fueling_Post)
 "tzi" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/poppyseed{
-	icon_state = "seed"
-	},
+/obj/item/seeds/poppyseed,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "tzt" = (
@@ -61387,9 +61323,7 @@
 /area/harbor/Ship_Bay4)
 "tAW" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/sifbulb{
-	icon_state = "seed"
-	},
+/obj/item/seeds/sifbulb,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Star_1Deck_Atrium)
 "tAZ" = (
@@ -61443,9 +61377,7 @@
 "tBN" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/shrinkshroom{
-	icon_state = "seed"
-	},
+/obj/item/seeds/shrinkshroom,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Star_1Deck_Atrium)
 "tCf" = (
@@ -62667,9 +62599,6 @@
 /obj/machinery/atmospheric_field_generator/perma/underdoors{
 	color = "Yellow"
 	},
-/obj/machinery/atmospheric_field_generator/perma/underdoors{
-	color = "Yellow"
-	},
 /obj/machinery/door/airlock/angled_bay/standard/glass/atmos{
 	dir = 4;
 	name = "Escape Pod 8";
@@ -62870,14 +62799,6 @@
 	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/quartermaster/Supply_Ship_Bay)
-"ucW" = (
-/obj/item/clothing/suit/space/vox/civ/chef,
-/turf/simulated/floor/plating{
-	nitrogen = 101.3;
-	oxygen = 0;
-	name = "Nitrogen plating"
-	},
-/area/maintenance/ab_Kitchen)
 "udg" = (
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/floor_decal/industrial/arrows/yellow,
@@ -66358,9 +66279,7 @@
 /area/hallway/Aft_1_Deck_Stairwell)
 "voc" = (
 /obj/machinery/portable_atmospherics/hydroponics/soil,
-/obj/item/seeds/lustflower{
-	icon_state = "seed"
-	},
+/obj/item/seeds/lustflower,
 /turf/simulated/floor/grass2/turfpack/station,
 /area/hallway/Port_1Deck_Atrium)
 "vof" = (
@@ -66722,9 +66641,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
-	dir = 1
 	},
 /turf/simulated/floor/plating,
 /area/harbor/Ship_Bay3)
@@ -72444,9 +72360,7 @@
 	dir = 4
 	},
 /obj/structure/table/rack,
-/obj/item/seeds/siflettuce{
-	icon_state = "seed"
-	},
+/obj/item/seeds/siflettuce,
 /turf/simulated/floor/plating,
 /area/maintenance/Market_Stall_1)
 "xsB" = (
@@ -111710,7 +111624,7 @@ qTI
 lLo
 rBj
 pmy
-ucW
+mGQ
 mGQ
 fpP
 ggN

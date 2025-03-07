@@ -245,6 +245,17 @@
 		if(prob(mutchance))
 			yield_mod = min(10,yield_mod+rand(1,2))
 			return
+	else if(istype(Proj, /obj/item/projectile/energy/floraprune))
+		var/obj/item/projectile/energy/floraprune/GP = Proj
+		mutchance *= GP.lasermod
+		if(prob(mutchance) && seed)
+			var/c = safepick(seed.chems)
+			if(length(seed.chems) > 1 && c)
+				var/turf/T = get_turf(loc)
+				seed = seed.diverge()
+				T.visible_message(span_infoplain(span_bold("\The [seed.display_name]") + " quivers!"))
+				seed.chems -= c
+			return
 
 	..()
 
@@ -633,15 +644,15 @@
 
 	return
 
-/obj/machinery/portable_atmospherics/hydroponics/attack_tk(mob/user as mob)
+/obj/machinery/portable_atmospherics/hydroponics/attack_tk(mob/user)
 	if(dead)
 		remove_dead(user)
 	else if(harvest)
 		harvest(user)
 
-/obj/machinery/portable_atmospherics/hydroponics/attack_hand(mob/user as mob)
+/obj/machinery/portable_atmospherics/hydroponics/attack_hand(mob/user)
 
-	if(istype(usr,/mob/living/silicon))
+	if(istype(user,/mob/living/silicon))
 		return
 	if(frozen == 1)
 		to_chat(user, span_warning("Disable the cryogenic freezing first!"))
