@@ -1181,7 +1181,7 @@ window "mainwindow"
 		title = "HomphStation" // CHOMP Edit //HomphEdit
 		is-maximized = true
 		statusbar = false
-		icon = 'icons/ss13_64.png' // CHOMP Edit
+		icon = 'modular_homph/icons/ss13_64.png' // CHOMP Edit
 		macro = "macro"
 		menu = "menu"
 	elem "asset_cache_browser"

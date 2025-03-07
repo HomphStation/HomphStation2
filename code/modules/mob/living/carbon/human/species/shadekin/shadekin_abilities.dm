@@ -258,12 +258,16 @@
 		name = get_visible_name()
 
 		//CHOMPEdit Start - Unequipping slots when phasing in, and preventing pulling stuff while phased.
+		//HomphEdit Start - Unnerfing this.
+		/*
 		if(l_hand)
 			unEquip(l_hand)
 		if(r_hand)
 			unEquip(r_hand)
 		if(back)
 			unEquip(back)
+			*/
+		//HomphEdit End
 
 		can_pull_size = 0
 		can_pull_mobs = MOB_PULL_NONE
