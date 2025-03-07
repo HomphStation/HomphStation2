@@ -322,7 +322,7 @@
 		if(!destinations.len)
 			to_chat(src, span_warning("There is nowhere nearby to land! You need to get closer to somewhere else that you can transition to before you can transition."))
 			return
-		for(var/obj/effect/landmark/stardog/l in destinations)
+		//for(var/obj/effect/landmark/stardog/l in destinations)
 		var/obj/effect/overmap/visitable/our_dest = tgui_input_list(src, "Where would you like to try to go?", "Transition", destinations, timeout = 15 SECONDS, strict_modern = TRUE)
 		if(!our_dest)
 			to_chat(src, span_warning("You decide not to transition."))
@@ -1149,7 +1149,7 @@
 		to_chat(L, span_warning("You cannot speak in IC (muted)."))
 		return
 	if (!message)
-		message = tgui_input_text(usr, "Type a message to emote.","Emote Beyond")
+		message = tgui_input_text(L, "Type a message to emote.","Emote Beyond")
 	message = sanitize_or_reflect(message,L)
 	if (!message)
 		return

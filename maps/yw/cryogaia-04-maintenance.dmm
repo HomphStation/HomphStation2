@@ -2946,7 +2946,6 @@
 	dir = 1
 	},
 /obj/machinery/computer/security/telescreen/entertainment{
-	icon_state = "frame";
 	pixel_y = -32
 	},
 /obj/structure/table/standard,
@@ -4148,7 +4147,6 @@
 	dir = 1
 	},
 /obj/machinery/computer/security/telescreen/entertainment{
-	icon_state = "frame";
 	pixel_y = -32
 	},
 /turf/simulated/floor/wood,
@@ -4351,16 +4349,16 @@
 /obj/structure/safe/floor{
 	name = "Vault of Memories"
 	},
-/obj/item/dnainjector/tourmut{
+/obj/item/dnainjector/set_trait/tourettes{
 	name = "\improper DNA injector (???)"
 	},
-/obj/item/dnainjector/hallucination{
+/obj/item/dnainjector/set_trait/flashproof{
 	name = "\improper DNA injector (???)"
 	},
-/obj/item/dnainjector/firemut{
+/obj/item/dnainjector/set_trait/heatadapt{
 	name = "\improper DNA injector (???)"
 	},
-/obj/item/dnainjector/firemut{
+/obj/item/dnainjector/set_trait/heatadapt{
 	name = "\improper DNA injector (???)"
 	},
 /obj/item/clothing/under/rank/geneticist{
@@ -10992,7 +10990,6 @@
 	dir = 4
 	},
 /obj/machinery/computer/security/telescreen/entertainment{
-	icon_state = "frame";
 	pixel_y = -32
 	},
 /turf/simulated/floor/wood,
@@ -21068,7 +21065,6 @@
 	dir = 1
 	},
 /obj/machinery/computer/security/telescreen/entertainment{
-	icon_state = "frame";
 	pixel_y = -32
 	},
 /turf/simulated/floor/wood,
@@ -21858,7 +21854,6 @@
 	dir = 1
 	},
 /obj/machinery/computer/security/telescreen/entertainment{
-	icon_state = "frame";
 	pixel_y = -32
 	},
 /turf/simulated/floor/wood,
@@ -33818,7 +33813,6 @@
 	dir = 1
 	},
 /obj/machinery/computer/security/telescreen/entertainment{
-	icon_state = "frame";
 	pixel_y = -32
 	},
 /turf/simulated/floor/wood,

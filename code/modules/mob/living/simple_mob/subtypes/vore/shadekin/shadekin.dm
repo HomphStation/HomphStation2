@@ -78,6 +78,7 @@
 	var/list/shadekin_abilities
 	var/check_for_observer = FALSE
 	var/check_timer = 0
+	var/doing_phase = FALSE // Prevent bugs when spamming phase button
 
 	var/respite_activating = FALSE //CHOMPEdit - Dark Respite
 	var/list/active_dark_maws = list()
@@ -302,7 +303,7 @@
 		forceMove(pick(floors))
 		flick("tp_in",src)
 		respite_activating = FALSE
-		belly.owner.update_fullness()
+		belly.owner.handle_belly_update() // CHOMPEdit
 		clear_fullscreen("belly")
 		if(hud_used)
 			if(!hud_used.hud_shown)

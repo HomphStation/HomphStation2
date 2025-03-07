@@ -452,10 +452,10 @@
 	name = "custom security cuirass"
 	desc = "An armored vest that protects against some damage. It appears to be created for a wolfhound. The name 'Serdykov L. Antoz' is written on a tag inside one of the haunchplates."
 	species_restricted = null //Species restricted since all it cares about is a taur half
-	icon = 'icons/mob/taursuits_wolf_vr.dmi'
+	icon = 'icons/mob/taursuits_wolf.dmi'
 	icon_state = "serdy_armor"
 	item_state = "serdy_armor"
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS //It's a full body suit, minus hands and feet. Arms and legs should be protected, not just the torso. Retains normal security armor values still.
+	body_parts_covered = CHEST|LEGS|ARMS //It's a full body suit, minus hands and feet. Arms and legs should be protected, not just the torso. Retains normal security armor values still.
 
 /obj/item/clothing/suit/armor/vest/wolftaur/serdy/mob_can_equip(var/mob/living/carbon/human/H, slot, disable_warning = 0)
 	if(istype(H) && istype(H.tail_style, /datum/sprite_accessory/tail/taur/wolf))
@@ -475,9 +475,7 @@
 	armor = list(melee = 40, bullet = 30, laser = 30, energy = 10, bomb = 10, bio = 0, rad = 0)
 	icon_override = 'icons/vore/custom_clothes_vr.dmi'
 	item_state = "serdyhelm_mob"
-	cold_protection = HEAD
 	min_cold_protection_temperature = HELMET_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = HEAD
 	max_heat_protection_temperature = HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.7
 	w_class = ITEMSIZE_NORMAL
@@ -507,7 +505,7 @@
 	flags_inv = HIDEJUMPSUIT|HIDETIE|HIDEHOLSTER
 
 /obj/item/clothing/head/fluff/pink_tiara
-	name = "Pink Tourmaline Tiara"
+	name = "pink tourmaline tiara"
 	desc = "A small, steel tiara with a large, pink tourmaline gem in the center."
 	icon_state = "amp"
 	body_parts_covered = 0
@@ -777,6 +775,9 @@
 	desc = "A primarily blue ID with a holographic 'WAH' etched onto its back. The letters do not obscure anything important on the card. It is shiny and it feels very bumpy."
 	title_strings = list("Amaya Rahl's Wah-identification card", "Amaya Rahl's Wah-ID card")
 
+/obj/item/clothing/glasses/fluff
+	name = DEVELOPER_WARNING_NAME
+
 //General use, Verk felt like sharing.
 /obj/item/clothing/glasses/fluff/science_proper
 	name = "Aesthetic Science Goggles"
@@ -870,7 +871,7 @@
 
 /obj/item/fluff/injector/monkey/attack(mob/living/M, mob/living/user)
 
-	if(usr == M) //Is the person using it on theirself?
+	if(user == M) //Is the person using it on theirself?
 		if(ishuman(M)) //If so, monkify them.
 			var/mob/living/carbon/human/H = user
 			H.monkeyize()
@@ -884,7 +885,7 @@
 
 /obj/item/fluff/injector/numb_bite/attack(mob/living/M, mob/living/user)
 
-	if(usr == M) //Is the person using it on theirself?
+	if(user == M) //Is the person using it on theirself?
 		if(ishuman(M)) //Give them numbing bites.
 			var/mob/living/carbon/human/H = user
 			H.species.give_numbing_bite() //This was annoying, but this is the easiest way of performing it.
@@ -902,8 +903,8 @@
 				slot_r_hand_str = 'icons/vore/custom_items_right_hand_vr.dmi',
 				)
 
-/obj/item/material/twohanded/fluff/Initialize(var/newloc)
-	. = ..(newloc," ") //See materials_vr_dmi for more information as to why this is a blank space.
+/obj/item/material/twohanded/fluff/Initialize(mapload)
+	. = ..(mapload," ") //See materials_vr_dmi for more information as to why this is a blank space.
 
 //jacknoir413:Areax Third
 /obj/item/melee/baton/fluff/stunstaff
@@ -1266,8 +1267,8 @@
 	base_name = "Clara's Vacuum Flask"
 	base_icon = "claraflask"
 	icon = 'icons/vore/custom_items_vr.dmi'
-	center_of_mass_x = 15 //CHOMPEdit
-	center_of_mass_y= 4 //CHOMPEdit
+	center_of_mass_x = 15
+	center_of_mass_y = 4
 	filling_states = list(15, 30, 50, 60, 80, 100)
 	volume = 60
 
@@ -1472,16 +1473,6 @@ End CHOMP Removal*/
 	force = 1
 	sharp = TRUE
 	edge = TRUE
-
-//PastelPrinceDan - Kiyoshi/Masumi Maki
-/obj/item/toy/plushie/fluff/slimeowshi
-	name = "Slime-Cat " + JOB_RESEARCH_DIRECTOR + " plushie"
-	desc = "An adorable stuffed toy that resembles a slime. It's pink, and has little cat ears, as well as a tail! Atop its head is a small beret with a " + JOB_RESEARCH_DIRECTOR + "'s insignia."
-	icon = 'icons/vore/custom_items_vr.dmi'
-	icon_state = "kimeowshi"
-	attack_verb = list("blorbled", "slimed", "absorbed", "glomped")
-	gender = PLURAL // this seems like a good idea but probably prone to changing. todo: ask dan
-	// the only reason this thought is relevant because the base slimeplush has its gender set to female
 
 //YeCrowbarMan - Lemon Yellow
 /obj/item/toy/plushie/fluff/lemonplush

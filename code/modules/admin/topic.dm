@@ -429,7 +429,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -449,7 +449,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -469,7 +469,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -489,7 +489,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -509,7 +509,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -529,7 +529,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -550,7 +550,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -574,7 +574,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -595,7 +595,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -604,7 +604,7 @@
 				counter = 0
 
 		if(jobban_isbanned(M, JOB_INTERNAL_AFFAIRS_AGENT))
-			jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3="+JOB_INTERNAL_AFFAIRS_AGENT+";jobban4=\ref[M]'><font color=red>"+JOB_INTERNAL_AFFAIRS_AGENT+"</font></a></td>"
+			jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3="+JOB_INTERNAL_AFFAIRS_AGENT+";jobban4=\ref[M]'>" + span_red(JOB_INTERNAL_AFFAIRS_AGENT) + "</a></td>"
 		else
 			jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3="+JOB_INTERNAL_AFFAIRS_AGENT+";jobban4=\ref[M]'>"+JOB_INTERNAL_AFFAIRS_AGENT+"</a></td>"
 
@@ -620,7 +620,7 @@
 			if(!job) continue
 
 			if(jobban_isbanned(M, job.title))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'><font color=red>[replacetext(job.title, " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>" + span_red("[replacetext(job.title, " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[job.title];jobban4=\ref[M]'>[replacetext(job.title, " ", "&nbsp")]</a></td>"
 
@@ -643,7 +643,7 @@
 				continue
 
 			if(jobban_isbanned(M, "[antag.bantype]") || isbanned_dept)
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[antag.bantype];jobban4=\ref[M]'><font color=red>[replacetext("[antag.role_text]", " ", "&nbsp")]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[antag.bantype];jobban4=\ref[M]'>" + span_red("[replacetext("[antag.role_text]", " ", "&nbsp")]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[antag.bantype];jobban4=\ref[M]'>[replacetext("[antag.role_text]", " ", "&nbsp")]</a></td>"
 
@@ -660,7 +660,7 @@
 		jobs += "<tr bgcolor='ccccff'><th colspan='[length(misc_roles)]'>Other Roles</th></tr><tr align='center'>"
 		for(var/entry in misc_roles)
 			if(jobban_isbanned(M, entry))
-				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[entry];jobban4=\ref[M]'><font color=red>[entry]</font></a></td>"
+				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[entry];jobban4=\ref[M]'>" + span_red("[entry]") + "</a></td>"
 			else
 				jobs += "<td width='20%'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=[entry];jobban4=\ref[M]'>[entry]</a></td>"
 
@@ -672,7 +672,7 @@
 
 		// Finished
 		body = "<body>[jobs]</body>"
-		dat = "<tt>[header][body]</tt>"
+		dat = "<html><tt>[header][body]</tt></html>"
 		usr << browse(dat, "window=jobban2;size=800x490")
 		return
 
@@ -1008,7 +1008,7 @@
 		dat += {"<A href='byond://?src=\ref[src];[HrefToken()];c_mode2=secret'>Secret</A><br>"}
 		dat += {"<A href='byond://?src=\ref[src];[HrefToken()];c_mode2=random'>Random</A><br>"}
 		dat += {"Now: [master_mode]"}
-		usr << browse(dat, "window=c_mode")
+		usr << browse("<html>[dat]</html>", "window=c_mode")
 
 	else if(href_list["f_secret"])
 		if(!check_rights(R_ADMIN|R_EVENT))	return
@@ -1022,7 +1022,7 @@
 			dat += {"<A href='byond://?src=\ref[src];[HrefToken()];f_secret2=[mode]'>[config.mode_names[mode]]</A><br>"}
 		dat += {"<A href='byond://?src=\ref[src];[HrefToken()];f_secret2=secret'>Random (default)</A><br>"}
 		dat += {"Now: [secret_force_mode]"}
-		usr << browse(dat, "window=f_secret")
+		usr << browse("<html>[dat]</html>", "window=f_secret")
 
 	else if(href_list["c_mode2"])
 		if(!check_rights(R_ADMIN|R_SERVER|R_EVENT))	return
@@ -1550,7 +1550,7 @@
 				var/obj/pageobj = B.pages[page]
 				data += "<A href='byond://?src=\ref[src];[HrefToken()];AdminFaxViewPage=[page];paper_bundle=\ref[B]'>Page [page] - [pageobj.name]</A><BR>"
 
-			usr << browse(data, "window=[B.name]")
+			usr << browse("<html>[data]</html>", "window=[B.name]")
 		else
 			to_chat(usr, span_warning("The faxed item is not viewable. This is probably a bug, and should be reported on the tracker: [fax.type]"))
 

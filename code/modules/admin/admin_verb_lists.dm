@@ -112,7 +112,8 @@ var/list/admin_verbs_admin = list(
 	/datum/admins/proc/view_feedback,
 	/client/proc/admin_teleport,	//CHOMPEdit
 	/client/proc/setckey, //YW add - readds SetCkey proc
-	/client/proc/debug_global_variables
+	/client/proc/debug_global_variables,
+	/client/proc/hide_motion_tracker_feedback
 	)
 
 var/list/admin_verbs_ban = list(
@@ -243,6 +244,7 @@ var/list/admin_verbs_debug = list(
 	/datum/admins/proc/change_time,
 	/client/proc/cmd_regenerate_asset_cache,
 	/client/proc/cmd_clear_smart_asset_cache,
+	/client/proc/cmd_reload_robot_sprite_test,
 	/client/proc/admin_give_modifier,
 	/client/proc/simple_DPS,
 	/datum/admins/proc/view_feedback,
@@ -402,6 +404,7 @@ var/list/admin_verbs_event_manager = list(
 	/datum/admins/proc/change_time,
 	/client/proc/cmd_regenerate_asset_cache,
 	/client/proc/cmd_clear_smart_asset_cache,
+	/client/proc/cmd_reload_robot_sprite_test,
 	/client/proc/admin_give_modifier,
 	/client/proc/Jump,
 	/client/proc/jumptomob,
@@ -431,6 +434,7 @@ var/list/admin_verbs_event_manager = list(
 	/datum/admins/proc/change_time,
 	/client/proc/cmd_regenerate_asset_cache,
 	/client/proc/cmd_clear_smart_asset_cache,
+	/client/proc/cmd_reload_robot_sprite_test,
 	/client/proc/admin_give_modifier,
 	/datum/admins/proc/cmd_admin_dress,
 	/client/proc/cmd_admin_gib_self,
@@ -514,7 +518,8 @@ var/list/admin_verbs_event_manager = list(
 	/client/proc/cmd_debug_del_all,
 	/client/proc/toggle_random_events,
 	/client/proc/modify_server_news,
-	/client/proc/debug_global_variables
+	/client/proc/debug_global_variables,
+	/client/proc/hide_motion_tracker_feedback
 )
 
 /client/proc/add_admin_verbs()
