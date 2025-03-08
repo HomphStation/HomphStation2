@@ -234,7 +234,8 @@
 			pulledby.stop_pulling()
 		stop_pulling()
 		canmove = FALSE
-
+		//HomphEdit Start
+		/*
 		var/list/allowed_implants = list( //CHOMPEdit Start - Implant dropping
 			/obj/item/implant/sizecontrol,
 			/obj/item/implant/compliance,
@@ -250,6 +251,8 @@
 		if(!has_embedded_objects())
 			clear_alert("embeddedobject")
 		//CHOMPEdit End
+		*/
+		//Homph Edit End
 		// change
 		ability_flags |= AB_PHASE_SHIFTED
 		ability_flags |= AB_PHASE_SHIFTING
