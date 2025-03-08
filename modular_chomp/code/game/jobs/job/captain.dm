@@ -1,8 +1,8 @@
 /datum/job/captain
-	camp_protection = TRUE
+	camp_protection = FALSE
 
 /datum/job/hop
-	camp_protection = TRUE
+	camp_protection = FALSE
 
 /datum/alt_title/bridge_officer
 	title = JOB_ALT_BRIDGE_OFFICER

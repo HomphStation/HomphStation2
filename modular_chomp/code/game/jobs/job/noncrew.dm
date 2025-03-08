@@ -50,7 +50,7 @@
 	assignable = FALSE
 	account_allowed = 0
 	offmap_spawn = TRUE
-	camp_protection = TRUE //So far leave this for shadekin
+	camp_protection = FALSE //So far leave this for shadekin
 
 	outfit_type = /decl/hierarchy/outfit/noncrew
 	job_description = {"Players taking a role of an outsider not employed by NT with no special mechanics. One superpose pod is provided.
