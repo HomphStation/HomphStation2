@@ -1,5 +1,5 @@
 /datum/job/hos
-	camp_protection = TRUE
+	camp_protection = FALSE
 
 /datum/job/brigphysician
 	title = JOB_BRIG_PHYSICIAN

@@ -1,2 +1,2 @@
 /datum/job/rd
-	camp_protection = TRUE
+	camp_protection = FALSE
