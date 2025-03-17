@@ -37,8 +37,6 @@
 #define REAGENT_ID_APHRODISIAC "aphrodisiac"
 #define REAGENT_SORBITOL "Sorbitol"
 #define REAGENT_ID_SORBITOL "sorbitol"
-#define REAGENT_CONCENTRATEDRADIUM "Concentrated Radium"
-#define REAGENT_ID_CONCENTRATEDRADIUM "concentrated_radium"
 #define REAGENT_CLARIDYL "Claridyl Natural Remedy"
 #define REAGENT_ID_CLARIDYL "claridyl"
 #define REAGENT_DYLOTEANE "The Anti-Irish"
@@ -191,6 +189,8 @@
 #define REAGENT_ID_BENZILATE "benzilate"
 #define REAGENT_PHENETHYLAMINE "Phenethylamine"
 #define REAGENT_ID_PHENETHYLAMINE "phenethylamine"
+#define REAGENT_XEYAKIN_BLOOD "Xeyakin Blood"
+#define REAGENT_ID_XEYAKIN_BLOOD "xeyakinblood"
 
 
 // Phoronreagents
@@ -269,8 +269,6 @@
 
 
 // Toxins
-#define REAGENT_DIETSTOMACID "Diluted digestive acid"
-#define REAGENT_ID_DIETSTOMACID "diet_stomacid"
 #define REAGENT_DEATHBLOOD "Irradiating Blood"
 #define REAGENT_ID_DEATHBLOOD "deathblood"
 #define REAGENT_LIQUIDFIRE "Liquid Fire"
@@ -279,3 +277,9 @@
 #define REAGENT_ID_NEOLIQUIDFIRE "neoliquidfire"
 #define REAGENT_LIQUIDLIFE "Liquid Life"
 #define REAGENT_ID_LIQUIDLIFE "liquidlife"
+
+#define REAGENT_NUMBING_FLUID "Numbing Fluid"
+#define REAGENT_ID_NUMBING_FLUID "succubi_numbing"
+#define REAGENT_PARALYZE_FLUID "Paralyzing Fluid"
+#define REAGENT_ID_PARALYZE_FLUID "succubi_paralize"
+#define REAGENT_ID_APHRODIAC_FLUID "succubi_aphrodisiac"

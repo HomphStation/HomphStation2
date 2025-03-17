@@ -110,8 +110,8 @@
 	attack_edge = 1
 	attack_armor_type = "melee" //Default is melee but I'm stating this explicitly to make it more obvious to anybody reading this
 
-/mob/living/simple_mob/animal/synx/Initialize()
-	..()
+/mob/living/simple_mob/animal/synx/Initialize(mapload)
+	. = ..()
 	src.adjust_nutrition(src.max_nutrition)
 	build_icons(1)
 	voremob_loaded = 1
@@ -157,6 +157,8 @@
 /mob/living/simple_mob/animal/synx/init_vore()
 	if(!voremob_loaded)
 		return
+	if(LAZYLEN(vore_organs))
+		return
 	.=..()
 	var/obj/belly/B = vore_selected
 	//B.human_prey_swallow_time = 6 SECONDS //doesnt work
@@ -188,6 +190,8 @@
 /* //OC-insert mob removals. Commenting out instead of full removal as there's some good detail here.
 /mob/living/simple_mob/animal/synx/ai/pet/asteri/init_vore()
 	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
 		return
 	.=..()
 	var/obj/belly/B = vore_selected
@@ -748,6 +752,8 @@
 /mob/living/simple_mob/animal/synx/ai/pet/init_vore()
 	if(!voremob_loaded)
 		return
+	if(LAZYLEN(vore_organs))
+		return
 	.=..()
 	var/obj/belly/B = vore_selected
 	B.vore_verb = "swallow"
@@ -756,6 +762,8 @@
 
 /mob/living/simple_mob/animal/synx/ai/pet/holo/init_vore()
 	if(!voremob_loaded)
+		return
+	if(LAZYLEN(vore_organs))
 		return
 	.=..()
 	var/obj/belly/B = vore_selected
