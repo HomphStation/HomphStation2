@@ -59,7 +59,8 @@
 
 	var/brightness = T.get_lumcount() //Brightness in 0.0 to 1.0
 	darkness = 1-brightness //Invert
-
+//HomphEdit Start
+/*
 	var/watcher = 0
 	//CHOMPEdit Start - Nerf to phasing
 	for(var/thing in orange(7, src))
@@ -78,9 +79,13 @@
 			if(watchers.can_use())
 				if(src in watchers.can_see())
 					watcher++	//CHOMPEdit End - The camera is watching us!
-
+*/
+//HomphEdit End
 
 	ability_cost = CLAMP(ability_cost/(0.01+darkness*2),50, 80)//This allows for 1 watcher in full light
+
+//HomphEdit Start
+/*
 	if(watcher>0)
 		ability_cost = ability_cost + ( 15 * watcher )
 	if(!(ability_flags & AB_PHASE_SHIFTED))
@@ -90,7 +95,8 @@
 		to_chat(src, span_warning("You have a few observers in a well-lit area! This may prevent phasing. (Working cameras count towards observers)"))
 	else if(watcher>=3)
 		to_chat(src, span_warning("You have a large number of observers! This may prevent phasing. (Working cameras count towards observers)")) //CHOMPEdit End
-
+*/
+//HomhpEdit End
 
 	var/datum/species/shadekin/SK = species
 	/* if(!istype(SK)) //CHOMPEdit Removal - Moved to shadekin_ability_check
@@ -234,7 +240,7 @@
 			pulledby.stop_pulling()
 		stop_pulling()
 		canmove = FALSE
-		//HomphEdit Start
+		//HomhpEdit Start
 		/*
 		var/list/allowed_implants = list( //CHOMPEdit Start - Implant dropping
 			/obj/item/implant/sizecontrol,
@@ -250,9 +256,9 @@
 				organ.implants -= O
 		if(!has_embedded_objects())
 			clear_alert("embeddedobject")
-		//CHOMPEdit End
 		*/
-		//Homph Edit End
+		//HomhpEdit End
+		//CHOMPEdit End
 		// change
 		ability_flags |= AB_PHASE_SHIFTED
 		ability_flags |= AB_PHASE_SHIFTING
@@ -261,7 +267,7 @@
 		name = get_visible_name()
 
 		//CHOMPEdit Start - Unequipping slots when phasing in, and preventing pulling stuff while phased.
-		//HomphEdit Start - Unnerfing this.
+		//HomhpEdit Start
 		/*
 		if(l_hand)
 			unEquip(l_hand)
@@ -269,9 +275,8 @@
 			unEquip(r_hand)
 		if(back)
 			unEquip(back)
-			*/
+		*/
 		//HomphEdit End
-
 		can_pull_size = 0
 		can_pull_mobs = MOB_PULL_NONE
 		hovering = TRUE
