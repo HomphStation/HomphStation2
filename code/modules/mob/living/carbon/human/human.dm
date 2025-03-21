@@ -1330,9 +1330,8 @@
 			var/datum/mob_descriptor/descriptor = species.descriptors[desctype]
 			descriptors[desctype] = descriptor.default_value
 
-	//This was the old location of initialize_vessel. A race condiiton happened here because of species code being JANK. This resulted in runtimes during unit test, but worked perfectly fine in game.
-	//Now, initialize_vessel has been moved to human/Initialize()
-	// addtimer(CALLBACK(src, PROC_REF(initialize_vessel)), 0, TIMER_DELETE_ME) //Doing ASYNC fails here. This used to be a spawn(0)
+	if(vessel)
+		initialize_vessel()
 
 	// Rebuild the HUD. If they aren't logged in then login() should reinstantiate it for them.
 	update_hud()
@@ -1488,20 +1487,6 @@
 		return flavor_text
 	else
 		return ..()
-
-/mob/living/carbon/human/getDNA()
-	if(species.flags & NO_SCAN)
-		return null
-	if(isSynthetic())
-		return
-	..()
-
-/mob/living/carbon/human/setDNA()
-	if(species.flags & NO_SCAN)
-		return
-	if(isSynthetic())
-		return
-	..()
 
 /mob/living/carbon/human/has_brain()
 	if(internal_organs_by_name[O_BRAIN])
