@@ -6,8 +6,8 @@
 /*********************/
 
 //#define USE_MAP_SOUTHERN_CROSS
-//#define USE_MAP_SOLUNA_NEXUS
-#define USE_MAP_RELIC_BASE
+#define USE_MAP_SOLUNA_NEXUS
+//#define USE_MAP_RELIC_BASE
 
 // Debug
 //#define USE_MAP_MINITEST
