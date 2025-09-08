@@ -23,9 +23,10 @@
 	tt_desc = "E Reptilia Serpentes"
 	catalogue_data = list(/datum/category_item/catalogue/fauna/snake)
 
-	icon_state = "green"
-	icon_living = "green"
-	icon_dead = "green_dead"
+	icon_state = "snek"
+	icon_living = "snek"
+	icon_dead = "snek_dead"
+	icon_rest = "snek_rest"
 	icon = 'icons/mob/snake_vr.dmi'
 
 	maxHealth = 15
@@ -47,24 +48,11 @@
 	say_list_type = /datum/say_list/snake
 	ai_holder_type = /datum/ai_holder/simple_mob/passive
 
-	// CHOMPEdit Start - New sprites & Added vore
-	/*
-	icon_state = "python"
-	icon_living = "python"
-	icon_dead = "python_dead"
-	icon = 'icons/mob/snake_vr.dmi'
-	*/
-	icon_state = "snek"
-	icon_living = "snek"
-	icon_dead = "snek_dead"
-	icon_rest = "snek_rest"
-	icon = 'modular_chomp/icons/mob/animal_ch.dmi'
-	// CHOMPEdit End
 
 	vore_active = 1
 	vore_capacity = 1
 	vore_default_mode = DM_DIGEST
-	vore_icons = SA_ICON_LIVING | SA_ICON_REST // CHOMPEdit
+	vore_icons = SA_ICON_LIVING | SA_ICON_REST
 	vore_escape_chance = 20
 	swallowTime = 50
 	vore_bump_chance = 10
@@ -74,11 +62,7 @@
 	can_be_drop_prey = FALSE
 
 // Adds vore belly
-/mob/living/simple_mob/animal/passive/snake/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
+/mob/living/simple_mob/animal/passive/snake/load_default_bellies()
 	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
@@ -124,7 +108,7 @@
 	icon_state = "red"
 	icon_living = "red"
 	icon_dead = "red_dead"
-	icon = 'icons/mob/snake_vr.dmi' // CHOMP Comment: Whenever the red snake sprites, this needs to be changed. I swear someone made sprites for this.
+	icon = 'icons/mob/snake_vr.dmi'
 
 /*
  * Python
@@ -133,6 +117,11 @@
 	name = "python"
 	desc = "A big, thick snake."
 	tt_desc = "E Reptilia Pythonidae"
+
+	icon_state = "python"
+	icon_living = "python"
+	icon_dead = "python_dead"
+	icon = 'icons/mob/snake_vr.dmi'
 
 /*
  * NOODLE IS HERE! SQUEEEEEEEE~
@@ -149,7 +138,6 @@
 	vore_default_mode = DM_HOLD
 
 	var/turns_since_scan = 0
-	var/obj/movement_target
 
 /mob/living/simple_mob/animal/passive/snake/python/noodle/Life()
 	..()
@@ -163,36 +151,15 @@
 			turns_since_scan = 0
 			if((movement_target) && !(isturf(movement_target.loc) || ishuman(movement_target.loc) ))
 				movement_target = null
-			if( !movement_target || !(movement_target.loc in oview(src, 3)) )
+			if(!movement_target || !(movement_target.loc in oview(src, 7)) )
 				movement_target = null
-				for(var/obj/item/reagent_containers/food/snacks/snakesnack/S in oview(src,3))
+				for(var/obj/item/reagent_containers/food/snacks/snakesnack/S in oview(src,7))
 					if(isturf(S.loc) || ishuman(S.loc))
 						movement_target = S
 						visible_emote("turns towards \the [movement_target] and slithers towards it.")
 						break
 			if(movement_target)
-				step_to(src,movement_target,1)
-				sleep(3)
-				step_to(src,movement_target,1)
-				sleep(3)
-				step_to(src,movement_target,1)
-
-				if(movement_target)		//Not redundant due to sleeps, Item can be gone in 6 decisecomds
-					if (movement_target.loc.x < src.x)
-						set_dir(WEST)
-					else if (movement_target.loc.x > src.x)
-						set_dir(EAST)
-					else if (movement_target.loc.y < src.y)
-						set_dir(SOUTH)
-					else if (movement_target.loc.y > src.y)
-						set_dir(NORTH)
-					else
-						set_dir(SOUTH)
-
-					if(isturf(movement_target.loc) )
-						UnarmedAttack(movement_target)
-					else if(ishuman(movement_target.loc) && prob(20))
-						visible_emote("stares at the [movement_target] that [movement_target.loc] has with an unknowable reptilian gaze.")
+				chase_target()
 
 /mob/living/simple_mob/animal/passive/snake/python/noodle/apply_melee_effects(var/atom/A)
 	if(ismouse(A))
@@ -206,6 +173,7 @@
 /mob/living/simple_mob/animal/passive/snake/python/noodle/attackby(var/obj/item/O, var/mob/user)
 	if(istype(O, /obj/item/reagent_containers/food/snacks/snakesnack))
 		visible_message(span_notice("[user] feeds \the [O] to [src]."))
+		adjust_nutrition(100) //It's sugar!
 		qdel(O)
 	else
 		return ..()
@@ -237,7 +205,7 @@
 	icon_state = "sneksnakbox"
 	storage_slots = 7
 
-/obj/item/storage/box/snakesnackbox/New()
+/obj/item/storage/box/snakesnackbox/Initialize(mapload)
 	new /obj/item/reagent_containers/food/snacks/snakesnack(src)
 	new /obj/item/reagent_containers/food/snacks/snakesnack(src)
 	new /obj/item/reagent_containers/food/snacks/snakesnack(src)
@@ -245,4 +213,4 @@
 	new /obj/item/reagent_containers/food/snacks/snakesnack(src)
 	new /obj/item/reagent_containers/food/snacks/snakesnack(src)
 	new /obj/item/reagent_containers/food/snacks/snakesnack(src)
-	..()
+	. = ..()

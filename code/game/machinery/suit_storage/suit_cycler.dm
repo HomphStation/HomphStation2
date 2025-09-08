@@ -9,7 +9,7 @@ GLOBAL_LIST_EMPTY(suit_cycler_typecache)
 	icon = 'icons/obj/suit_cycler.dmi'
 	icon_state = "suit_cycler"
 
-	req_access = list(access_captain,access_heads)
+	req_access = list(ACCESS_CAPTAIN,ACCESS_HEADS)
 
 	var/active = 0          // PLEASE HOLD.
 	var/safeties = 1        // The cycler won't start with a living thing inside it unless safeties are off.
@@ -162,7 +162,7 @@ GLOBAL_LIST_EMPTY(suit_cycler_typecache)
 
 		visible_message(span_notice("[user] starts putting [G.affecting.name] into the suit cycler."), 3)
 
-		if(do_after(user, 20))
+		if(do_after(user, 2 SECONDS, target = src))
 			if(!G || !G.affecting) return
 			var/mob/M = G.affecting
 			if(M.client)
@@ -430,15 +430,15 @@ GLOBAL_LIST_EMPTY(suit_cycler_typecache)
 
 			if(helmet)
 				if(radiation_level > 2)
-					helmet.decontaminate()
+					helmet.wash(CLEAN_TYPE_RADIATION)
 				if(radiation_level > 1)
-					helmet.clean_blood()
+					helmet.wash(CLEAN_SCRUB)
 
 			if(suit)
 				if(radiation_level > 2)
-					suit.decontaminate()
+					suit.wash(CLEAN_TYPE_RADIATION)
 				if(radiation_level > 1)
-					suit.clean_blood()
+					suit.wash(CLEAN_SCRUB)
 
 			. = TRUE
 
@@ -535,7 +535,7 @@ GLOBAL_LIST_EMPTY(suit_cycler_typecache)
 		target_department.do_refit_suit(suit)
 	// Attached voidsuit helmet to new paint
 	if(target_department.can_refit_helmet(suit?.hood))
-		target_department.do_refit_helmet(suit.hood)
+		target_department.do_refit_helmet(suit?.hood)
 
 	// Species fitting for all 3 potential changes
 	if(target_species.can_refit_to(helmet, suit, suit?.hood))

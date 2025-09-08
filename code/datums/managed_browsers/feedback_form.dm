@@ -1,8 +1,10 @@
 /client
 	var/datum/managed_browser/feedback_form/feedback_form = null
 
-/client/can_vv_get(var_name)
-	return var_name != NAMEOF(src, feedback_form) // No snooping.
+/client/can_vv_get(var_name)//no snooping but doesn't break shit
+	if(var_name == NAMEOF(src, feedback_form))
+		return FALSE
+	return ..()
 
 GENERAL_PROTECT_DATUM(/datum/managed_browser/feedback_form)
 
@@ -141,7 +143,4 @@ GENERAL_PROTECT_DATUM(/datum/managed_browser/feedback_form)
 				return
 
 			my_client.mob << browse(null, "window=[browser_id]") // Closes the window.
-			if(isnewplayer(my_client.mob))
-				var/mob/new_player/NP = my_client.mob
-				NP.new_player_panel_proc() // So the feedback button goes away, if the user gets put on cooldown.
 			qdel(src)

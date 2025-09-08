@@ -12,10 +12,10 @@
 #define RCS_MESSAUTH 7	// Authentication before sending
 #define RCS_ANNOUNCE 8	// Send announcement
 
-var/req_console_assistance = list()
-var/req_console_supplies = list()
-var/req_console_information = list()
-var/list/obj/machinery/requests_console/allConsoles = list()
+GLOBAL_LIST_EMPTY(req_console_assistance)
+GLOBAL_LIST_EMPTY(req_console_supplies)
+GLOBAL_LIST_EMPTY(req_console_information)
+GLOBAL_LIST_EMPTY_TYPED(allConsoles, /obj/machinery/requests_console)
 
 /obj/machinery/requests_console
 	name = "requests console"
@@ -52,39 +52,39 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 	var/recipient = ""; //the department which will be receiving the message
 	var/priority = -1 ; //Priority of the message being sent
 	light_range = 0
-	var/datum/announcement/announcement = new
+	var/datum/announcement/announcement
 
 /obj/machinery/requests_console/Initialize(mapload)
 	. = ..()
-
+	announcement = new
 	announcement.title = "[department] announcement"
 	announcement.newscast = 1
 
 	name = "[department] requests console"
-	allConsoles += src
+	GLOB.allConsoles += src
 	if(departmentType & RC_ASSIST)
-		req_console_assistance |= department
+		GLOB.req_console_assistance |= department
 	if(departmentType & RC_SUPPLY)
-		req_console_supplies |= department
+		GLOB.req_console_supplies |= department
 	if(departmentType & RC_INFO)
-		req_console_information |= department
+		GLOB.req_console_information |= department
 
 	update_icon()
 
 /obj/machinery/requests_console/Destroy()
-	allConsoles -= src
+	GLOB.allConsoles -= src
 	var/lastDeptRC = 1
-	for (var/obj/machinery/requests_console/Console in allConsoles)
+	for (var/obj/machinery/requests_console/Console in GLOB.allConsoles)
 		if(Console.department == department)
 			lastDeptRC = 0
 			break
 	if(lastDeptRC)
 		if(departmentType & RC_ASSIST)
-			req_console_assistance -= department
+			GLOB.req_console_assistance -= department
 		if(departmentType & RC_SUPPLY)
-			req_console_supplies -= department
+			GLOB.req_console_supplies -= department
 		if(departmentType & RC_INFO)
-			req_console_information -= department
+			GLOB.req_console_information -= department
 	return ..()
 
 /obj/machinery/requests_console/power_change()
@@ -125,9 +125,9 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 	data["silent"] = silent
 	data["announcementConsole"] = announcementConsole
 
-	data["assist_dept"] = req_console_assistance
-	data["supply_dept"] = req_console_supplies
-	data["info_dept"]   = req_console_information
+	data["assist_dept"] = GLOB.req_console_assistance
+	data["supply_dept"] = GLOB.req_console_supplies
+	data["info_dept"]   = GLOB.req_console_information
 
 	data["message"] = message
 	data["recipient"] = recipient
@@ -148,7 +148,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 			if(reject_bad_text(params["write"]))
 				recipient = params["write"] //write contains the string of the receiving department's name
 
-				var/new_message = sanitize(tgui_input_text(ui.user, "Write your message:", "Awaiting Input", ""))
+				var/new_message = tgui_input_text(ui.user, "Write your message:", "Awaiting Input", "", MAX_MESSAGE_LEN)
 				if(new_message)
 					message = new_message
 					screen = RCS_MESSAUTH
@@ -164,7 +164,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 				. = TRUE
 
 		if("writeAnnouncement")
-			var/new_message = sanitize(tgui_input_text(ui.user, "Write your message:", "Awaiting Input", ""))
+			var/new_message = tgui_input_text(ui.user, "Write your message:", "Awaiting Input", "", MAX_MESSAGE_LEN)
 			if(new_message)
 				message = new_message
 			else
@@ -184,7 +184,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 			var/log_msg = message
 			var/pass = 0
 			screen = RCS_SENTFAIL
-			for(var/obj/machinery/message_server/MS in machines)
+			for(var/obj/machinery/message_server/MS in GLOB.machines)
 				if(!MS.active)
 					continue
 				MS.send_rc_message(ckey(params["department"]), department, log_msg, msgStamped, msgVerified, priority)
@@ -214,7 +214,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 			if(tempScreen == RCS_ANNOUNCE && !announcementConsole)
 				return
 			if(tempScreen == RCS_VIEWMSGS)
-				for (var/obj/machinery/requests_console/Console in allConsoles)
+				for (var/obj/machinery/requests_console/Console in GLOB.allConsoles)
 					if(Console.department == department)
 						Console.newmessagepriority = 0
 						Console.update_icon()
@@ -233,7 +233,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 	if(computer_deconstruction_screwdriver(user, O))
 		return
 	if(istype(O, /obj/item/multitool))
-		var/input = sanitize(tgui_input_text(user, "What Department ID would you like to give this request console?", "Multitool-Request Console Interface", department))
+		var/input = tgui_input_text(user, "What Department ID would you like to give this request console?", "Multitool-Request Console Interface", department, MAX_MESSAGE_LEN)
 		if(!input)
 			to_chat(user, "No input found. Please hang up and try your call again.")
 			return
@@ -242,13 +242,13 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 		announcement.newscast = 1
 
 		name = "[department] Requests Console"
-		allConsoles += src
+		GLOB.allConsoles += src
 		if(departmentType & RC_ASSIST)
-			req_console_assistance |= department
+			GLOB.req_console_assistance |= department
 		if(departmentType & RC_SUPPLY)
-			req_console_supplies |= department
+			GLOB.req_console_supplies |= department
 		if(departmentType & RC_INFO)
-			req_console_information |= department
+			GLOB.req_console_information |= department
 		return
 
 	if(istype(O, /obj/item/card/id))
@@ -259,7 +259,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 			SStgui.update_uis(src)
 		if(screen == RCS_ANNOUNCE)
 			var/obj/item/card/id/ID = O
-			if(access_RC_announce in ID.GetAccess())
+			if(ACCESS_RC_ANNOUNCE in ID.GetAccess())
 				announceAuth = 1
 				announcement.announcer = ID.assignment ? "[ID.assignment] [ID.registered_name]" : ID.registered_name
 			else

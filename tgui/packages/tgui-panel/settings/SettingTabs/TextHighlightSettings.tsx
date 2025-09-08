@@ -80,21 +80,39 @@ const TextHighlightSetting = (props) => {
   return (
     <Stack.Item {...rest}>
       <Stack mb={1} color="label" align="baseline">
-        <Stack.Item grow>
-          <Button
-            color="transparent"
-            icon="times"
-            onClick={() =>
-              dispatch(
-                removeHighlightSetting({
-                  id: id,
-                }),
-              )
-            }
-          >
-            Delete
-          </Button>
-        </Stack.Item>
+        <Button.Confirm
+          icon="times"
+          color="transparent"
+          onClick={() =>
+            dispatch(
+              updateHighlightSetting({
+                id: id,
+                highlightText: '',
+                blacklistText: '',
+              }),
+            )
+          }
+        >
+          Reset
+        </Button.Confirm>
+        {id !== 'default' && (
+          <Stack.Item>
+            <Button.Confirm
+              color="transparent"
+              icon="times"
+              onClick={() =>
+                dispatch(
+                  removeHighlightSetting({
+                    id: id,
+                  }),
+                )
+              }
+            >
+              Delete
+            </Button.Confirm>
+          </Stack.Item>
+        )}
+        <Stack.Item grow />
         <Stack.Item>
           <Button.Checkbox
             checked={highlightBlacklist}
@@ -169,7 +187,7 @@ const TextHighlightSetting = (props) => {
             monospace
             placeholder="#ffffff"
             value={highlightColor}
-            onInput={(e, value) =>
+            onBlur={(value) =>
               dispatch(
                 updateHighlightSetting({
                   id: id,
@@ -181,10 +199,11 @@ const TextHighlightSetting = (props) => {
         </Stack.Item>
       </Stack>
       <TextArea
+        fluid
         height="3em"
         value={highlightText}
         placeholder="Put words to highlight here. Separate terms with commas, i.e. (term1, term2, term3)"
-        onChange={(e, value) =>
+        onBlur={(value) =>
           dispatch(
             updateHighlightSetting({
               id: id,
@@ -195,10 +214,11 @@ const TextHighlightSetting = (props) => {
       />
       {!!highlightBlacklist && (
         <TextArea
+          fluid
           height="3em"
           value={blacklistText}
           placeholder="Put names of senders you don't want highlighted here. Separate names with commas, i.e. (name1, name2, name3)"
-          onChange={(e, value) =>
+          onBlur={(value) =>
             dispatch(
               updateHighlightSetting({
                 id: id,

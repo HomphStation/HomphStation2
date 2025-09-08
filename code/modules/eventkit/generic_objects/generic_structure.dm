@@ -5,7 +5,6 @@
 	icon_state = "bsb_off"
 	anchored = 1
 	density = 1
-	climbable = 0
 	breakable = 0
 	var/on = 0
 	var/icon_state_off = "bsb_off"
@@ -13,7 +12,7 @@
 	var/wrenchable = 0
 	var/activatable_hand = 1
 	var/togglable = 1
-	var/text_activated = "The strucutre turns on."
+	var/text_activated = "The structure turns on."
 	var/text_deactivated = "The structure turns off."
 	var/effect = 0
 	var/object = 0
@@ -26,7 +25,7 @@
 	if(activatable_hand)
 		if(!on)
 			if(delay_time)
-				if(!do_after(user, delay_time, src, exclusive = TASK_USER_EXCLUSIVE))
+				if(!do_after(user, delay_time, target = src))
 					return 0
 			on = 1
 			icon_state = icon_state_on
@@ -42,7 +41,7 @@
 				s.set_up(3, 1, src)
 				s.start()
 			if(effect == 2)
-				for(var/obj/machinery/light/L in machines)
+				for(var/obj/machinery/light/L in GLOB.machines)
 					if(L.z != src.z || get_dist(src,L) > 10)
 						continue
 					else
@@ -89,7 +88,7 @@
 				playsound(src, sound_activated, 50, 1)
 		else if(togglable)
 			if(delay_time)
-				if(!do_after(user, delay_time, src, exclusive = TASK_USER_EXCLUSIVE))
+				if(!do_after(user, delay_time, target = src))
 					return 0
 			on = 0
 			icon_state = icon_state_off
@@ -227,7 +226,7 @@
 	var/check_togglable
 
 
-	if(!holder)
+	if(!check_rights_for(src, R_HOLDER))
 		return
 
 	var/s_name = tgui_input_text(src, "Structure Name:", "Name")

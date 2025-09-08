@@ -9,7 +9,8 @@
 	canhear_range = 0 // can't hear headsets from very far away
 	slot_flags = SLOT_EARS
 	sprite_sheets = list(SPECIES_TESHARI = 'icons/inventory/ears/mob_teshari.dmi',
-						SPECIES_WEREBEAST = 'icons/inventory/ears/mob_vr_werebeast.dmi')
+						SPECIES_VOX = 'icons/inventory/hands/mob_vox.dmi',
+						SPECIES_WEREBEAST = 'icons/inventory/ears/mob_werebeast.dmi')
 
 	var/translate_binary = FALSE
 	var/translate_hive = FALSE
@@ -50,11 +51,11 @@
 /obj/item/radio/headset/handle_message_mode(mob/living/M as mob, list/message_pieces, channel)
 	if(channel == "special")
 		if(translate_binary)
-			var/datum/language/binary = GLOB.all_languages["Robot Talk"]
+			var/datum/language/binary = GLOB.all_languages[LANGUAGE_ROBOT_TALK]
 			binary.broadcast(M, M.strip_prefixes(multilingual_to_message(message_pieces)))
 			return RADIO_CONNECTION_NON_SUBSPACE
 		if(translate_hive)
-			var/datum/language/hivemind = GLOB.all_languages["Hivemind"]
+			var/datum/language/hivemind = GLOB.all_languages[LANGUAGE_HIVEMIND]
 			hivemind.broadcast(M, M.strip_prefixes(multilingual_to_message(message_pieces)))
 			return RADIO_CONNECTION_NON_SUBSPACE
 		return RADIO_CONNECTION_FAIL
@@ -99,7 +100,7 @@
 
 
 			for(var/ch_name in channels)
-				radio_controller.remove_object(src, radiochannels[ch_name])
+				SSradio.remove_object(src, GLOB.radiochannels[ch_name])
 				secure_radio_connections[ch_name] = null
 
 
@@ -187,15 +188,15 @@
 /obj/item/radio/headset/proc/handle_finalize_recalculatechannels(var/setDescription = FALSE, var/initial_run = FALSE)
 	PRIVATE_PROC(TRUE)
 	SHOULD_NOT_OVERRIDE(TRUE)
-	if(!radio_controller && initial_run)
+	if(!SSradio && initial_run)
 		addtimer(CALLBACK(src,PROC_REF(handle_finalize_recalculatechannels),setDescription, FALSE),3 SECONDS)
 		return
-	if(!radio_controller && !initial_run)
+	if(!SSradio && !initial_run)
 		name = "broken radio headset"
 		return
 
 	for (var/ch_name in channels)
-		secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
+		secure_radio_connections[ch_name] = SSradio.add_object(src, GLOB.radiochannels[ch_name],  RADIO_CHAT)
 
 	if(setDescription)
 		setupRadioDescription()

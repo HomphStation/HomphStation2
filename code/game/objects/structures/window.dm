@@ -144,7 +144,7 @@
 		return TRUE
 	if(is_fulltile())
 		return FALSE	//full tile window, you can't move into it!
-	if(get_dir(mover, target) == reverse_dir[dir]) // From elsewhere to here, can't move against our dir
+	if(get_dir(mover, target) == GLOB.reverse_dir[dir]) // From elsewhere to here, can't move against our dir
 		return !density
 	else
 		return TRUE
@@ -235,7 +235,7 @@
 			if(WT.remove_fuel(1 ,user))
 				to_chat(user, span_notice("You begin repairing [src]..."))
 				playsound(src, WT.usesound, 50, 1)
-				if(do_after(user, 40 * WT.toolspeed, target = src))
+				if(do_after(user, 4 SECONDS * WT.toolspeed, target = src))
 					health = maxhealth
 			//		playsound(src, 'sound/items/Welder.ogg', 50, 1)
 					update_icon()
@@ -313,7 +313,7 @@
 				span_infoplain(span_bold("\The [user]") + " begins to wire \the [src] for electrochromic tinting."), \
 				span_notice("You begin to wire \the [src] for electrochromic tinting."), \
 				"You hear sparks.")
-			if(do_after(user, 20 * C.toolspeed, src) && state == 0)
+			if(do_after(user, 2 SECONDS * C.toolspeed, src) && state == 0)
 				playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
 				var/obj/structure/window/reinforced/polarized/P = new(loc, dir)
 				if(is_fulltile())
@@ -392,8 +392,8 @@
 	update_nearby_tiles(need_rebuild=1)
 	return
 
-/obj/structure/window/New(Loc, start_dir=null, constructed=0)
-	..()
+/obj/structure/window/Initialize(mapload, start_dir=null, constructed=0)
+	. = ..()
 
 	if (start_dir)
 		set_dir(start_dir)
@@ -411,6 +411,9 @@
 	update_nearby_tiles(need_rebuild=1)
 	update_nearby_icons()
 
+	for(var/obj/structure/table/T in view(src, 1))
+		T.update_connections()
+		T.update_icon()
 
 /obj/structure/window/Destroy()
 	density = FALSE
@@ -419,13 +422,21 @@
 	. = ..()
 	for(var/obj/structure/window/W in orange(location, 1))
 		W.update_icon()
+	for(var/obj/structure/table/T in view(location, 1))
+		T.update_connections()
+		T.update_icon()
 
 /obj/structure/window/Move()
 	var/ini_dir = dir
+	var/turf/location = loc
 	update_nearby_tiles(need_rebuild=1)
 	. = ..()
 	set_dir(ini_dir)
 	update_nearby_tiles(need_rebuild=1)
+	if(loc != location)
+		for(var/obj/structure/table/T in view(location, 1) | view(loc, 1))
+			T.update_connections()
+			T.update_icon()
 
 //checks if this window is full-tile one
 /obj/structure/window/proc/is_fulltile()
@@ -620,7 +631,7 @@
 		// Otherwise fall back to asking them... and remind them what the current ID is.
 		if(id)
 			to_chat(user, "The window's current ID is [id].")
-		var/t = sanitizeSafe(tgui_input_text(user, "Enter the new ID for the window.", src.name, id), MAX_NAME_LEN)
+		var/t = sanitizeSafe(tgui_input_text(user, "Enter the new ID for the window.", src.name, id, encode = FALSE), MAX_NAME_LEN)
 		if(t && in_range(src, user))
 			src.id = t
 			to_chat(user, span_notice("The new ID of \the [src] is '[id]'."))
@@ -639,7 +650,7 @@
 
 /obj/machinery/button/windowtint
 	name = "window tint control"
-	icon = 'icons/obj/stationobjs_vr.dmi' // VOREStation Edit - New icons
+	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "light0"
 	desc = "A remote control switch for polarized windows."
 	var/range = 7
@@ -659,9 +670,7 @@
 
 	for(var/obj/structure/window/reinforced/polarized/W in range(src,range))
 		if (W.id == src.id || !W.id)
-			spawn(0)
-				W.toggle()
-				return
+			W.toggle()
 
 /obj/machinery/button/windowtint/power_change()
 	..()
@@ -680,7 +689,7 @@
 		var/obj/item/multitool/MT = W
 		if(!id)
 			// If no ID is set yet (newly built button?) let them select an ID for first-time use!
-			var/t = sanitizeSafe(tgui_input_text(user, "Enter an ID for \the [src].", src.name, null, MAX_NAME_LEN), MAX_NAME_LEN)
+			var/t = sanitizeSafe(tgui_input_text(user, "Enter an ID for \the [src].", src.name, null, MAX_NAME_LEN, encode = FALSE), MAX_NAME_LEN)
 			if (t && in_range(src, user))
 				src.id = t
 				to_chat(user, span_notice("The new ID of \the [src] is '[id]'. To reset this, rebuild the control."))

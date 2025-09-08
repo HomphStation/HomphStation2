@@ -2,7 +2,7 @@
 
 /obj/machinery/mineral/stacking_unit_console
 	name = "stacking machine console"
-	icon = 'icons/obj/machines/mining_machines_vr.dmi'  // VOREStation Edit
+	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "console"
 	layer = ABOVE_WINDOW_LAYER
 	density = TRUE
@@ -18,7 +18,7 @@
 		machine.console = src
 	else
 		//Silently failing and causing mappers to scratch their heads while runtiming isn't ideal.
-		to_world(span_danger("Warning: Stacking machine console at [src.x], [src.y], [src.z] could not find its machine!"))
+		stack_trace(span_danger("Warning: Stacking machine console at [src.x], [src.y], [src.z] could not find its machine!"))
 		return INITIALIZE_HINT_QDEL
 
 /obj/machinery/mineral/stacking_unit_console/attack_hand(mob/user)
@@ -70,7 +70,7 @@
 
 /obj/machinery/mineral/stacking_machine
 	name = "stacking machine"
-	icon = 'icons/obj/machines/mining_machines_vr.dmi' // VOREStation Edit
+	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "stacker"
 	density = TRUE
 	anchored = TRUE
@@ -88,10 +88,10 @@
 		stack_storage[s_matname] = 0
 		stack_paths[s_matname] = S
 
-	for (var/dir in cardinal)
+	for (var/dir in GLOB.cardinal)
 		src.input = locate(/obj/machinery/mineral/input, get_step(src, dir))
 		if(src.input) break
-	for (var/dir in cardinal)
+	for (var/dir in GLOB.cardinal)
 		src.output = locate(/obj/machinery/mineral/output, get_step(src, dir))
 		if(src.output) break
 

@@ -4,7 +4,7 @@
 	icon = 'icons/obj/xenoarchaeology.dmi'
 	icon_state = "suspension"
 	density = 1
-	req_access = list(access_research)
+	req_access = list(ACCESS_RESEARCH)
 	var/obj/item/cell/cell
 	var/obj/item/card/id/auth_card
 	var/locked = 1
@@ -167,7 +167,7 @@
 		add_overlay("shield2")
 		visible_message(span_blue("[icon2html(suspension_field,viewers(src))] [suspension_field] gently absconds [collected > 1 ? "something" : "several things"]."))
 	else
-		if(istype(T,/turf/simulated/mineral) || istype(T,/turf/simulated/wall))
+		if(ismineralturf(T) || istype(T,/turf/simulated/wall))
 			suspension_field.icon_state = "shieldsparkles"
 		else
 			suspension_field.icon_state = "shield2"

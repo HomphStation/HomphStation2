@@ -12,6 +12,7 @@
 /obj/belly
 	name = "belly"							// Name of this location
 	desc = "It's a belly! You're in it!"	// Flavor text description of inside sight/sound/smells/feels.
+	var/display_name = ""					// Optional display name
 	var/message_mode = FALSE				// If all options for messages are shown
 	var/vore_sound = "Gulp"					// Sound when ingesting someone
 	var/vore_verb = "ingest"				// Verb for eating with this in messages
@@ -67,6 +68,9 @@
 	var/belly_item_mult = 1 	//Multiplier for how filling items are in borg borg bellies. Items are also weighted on item size
 	var/belly_overall_mult = 1	//Multiplier applied ontop of any other specific multipliers
 	var/private_struggle = FALSE			// If struggles are made public or not
+	var/prevent_saving = FALSE				// Can this belly be saved? For special bellies that mobs and adminbus might have.
+	var/absorbedrename_enabled = FALSE		// If absorbed prey are renamed.
+	var/absorbedrename_name = "%pred's %belly"	// What absorbed prey are renamed to.
 
 
 	var/vore_sprite_flags = DM_FLAG_VORESPRITE_BELLY
@@ -140,7 +144,7 @@
 	var/tmp/digested_prey_count = 0				// Amount of prey that have been digested
 
 	var/item_digest_mode = IM_DIGEST_FOOD	// Current item-related mode from item_digest_modes
-	var/contaminates = TRUE					// Whether the belly will contaminate stuff
+	var/contaminates = TRUE					// Whether the belly will contaminate stuff // CHOMPEdit
 	var/contamination_flavor = "Generic"	// Determines descriptions of contaminated items
 	var/contamination_color = "green"		// Color of contamination overlay
 
@@ -207,6 +211,7 @@
 	var/liquid_fullness3_messages = FALSE
 	var/liquid_fullness4_messages = FALSE
 	var/liquid_fullness5_messages = FALSE
+	var/displayed_message_flags = ALL
 	var/vorespawn_blacklist = FALSE
 	var/vorespawn_whitelist = list()
 	var/vorespawn_absorbed = 0
@@ -240,7 +245,8 @@
 	REAGENT_LUBE,
 	REAGENT_BIOMASS,
 	REAGENT_CONCENTRATEDRADIUM,
-	REAGENT_TRICORDRAZINE
+	REAGENT_TRICORDRAZINE,
+	REAGENT_ETHANOL
 	)
 
 	// Special var section
@@ -259,12 +265,15 @@
 	var/belchchance = 0						// % Chance of pred belching on prey struggle
 
 	var/list/belly_surrounding = list()		// A list of living mobs surrounded by this belly, including inside containers, food, on mobs, etc. Exclusing inside other bellies.
+	var/bellytemperature = T20C				// Temperature applied to humans in the belly.
+	var/temperature_damage = FALSE			// Does temperature damage prey?
 
 //For serialization, keep this updated, required for bellies to save correctly.
 /obj/belly/vars_to_save()
 	var/list/saving = list(
 	"name",
 	"desc",
+	"display_name",
 	"absorbed_desc",
 	"message_mode",
 	"vore_sound",
@@ -279,6 +288,7 @@
 	"digest_oxy",
 	"digest_tox",
 	"digest_clone",
+	"bellytemperature",
 	"immutable",
 	"can_taste",
 	"escapable",
@@ -398,6 +408,7 @@
 	"fullness3_messages",
 	"fullness4_messages",
 	"fullness5_messages",
+	"displayed_message_flags",
 	"vorespawn_blacklist",
 	"vorespawn_whitelist",
 	"vorespawn_absorbed",
@@ -437,6 +448,8 @@
 	"entrance_logs",
 	"noise_freq",
 	"private_struggle",
+	"absorbedrename_enabled",
+	"absorbedrename_name",
 	"item_digest_logs",
 	"show_fullness_messages",
 	"digest_max",
@@ -459,7 +472,9 @@
 	"item_multiplier",
 	"undergarment_chosen",
 	"undergarment_if_none",
-	"undergarment_color"
+	"undergarment_color",
+	"trash_eater_in",
+	"trash_eater_out"
 	)
 
 	if (save_digest_mode == 1)
@@ -493,6 +508,15 @@
 		G.forceMove(get_turf(src)) //ported from CHOMPStation PR#7132
 	return ..()
 
+/obj/belly/Moved(atom/old_loc)
+	. = ..()
+
+	for(var/mob/living/L in src)
+		if(L.ckey)
+			log_admin("[key_name(owner)]'s belly `[src]` moved from [old_loc] ([old_loc?.x],[old_loc?.y],[old_loc?.z]) to [loc] ([loc?.x],[loc?.y],[loc?.z]) while containing [key_name(L)].")
+			break
+
+
 // Called whenever an atom enters this belly
 /obj/belly/Entered(atom/movable/thing, atom/OldLoc)
 	. = ..()
@@ -525,9 +549,9 @@
 	if(vore_sound && !recent_sound && !istype(thing, /mob/observer))
 		var/soundfile
 		if(!fancy_vore)
-			soundfile = classic_vore_sounds[vore_sound]
+			soundfile = GLOB.classic_vore_sounds[vore_sound]
 		else
-			soundfile = fancy_vore_sounds[vore_sound]
+			soundfile = GLOB.fancy_vore_sounds[vore_sound]
 		if(special_entrance_sound) // Custom sound set by mob's init_vore or ingame varedits.
 			soundfile = special_entrance_sound
 		if(soundfile)
@@ -650,24 +674,29 @@
 			var/obj/screen/fullscreen/F = L.overlay_fullscreen("belly", /obj/screen/fullscreen/belly, severity) // preserving save data
 			var/datum/belly_overlays/lookup_belly_path = text2path("/datum/belly_overlays/[lowertext(belly_fullscreen)]")
 			if(!lookup_belly_path)
-				CRASH("Icon datum was not defined for [belly_fullscreen]")
+				var/used_fullscreen = belly_fullscreen
+				to_chat(owner, span_warning("The belly overlay ([used_fullscreen]) you've selected for [src] no longer exists. Please reselect your overlay."))
+				belly_fullscreen = null
+				CRASH("Icon datum was not defined for [used_fullscreen]")
+
+			var/alpha = min(belly_fullscreen_alpha, L.max_voreoverlay_alpha)
 			F.icon = initial(lookup_belly_path.belly_icon)
 			F.cut_overlays()
 			var/image/I = image(F.icon, belly_fullscreen) //Would be cool if I could just include color and alpha in the image define so we don't have to copy paste
 			I.color = belly_fullscreen_color
-			I.alpha = belly_fullscreen_alpha
+			I.alpha = alpha
 			F.add_overlay(I)
 			I = image(F.icon, belly_fullscreen+"-2")
 			I.color = belly_fullscreen_color2
-			I.alpha = belly_fullscreen_alpha
+			I.alpha = alpha
 			F.add_overlay(I)
 			I = image(F.icon, belly_fullscreen+"-3")
 			I.color = belly_fullscreen_color3
-			I.alpha = belly_fullscreen_alpha
+			I.alpha = alpha
 			F.add_overlay(I)
 			I = image(F.icon, belly_fullscreen+"-4")
 			I.color = belly_fullscreen_color4
-			I.alpha = belly_fullscreen_alpha
+			I.alpha = alpha
 			F.add_overlay(I)
 			var/extra_mush = 0
 			var/extra_mush_color = mush_color
@@ -683,13 +712,13 @@
 				if(!mush_overlay)
 					I = image('icons/mob/vore_fullscreens/bubbles.dmi', "mush")
 					I.color = extra_mush_color
-					I.alpha = custom_ingested_alpha
+					I.alpha = min(custom_ingested_alpha, L.max_voreoverlay_alpha)
 					I.pixel_y = -450 + ((450 / max(max_ingested, 1)) * min(max_ingested, ingested.total_volume))
 					F.add_overlay(I)
 			if(show_liquids && L.liquidbelly_visuals && mush_overlay && (owner.nutrition > 0 || max_mush == 0 || min_mush > 0 || (LAZYLEN(contents) * item_mush_val) > 0))
 				I = image('icons/mob/vore_fullscreens/bubbles.dmi', "mush")
 				I.color = mush_color
-				I.alpha = mush_alpha
+				I.alpha = min(mush_alpha, L.max_voreoverlay_alpha)
 				var/total_mush_content = owner.nutrition + LAZYLEN(contents) * item_mush_val + extra_mush
 				I.pixel_y = -450 + (450 / max(max_mush, 1) * max(min(max_mush, total_mush_content), 1))
 				if(I.pixel_y < -450 + (450 / 100 * min_mush))
@@ -716,6 +745,7 @@
 				else
 					I.alpha = max(150, min(custom_max_volume, 255)) - (255 - belly_fullscreen_alpha)
 				I.pixel_y = -450 + min((450 / custom_max_volume * reagents.total_volume), 450 / 100 * max_liquid_level)
+				I.alpha = min(I.alpha, L.max_voreoverlay_alpha)
 				F.add_overlay(I)
 			F.update_for_view(L.client.view)
 		else
@@ -838,9 +868,9 @@
 		owner.visible_message(span_vnotice(span_green(span_bold("[owner] [release_verb] everything from their [lowertext(name)]!"))), range = privacy_range)
 		var/soundfile
 		if(!fancy_vore)
-			soundfile = classic_release_sounds[release_sound]
+			soundfile = GLOB.classic_release_sounds[release_sound]
 		else
-			soundfile = fancy_release_sounds[release_sound]
+			soundfile = GLOB.fancy_release_sounds[release_sound]
 		if(soundfile)
 			playsound(src, soundfile, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, preference = /datum/preference/toggle/eating_noises, volume_channel = VOLUME_CHANNEL_VORE)
 
@@ -917,15 +947,18 @@
 			//privacy_volume = 25
 
 	//Print notifications/sound if necessary
-	if(istype(M, /mob/observer))
+	if(isobserver(M))
 		silent = TRUE
 	if(!silent)
-		owner.visible_message(span_vnotice(span_green(span_bold("[owner] [release_verb] [M] from their [lowertext(name)]!"))),range = privacy_range)
+		if(isitem(M))
+			owner.visible_message(span_vnotice(span_green(span_bold(belly_format_string(trash_eater_out, M, item=M)))),range = privacy_range) //double dip. prey = item, item = prey. sanity check in case they use %prey in the message.
+		else
+			owner.visible_message(span_vnotice(span_green(span_bold("[owner] [release_verb] [M] from their [lowertext(name)]!"))),range = privacy_range)
 		var/soundfile
 		if(!fancy_vore)
-			soundfile = classic_release_sounds[release_sound]
+			soundfile = GLOB.classic_release_sounds[release_sound]
 		else
-			soundfile = fancy_release_sounds[release_sound]
+			soundfile = GLOB.fancy_release_sounds[release_sound]
 		if(soundfile)
 			playsound(src, soundfile, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq, preference = /datum/preference/toggle/eating_noises, volume_channel = VOLUME_CHANNEL_VORE)
 	//Should fix your view not following you out of mobs sometimes!
@@ -985,6 +1018,7 @@
 /obj/belly/proc/digestion_death(mob/living/M)
 	digested_prey_count++
 	add_attack_logs(owner, M, "Digested in [lowertext(name)]")
+	owner.changeling_obtain_dna(M)
 
 	// Reverts TF on death. This fixes a bug with posibrains or similar, and also makes reforming easier.
 	if(M.tf_mob_holder && M.tf_mob_holder.loc == M)
@@ -1056,12 +1090,16 @@
 			M.reagents.del_reagent(REAGENT_ID_CLEANER)
 			M.reagents.del_reagent(REAGENT_ID_CONCENTRATEDRADIUM)
 			M.reagents.del_reagent(REAGENT_ID_TRICORDRAZINE)
+			M.reagents.del_reagent(REAGENT_ID_ETHANOL)
 			M.reagents.trans_to_holder(Pred.ingested, M.reagents.total_volume, 0.5, TRUE)
 
 	owner.handle_belly_update()
 
 	//Incase they have the loop going, let's double check to stop it.
 	M.stop_sound_channel(CHANNEL_PREYLOOP)
+	//Don't let glows stick
+	M.glow_toggle = FALSE
+	M.set_light(0)
 	// Delete the digested mob
 	// Changed qdel to a forceMove to allow reforming, and... handled robots special.
 	if(isrobot(M))
@@ -1077,7 +1115,7 @@
 					R.mmi.brainmob.languages = MB.original_languages
 				else
 					R.mmi.brainmob.languages = R.languages
-				R.mmi.brainmob.remove_language("Robot Talk")
+				R.mmi.brainmob.remove_language(LANGUAGE_ROBOT_TALK)
 				hasMMI = R.mmi
 				M.mind.transfer_to(hasMMI.brainmob)
 				R.mmi = null
@@ -1131,6 +1169,7 @@
 		// TODO - Find a way to make the absorbed prey share the effects with the pred.
 		// Currently this is infeasible because reagent containers are designed to have a single my_atom, and we get
 		// problems when A absorbs B, and then C absorbs A,  resulting in B holding onto an invalid reagent container.
+		Pred.changeling_obtain_dna(Prey)
 
 	//This is probably already the case, but for sub-prey, it won't be.
 	if(M.loc != src)
@@ -1207,12 +1246,17 @@
 //Typically just to the owner's location.
 /obj/belly/drop_location()
 	//Should be the case 99.99% of the time
+	if(isAI(owner))
+		var/mob/living/silicon/ai/AI = owner
+		if(AI.holo && AI.holo.masters[AI])
+			return AI.holo.masters[AI].drop_location()
+
 	if(owner)
 		return owner.drop_location()
 	//Sketchy fallback for safety, put them somewhere safe.
 	else
 		log_debug("[src] (\ref[src]) doesn't have an owner, and dropped someone at a latespawn point!")
-		var/fallback = pick(latejoin)
+		var/fallback = pick(GLOB.latejoin)
 		return get_turf(fallback)
 
 //Yes, it's ""safe"" to drop items here
@@ -1241,7 +1285,7 @@
 		to_chat(R, escape_attempt_prey_message)
 		to_chat(owner, escape_attempt_owner_message)
 
-		if(do_after(R, escapetime, owner, incapacitation_flags = INCAPACITATION_DEFAULT & ~INCAPACITATION_RESTRAINED))
+		if(do_after(R, escapetime, owner, target = src, timed_action_flags = IGNORE_INCAPACITATED))
 			if((owner.stat || escapable)) //Can still escape?
 				if(C)
 					release_specific_contents(C)
@@ -1257,14 +1301,15 @@
 				return
 			return
 
-	var/struggle_outer_message = span_valert(belly_format_string(struggle_messages_outside, R))
 	var/struggle_user_message = span_valert(belly_format_string(struggle_messages_inside, R))
 
-	if(private_struggle)
-		to_chat(owner, struggle_outer_message)
-	else
-		for(var/mob/M in hearers(4, owner))
-			M.show_message(struggle_outer_message, 2) // hearable
+	if(displayed_message_flags & MS_FLAG_STRUGGLE_OUTSIDE)
+		var/struggle_outer_message = span_valert(belly_format_string(struggle_messages_outside, R))
+		if(private_struggle)
+			to_chat(owner, struggle_outer_message)
+		else
+			for(var/mob/M in hearers(4, owner))
+				M.show_message(struggle_outer_message, 2) // hearable
 
 	var/sound/struggle_snuggle
 	var/sound/struggle_rustle = sound(get_sfx("rustle"))
@@ -1287,7 +1332,7 @@
 		if(prob(escapechance)) //Let's have it check to see if the prey escapes first.
 			to_chat(R, escape_attempt_prey_message)
 			to_chat(owner, escape_attempt_owner_message)
-			if(do_after(R, escapetime))
+			if(do_after(R, escapetime, target = src))
 				if(escapable && C)
 					var/escape_item_owner_message = span_vwarning(belly_format_string(escape_item_messages_owner, R, item = C))
 					var/escape_item_prey_message = span_vwarning(belly_format_string(escape_item_messages_prey, R, item = C))
@@ -1403,14 +1448,15 @@
 
 	R.setClickCooldown(50)
 
-	var/struggle_outer_message = span_valert(belly_format_string(absorbed_struggle_messages_outside, R, use_absorbed_count = TRUE))
 	var/struggle_user_message = span_valert(belly_format_string(absorbed_struggle_messages_inside, R, use_absorbed_count = TRUE))
 
-	if(private_struggle)
-		to_chat(owner, struggle_outer_message)
-	else
-		for(var/mob/M in hearers(4, owner))
-			M.show_message(struggle_outer_message, 2) // hearable
+	if(displayed_message_flags & MS_FLAG_STRUGGLE_ABSORBED_OUTSIDE)
+		var/struggle_outer_message = span_valert(belly_format_string(absorbed_struggle_messages_outside, R, use_absorbed_count = TRUE))
+		if(private_struggle)
+			to_chat(owner, struggle_outer_message)
+		else
+			for(var/mob/M in hearers(4, owner))
+				M.show_message(struggle_outer_message, 2) // hearable
 
 	var/sound/struggle_snuggle
 	var/sound/struggle_rustle = sound(get_sfx("rustle"))
@@ -1433,7 +1479,7 @@
 
 			to_chat(R, escape_attempt_absorbed_prey_message)
 			to_chat(owner, escape_attempt_absorbed_owner_message)
-			if(do_after(R, escapetime))
+			if(do_after(R, escapetime, target = src))
 				if((escapable || owner.stat) && (R.loc == src) && prob(escapechance_absorbed)) //Does the escape attempt succeed?
 					var/escape_absorbed_owner_message = span_vwarning(belly_format_string(escape_absorbed_messages_owner, R))
 					var/escape_absorbed_prey_message = span_vwarning(belly_format_string(escape_absorbed_messages_prey, R))
@@ -1484,7 +1530,7 @@
 		if(istype(I,/obj/item/card/id))
 			I.gurgle_contaminate(target.contents, target.contamination_flavor, target.contamination_color)
 		if(I.gurgled && target.contaminates)
-			I.decontaminate()
+			I.wash(CLEAN_WASH)
 			I.gurgle_contaminate(target.contents, target.contamination_flavor, target.contamination_color)
 	items_preserved -= content
 	owner.updateVRPanel()
@@ -1653,6 +1699,7 @@
 	//// Non-object variables
 	dupe.name = name
 	dupe.desc = desc
+	dupe.display_name = display_name
 	dupe.message_mode = message_mode
 	dupe.absorbed_desc = absorbed_desc
 	dupe.vore_sound = vore_sound
@@ -1667,6 +1714,7 @@
 	dupe.digest_oxy = digest_oxy
 	dupe.digest_tox = digest_tox
 	dupe.digest_clone = digest_clone
+	dupe.bellytemperature = bellytemperature
 	dupe.immutable = immutable
 	dupe.can_taste = can_taste
 	dupe.escapable = escapable
@@ -1704,6 +1752,7 @@
 	dupe.liquid_fullness3_messages = liquid_fullness3_messages
 	dupe.liquid_fullness4_messages = liquid_fullness4_messages
 	dupe.liquid_fullness5_messages = liquid_fullness5_messages
+	dupe.displayed_message_flags = displayed_message_flags
 	dupe.reagent_name = reagent_name
 	dupe.reagent_chosen = reagent_chosen
 	dupe.reagentid = reagentid
@@ -2162,3 +2211,12 @@
 	for(var/atom/movable/AM as anything in contents)
 		//if(AM.atom_flags & ATOM_HEAR)
 		. += AM
+
+/obj/belly/proc/get_belly_name(original)
+	var/display_name = ""
+	if(original)
+		return display_name ? display_name : name
+	return display_name ? lowertext(display_name) : lowertext(name)
+
+/obj/belly/proc/toggle_displayed_message_flags(flags_to_set)
+	displayed_message_flags ^= flags_to_set

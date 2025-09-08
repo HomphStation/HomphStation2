@@ -68,7 +68,7 @@
 	update_dir()
 
 /obj/machinery/conveyor/proc/update_dir()
-	if(!(dir in cardinal)) // Diagonal. Forwards is *away* from dir, curving to the right.
+	if(!(dir in GLOB.cardinal)) // Diagonal. Forwards is *away* from dir, curving to the right.
 		forwards = turn(dir, 45)
 		backwards = turn(dir, 135)
 	else
@@ -113,6 +113,8 @@
 		for(var/atom/movable/A in affecting)
 			if(istype(A,/obj/effect/abstract)) // Flashlight's lights are not physical objects
 				continue
+			if(A.is_incorporeal())
+				continue
 			if(!A.anchored)
 				if(A.loc == src.loc) // prevents the object from being affected if it's not currently here.
 					step(A,movedir)
@@ -132,12 +134,12 @@
 
 	if(istype(I, /obj/item/multitool))
 		if(panel_open)
-			var/input = sanitize(tgui_input_text(user, "What id would you like to give this conveyor?", "Multitool-Conveyor interface", id))
+			var/input = tgui_input_text(user, "What id would you like to give this conveyor?", "Multitool-Conveyor interface", id, MAX_MESSAGE_LEN)
 			if(!input)
 				to_chat(user, "No input found. Please hang up and try your call again.")
 				return
 			id = input
-			for(var/obj/machinery/conveyor_switch/C in machines)
+			for(var/obj/machinery/conveyor_switch/C in GLOB.machines)
 				if(C.id == id)
 					C.conveyors |= src
 			return
@@ -230,7 +232,7 @@
 
 /obj/machinery/conveyor_switch/LateInitialize()
 	conveyors = list()
-	for(var/obj/machinery/conveyor/C in machines)
+	for(var/obj/machinery/conveyor/C in GLOB.machines)
 		if(C.id == id)
 			conveyors += C
 
@@ -286,7 +288,7 @@
 	update()
 
 	// find any switches with same id as this one, and set their positions to match us
-	for(var/obj/machinery/conveyor_switch/S in machines)
+	for(var/obj/machinery/conveyor_switch/S in GLOB.machines)
 		if(S.id == src.id)
 			S.position = position
 			S.update()
@@ -304,7 +306,7 @@
 			to_chat(user, "The welding tool must be on to complete this task.")
 			return
 		playsound(src, WT.usesound, 50, 1)
-		if(do_after(user, 20 * WT.toolspeed))
+		if(do_after(user, 2 SECONDS * WT.toolspeed, target = src))
 			if(!src || !WT.isOn()) return
 			to_chat(user, span_notice("You deconstruct the frame."))
 			new /obj/item/stack/material/steel( src.loc, 2 )
@@ -312,13 +314,13 @@
 			return
 
 	if(I.has_tool_quality(TOOL_MULTITOOL))
-		var/input = sanitize(tgui_input_text(user, "What id would you like to give this conveyor switch?", "Multitool-Conveyor interface", id))
+		var/input = tgui_input_text(user, "What id would you like to give this conveyor switch?", "Multitool-Conveyor interface", id, MAX_MESSAGE_LEN)
 		if(!input)
 			to_chat(user, "No input found. Please hang up and try your call again.")
 			return
 		id = input
 		conveyors = list() // Clear list so they aren't double added.
-		for(var/obj/machinery/conveyor/C in machines)
+		for(var/obj/machinery/conveyor/C in GLOB.machines)
 			if(C.id == id)
 				conveyors += C
 		return
@@ -335,7 +337,6 @@
 			playsound(src, I.usesound, 50, 1)
 			return
 
-	//Ports making conveyors fast from CHOMPstation
 	if(I.has_tool_quality(TOOL_WIRECUTTER))
 		toggle_speed()
 		to_chat(user, "You adjust the speed of the conveyor switch")

@@ -27,7 +27,7 @@
 	var/list/data = list()
 	var/mob/living/host = user
 
-	data["db_version"] = "0.1"
+	data["db_version"] = "0.2"
 	data["db_repo"] = "chompstation" // CHOMPEdit
 	data["mob_name"] = host.real_name
 
@@ -39,9 +39,11 @@
 			// General Information
 			belly_data["name"] = B.name
 			belly_data["desc"] = B.desc
+			belly_data["display_name"] = B.display_name
 			belly_data["absorbed_desc"] = B.absorbed_desc
 			belly_data["vore_verb"] = B.vore_verb
 			belly_data["release_verb"] = B.release_verb
+			belly_data["prevent_saving"] = B.prevent_saving
 
 			// Controls
 			belly_data["mode"] = B.digest_mode
@@ -218,6 +220,14 @@
 			for(var/msg in B.examine_messages_absorbed)
 				belly_data["examine_messages_absorbed"] += msg
 
+			belly_data["trash_eater_in"] = list()
+			for(var/msg in B.trash_eater_in)
+				belly_data["trash_eater_in"] += msg
+
+			belly_data["trash_eater_out"] = list()
+			for(var/msg in B.trash_eater_out)
+				belly_data["trash_eater_out"] += msg
+
 			//belly_data["emote_list"] = list()
 			//for(var/EL in B.emote_lists)
 			//	for(var/msg in B.emote_lists[EL])
@@ -270,12 +280,17 @@
 			for(var/msg in B.emote_lists[DM_UNABSORB])
 				belly_data["emotes_unabsorb"] += msg
 
+			belly_data["displayed_message_flags"] = B.displayed_message_flags
+
 			// Options
 			belly_data["digest_brute"] = B.digest_brute
 			belly_data["digest_burn"] = B.digest_burn
 			belly_data["digest_oxy"] = B.digest_oxy
 			belly_data["digest_tox"] = B.digest_tox
 			belly_data["digest_clone"] = B.digest_clone
+
+			belly_data["bellytemperature"] = B.bellytemperature
+			belly_data["temperature_damage"] = B.temperature_damage
 
 			belly_data["can_taste"] = B.can_taste
 			belly_data["is_feedable"] = B.is_feedable
@@ -302,6 +317,8 @@
 			belly_data["item_digest_logs"] = B.item_digest_logs
 			belly_data["eating_privacy_local"] = B.eating_privacy_local
 			belly_data["private_struggle"] = B.private_struggle
+			belly_data["absorbedrename_enabled"] = B.absorbedrename_enabled
+			belly_data["absorbedrename_name"] = B.absorbedrename_name
 
 			// Sounds
 			belly_data["is_wet"] = B.is_wet
@@ -480,5 +497,21 @@
 			belly_data["fullness5_messages"] = list()
 			for(var/msg in B.fullness5_messages)
 				belly_data["fullness5_messages"] += msg
+
+	// Soulcatcher export
+	if(user.soulgem)
+		var/obj/soulgem/gem = user.soulgem
+		var/list/soulcatcher_data = list()
+		soulcatcher_data["name"] = gem.name
+		soulcatcher_data["setting_flags"] = gem.setting_flags
+		soulcatcher_data["inside_flavor"] = gem.inside_flavor
+		soulcatcher_data["capture_message"] = gem.capture_message
+		soulcatcher_data["transit_message"] = gem.transit_message
+		soulcatcher_data["release_message"] = gem.release_message
+		soulcatcher_data["transfer_message"] = gem.transfer_message
+		soulcatcher_data["delete_message"] = gem.delete_message
+		soulcatcher_data["linked_belly"] = gem.linked_belly
+
+		data["soulcatcher"] = soulcatcher_data
 
 	return data

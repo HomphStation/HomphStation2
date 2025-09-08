@@ -49,7 +49,7 @@
 	throw_range = 2
 	w_class = ITEMSIZE_SMALL
 	var/access = list()
-	access = access_crate_cash
+	access = ACCESS_CRATE_CASH
 	var/worth = 0
 
 /obj/item/spacecasinocash/attackby(obj/item/W as obj, mob/user as mob)
@@ -204,4 +204,4 @@
 	else if(result == 2)
 		comment = "Joker"
 	user.visible_message(span_notice("[user] has thrown \the [src]. It lands on [comment]! "), \
-						 span_notice("You throw \the [src]. It lands on [comment]! "))
+							span_notice("You throw \the [src]. It lands on [comment]! "))

@@ -87,6 +87,37 @@ GLOBAL_LIST_EMPTY(smeses)
 	if(!should_be_mapped)
 		warning("Non-buildable or Non-magical SMES at [src.x]X [src.y]Y [src.z]Z")
 
+/obj/machinery/power/smes/buildable/Initialize(mapload)
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/power/smes/buildable/LateInitialize()
+	// Detect new coils placed by mappers
+	var/list/parts_found = list()
+	for(var/i = 1, i <= loc.contents.len, i++)
+		var/obj/item/W = loc.contents[i]
+		if(istype(W, /obj/item/smes_coil))
+			parts_found.Add(W)
+	// If any coils are on us, clear base coils and rebuild using these ones
+	if(parts_found.len == 0)
+		return
+	while(TRUE)
+		var/obj/item/smes_coil/C = locate(/obj/item/smes_coil) in component_parts
+		if(isnull(C))
+			break
+		component_parts.Remove(C)
+		C.forceMove(src.loc)
+		qdel(C)
+		cur_coils--
+	// Rebuild from mapper's coils
+	for(var/i = 1, i <= parts_found.len, i++)
+		if (cur_coils < max_coils)
+			var/obj/item/W = parts_found[i]
+			cur_coils++
+			component_parts.Add(W)
+			W.forceMove(src)
+	RefreshParts()
+
 /obj/machinery/power/smes/Destroy()
 	for(var/obj/machinery/power/terminal/T in terminals)
 		T.master = null
@@ -264,7 +295,7 @@ GLOBAL_LIST_EMPTY(smeses)
 	if(check_terminal_exists(tempLoc, user, tempDir))
 		return 1
 	to_chat(user, span_filter_notice(span_notice("You start adding cable to the [src].")))
-	if(do_after(user, 50))
+	if(do_after(user, 5 SECONDS, target = src))
 		if(check_terminal_exists(tempLoc, user, tempDir))
 			return 1
 		var/obj/machinery/power/terminal/term = new/obj/machinery/power/terminal(tempLoc)
@@ -318,7 +349,7 @@ GLOBAL_LIST_EMPTY(smeses)
 		if(!damage)
 			to_chat(user, span_filter_notice("\The [src] is already fully repaired."))
 			return FALSE
-		if(WT.remove_fuel(0,user) && do_after(user, damage, src))
+		if(WT.remove_fuel(0,user) && do_after(user, damage, target = src))
 			to_chat(user, span_filter_notice("You repair all structural damage to \the [src]"))
 			damage = 0
 		return FALSE
@@ -360,7 +391,7 @@ GLOBAL_LIST_EMPTY(smeses)
 			else
 				to_chat(user, span_filter_notice(span_notice("You begin to cut the cables...")))
 				playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
-				if(do_after(user, 50 * W.toolspeed))
+				if(do_after(user, 5 SECONDS * W.toolspeed, target = src))
 					if (prob(50) && electrocute_mob(user, term.powernet, term))
 						var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 						s.set_up(5, 1, src)
@@ -419,6 +450,10 @@ GLOBAL_LIST_EMPTY(smeses)
 			. = TRUE
 		if("tryoutput")
 			outputting(!output_attempt)
+			if(output_attempt)
+				playsound(loc, 'sound/effects/contactor_on.ogg', 50, FALSE)
+			else
+				playsound(loc, 'sound/effects/contactor_off.ogg', 50, FALSE)
 			update_icon()
 			. = TRUE
 		if("input")

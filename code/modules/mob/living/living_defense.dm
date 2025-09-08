@@ -12,7 +12,7 @@
 	A number between 0 and 100, with higher numbers resulting in less damage taken.
 */
 /mob/living/proc/run_armor_check(var/def_zone = null, var/attack_flag = "melee", var/armour_pen = 0, var/absorb_text = null, var/soften_text = null)
-	if(Debug2)
+	if(GLOB.Debug2)
 		to_world_log("## DEBUG: getarmor() was called.")
 
 	if(armour_pen >= 100)
@@ -22,7 +22,7 @@
 	if(armor)
 		var/armor_variance_range = round(armor * 0.25) //Armor's effectiveness has a +25%/-25% variance.
 		var/armor_variance = rand(-armor_variance_range, armor_variance_range) //Get a random number between -25% and +25% of the armor's base value
-		if(Debug2)
+		if(GLOB.Debug2)
 			to_world_log("## DEBUG: The range of armor variance is [armor_variance_range].  The variance picked by RNG is [armor_variance].")
 
 		armor = min(armor + armor_variance, 100)	//Now we calcuate damage using the new armor percentage.
@@ -38,7 +38,7 @@
 				to_chat(src, span_danger("[soften_text]"))
 			else
 				to_chat(src, span_danger("Your armor softens the blow!"))
-		if(Debug2)
+		if(GLOB.Debug2)
 			to_world_log("## DEBUG: Armor when [src] was attacked was [armor].")
 	return armor
 
@@ -98,6 +98,12 @@
 	if(istype(L) && L.a_intent != I_HELP)
 		if(ai_holder) // Using disarm, grab, or harm intent is considered a hostile action to the mob's AI.
 			ai_holder.react_to_attack(L)
+	if(touch_reaction_flags & SPECIES_TRAIT_THORNS)
+		if(src != L)
+			L.apply_damage(3, BRUTE)
+			L.visible_message( \
+				span_warning("[L] is hurt by sharp body parts when touching [src]!"), \
+				span_warning("[src] is covered in sharp bits and it hurt when you touched them!"), )
 
 /mob/living/bullet_act(var/obj/item/projectile/P, var/def_zone)
 	//CHOMPedit begin, re-adds stealth removed feature
@@ -265,14 +271,13 @@
 /mob/living/hitby(atom/movable/AM as mob|obj,var/speed = THROWFORCE_SPEED_DIVISOR)//Standardization and logging -Sieve
 	if(is_incorporeal())
 		return
-	if(istype(AM,/obj/))
-		var/obj/O = AM
-		if(stat != DEAD && istype(O,/obj/item) && trash_catching && vore_selected) //ported from chompstation
-			var/obj/item/I = O
-			if(adminbus_trash || is_type_in_list(I,edible_trash) && I.trash_eatable && !is_type_in_list(I,item_vore_blacklist))
-				visible_message(span_vwarning("[I] is thrown directly into [src]'s [lowertext(vore_selected.name)]!")) //CHOMPEdit
-				I.throwing = 0
-				I.forceMove(vore_selected)
+	if(istype(AM,/obj/item))
+		var/obj/item/O = AM
+		if(stat != DEAD && trash_catching && vore_selected)
+			if(adminbus_trash || is_type_in_list(O, GLOB.edible_trash) && O.trash_eatable && !is_type_in_list(O, GLOB.item_vore_blacklist))
+				visible_message(span_vwarning("[O] is thrown directly into [src]'s [lowertext(vore_selected.name)]!"))
+				O.throwing = 0
+				O.forceMove(vore_selected)
 				return
 		var/dtype = O.damtype
 		var/throw_damage = O.throwforce*(speed/THROWFORCE_SPEED_DIVISOR)
@@ -304,10 +309,7 @@
 				ai_holder.react_to_attack(O.thrower)
 
 		// Begin BS12 momentum-transfer code.
-		var/mass = 1.5
-		if(istype(O, /obj/item))
-			var/obj/item/I = O
-			mass = I.w_class/THROWNOBJ_KNOCKBACK_DIVISOR
+		var/mass = O.w_class/THROWNOBJ_KNOCKBACK_DIVISOR
 		var/momentum = speed*mass
 
 		if(O.throw_source && momentum >= THROWNOBJ_KNOCKBACK_SPEED)
@@ -341,7 +343,7 @@
 		// PERSON BEING HIT: CAN BE DROP PRED, ALLOWS THROW VORE.
 		// PERSON BEING THROWN: DEVOURABLE, ALLOWS THROW VORE, CAN BE DROP PREY.
 		if((can_be_drop_pred && throw_vore) && (thrown_mob.devourable && thrown_mob.throw_vore && thrown_mob.can_be_drop_prey)) //Prey thrown into pred.
-			if(!thrown_mob.allowmobvore && isanimal(src) || !vore_selected) //Does the person being thrown not allow mob vore and is the person being hit (us) a simple_mob?
+			if(!thrown_mob.allowmobvore && isanimal(src) && !ckey || !vore_selected) //Does the person being thrown not allow mob vore and is the person being hit (us) a simple_mob?
 				return
 			vore_selected.nom_mob(thrown_mob) //Eat them!!!
 			visible_message(span_vwarning("[thrown_mob] is thrown right into [src]'s [lowertext(vore_selected.name)]!"))
@@ -354,7 +356,7 @@
 		// PERSON BEING HIT: CAN BE DROP PREY, ALLOWS THROW VORE, AND IS DEVOURABLE.
 		// PERSON BEING THROWN: CAN BE DROP PRED, ALLOWS THROW VORE.
 		else if((can_be_drop_prey && throw_vore && devourable) && (thrown_mob.can_be_drop_pred && thrown_mob.throw_vore)) //Pred thrown into prey.
-			if(!allowmobvore && isanimal(thrown_mob) || !thrown_mob.vore_selected) //Does the person being hit not allow mob vore and the perrson being thrown a simple_mob?
+			if(!allowmobvore && isanimal(thrown_mob) && !thrown_mob.ckey || !thrown_mob.vore_selected) //Does the person being hit not allow mob vore and the perrson being thrown a simple_mob?
 				return
 			visible_message(span_vwarning("[src] suddenly slips inside of [thrown_mob]'s [lowertext(thrown_mob.vore_selected.name)] as [thrown_mob] flies into them!"))
 			thrown_mob.vore_selected.nom_mob(src) //Eat them!!!
@@ -396,6 +398,15 @@
 // End BS12 momentum-transfer code.
 
 /mob/living/attack_generic(var/mob/user, var/damage, var/attack_message)
+	if(istype(user,/mob/living))
+		var/mob/living/L = user
+		if(touch_reaction_flags & SPECIES_TRAIT_THORNS)
+			if((src != L))
+				L.apply_damage(3, BRUTE)
+				L.visible_message( \
+					span_warning("[L] is hurt by sharp body parts when touching [src]!"), \
+					span_warning("[src] is covered in sharp bits and it hurt when you touched them!"), )
+
 	if(!damage)
 		return
 
@@ -601,7 +612,6 @@
 
 // damage ONE external organ, organ gets randomly selected from damaged ones.
 /mob/living/proc/take_organ_damage(var/brute, var/burn, var/emp=0)
-	if(status_flags & GODMODE)	return 0	//godmode
 	adjustBruteLoss(brute)
 	adjustFireLoss(burn)
 	src.updatehealth()
@@ -614,10 +624,16 @@
 
 // damage MANY external organs, in random order
 /mob/living/proc/take_overall_damage(var/brute, var/burn, var/used_weapon = null)
-	if(status_flags & GODMODE)	return 0	//godmode
 	adjustBruteLoss(brute)
 	adjustFireLoss(burn)
 	src.updatehealth()
 
 /mob/living/proc/restore_all_organs()
 	return
+
+/mob/living/proc/is_mouth_covered(head_only = FALSE, mask_only = FALSE)
+	return FALSE
+
+/mob/living/extrapolator_act(mob/living/user, obj/item/extrapolator/extrapolator, dry_run)
+	. = ..()
+	EXTRAPOLATOR_ACT_ADD_DISEASES(., viruses)

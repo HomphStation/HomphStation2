@@ -1,6 +1,6 @@
 /obj/item
 	name = "item"
-	icon = 'icons/obj/items.dmi'
+	icon = 'icons/obj/weapons.dmi' //'icons/obj/items.dmi' //It was accidentally set to weapons.dmi 11 months ago...leaving it as is until further analysis
 	w_class = ITEMSIZE_NORMAL
 	blocks_emissive = EMISSIVE_BLOCK_GENERIC
 
@@ -13,7 +13,7 @@
 	var/health = null
 	var/burn_point = null
 	var/burning = null
-	var/hitsound = null
+	var/hitsound = "swing_hit"
 	var/usesound = null // Like hitsound, but for when used properly and not to kill someone.
 	var/storage_cost = null
 	var/slot_flags = 0		//This is used to determine on which slots an item can fit.
@@ -25,8 +25,15 @@
 	var/list/origin_tech = null	//Used by R&D to determine what research bonuses it grants.
 	var/list/attack_verb //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
 	var/force = 0
+	var/damtype = BRUTE
+	var/throwforce = 0
+	var/sharp = FALSE		// whether this object cuts
+	var/edge = FALSE		// whether this object is more likely to dismember
+	var/armor_penetration = 0
+	var/catchable = TRUE
 	var/can_cleave = FALSE // If true, a 'cleaving' attack will occur.
-
+	var/pry = 0			//Used in attackby() to open doors
+	var/list/matter
 	var/heat_protection = 0 //flags which determine which body parts are protected from heat. Use the HEAD, UPPER_TORSO, LOWER_TORSO, etc. flags. See setup.dm
 	var/cold_protection = 0 //flags which determine which body parts are protected from cold. Use the HEAD, UPPER_TORSO, LOWER_TORSO, etc. flags. See setup.dm
 	var/max_heat_protection_temperature //Set this variable to determine up to which temperature (IN KELVIN) the item protects against heat damage. Keep at null to disable protection. Only protects areas set by heat_protection flags
@@ -112,7 +119,33 @@
 	var/climbing_delay = 1 //If rock_climbing, lower better.
 	var/digestable = TRUE
 	var/item_tf_spawn_allowed = FALSE
-	var/list/ckeys_allowed_itemspawn = list()
+	var/list/ckeys_allowed_itemspawn = null
+	var/datum/weakref/exploit_for //if this obj is an exploit for somebody, this points to them
+	var/preserve_item = 0 //whether this object is preserved when its owner goes into cryo-storage, gateway, etc
+	var/persist_storable = TRUE		//If this is true, this item can be stored in the item bank.
+									//This is automatically set to false when an item is removed from storage
+
+	var/list/possessed_voice //Allows for items to be possessed/inhabited by voices.
+	var/list/warned_of_possession //Checks to see who has been informed this item is possessed.
+	var/cleaving = FALSE // Used to avoid infinite cleaving.
+	var/list/tool_qualities
+	var/destroy_on_drop = FALSE	// Used by augments to determine if the item should destroy itself when dropped, or return to its master.
+	var/obj/item/organ/my_augment = null	// Used to reference the object's host organ.
+	var/datum/identification/identity = null
+	var/identity_type = /datum/identification
+	var/init_hide_identity = FALSE // Set to true to automatically obscure the object on initialization.
+
+	//Vorestuff
+	var/trash_eatable = TRUE
+	var/digest_stage = null
+	var/d_mult_old = 1 //digest stage descriptions
+	var/d_mult = 1 //digest stage descriptions
+	var/d_stage_overlay //digest stage effects
+	var/gurgled = FALSE
+	var/oldname
+	var/cleanname
+	var/cleandesc
+	var/gurgled_color
 
 /obj/item/Initialize(mapload)
 	. = ..()
@@ -138,7 +171,7 @@
 
 /obj/item/Destroy()
 	if(item_tf_spawn_allowed)
-		item_tf_spawnpoints -= src
+		GLOB.item_tf_spawnpoints -= src
 	if(ismob(loc))
 		var/mob/m = loc
 		m.drop_from_inventory(src)
@@ -176,7 +209,7 @@
 		CRASH("item add_item_action got a type or instance of something that wasn't an action.")
 
 	LAZYADD(actions, action)
-	RegisterSignal(action, COMSIG_PARENT_QDELETING, PROC_REF(on_action_deleted))
+	RegisterSignal(action, COMSIG_QDELETING, PROC_REF(on_action_deleted))
 	if(ismob(loc))
 		// We're being held or are equipped by someone while adding an action?
 		// Then they should also probably be granted the action, given it's in a correct slot
@@ -190,7 +223,7 @@
 	if(!action)
 		return
 
-	UnregisterSignal(action, COMSIG_PARENT_QDELETING)
+	UnregisterSignal(action, COMSIG_QDELETING)
 	LAZYREMOVE(actions, action)
 	qdel(action)
 
@@ -290,9 +323,9 @@
 		return // End CHOMPStation Edit
 	if (hasorgans(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+		var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 		if (user.hand)
-			temp = H.organs_by_name["l_hand"]
+			temp = H.organs_by_name[BP_L_HAND]
 		if(temp && !temp.is_usable())
 			to_chat(user, span_notice("You try to move your [temp.name], but cannot!"))
 			return
@@ -398,6 +431,7 @@
 
 // called just as an item is picked up (loc is not yet changed)
 /obj/item/proc/pickup(mob/user)
+	SEND_SIGNAL(src, COMSIG_ITEM_PICKUP, user)
 	pixel_x = 0
 	pixel_y = 0
 	return
@@ -428,14 +462,13 @@
 	if(user.client)	user.client.screen |= src
 	if(user.pulling == src) user.stop_pulling()
 	if(("[slot]" in slot_flags_enumeration) && (slot_flags & slot_flags_enumeration["[slot]"]))
-		if(equip_sound && !muffled_by_belly(user)) //ChompEDIT
+		if(equip_sound && !muffled_by_belly(user))
 			playsound(src, equip_sound, 20, preference = /datum/preference/toggle/pickup_sounds)
-		else if(!muffled_by_belly(user)) //ChompEDIT
+		else if(!muffled_by_belly(user))
 			playsound(src, drop_sound, 20, preference = /datum/preference/toggle/pickup_sounds)
 	else if(slot == slot_l_hand || slot == slot_r_hand)
-		if(!muffled_by_belly(user)) //ChompEDIT
+		if(!muffled_by_belly(user))
 			playsound(src, pickup_sound, 20, preference = /datum/preference/toggle/pickup_sounds)
-	return
 
 /// Gives one of our item actions to a mob, when equipped to a certain slot
 /obj/item/proc/give_item_action(datum/action/action, mob/to_who, slot)
@@ -590,14 +623,14 @@ var/list/global/slot_flags_enumeration = list(
 
 	if(!(usr)) //BS12 EDIT
 		return
-	if(!usr.canmove || usr.stat || usr.restrained() || !Adjacent(usr))
+	if(!usr.canmove || usr.stat || usr.restrained() || !Adjacent(usr) || usr.is_incorporeal())
 		return
 	if(isanimal(usr))	//VOREStation Edit Start - Allows simple mobs with hands to use the pickup verb
 		var/mob/living/simple_mob/s = usr
 		if(!s.has_hands)
 			to_chat(usr, span_warning("You can't pick things up!"))
 			return
-	else if((!istype(usr, /mob/living/carbon)) || (istype(usr, /mob/living/carbon/brain)))//Is humanoid, and is not a brain
+	else if((!iscarbon(usr)) || (isbrain(usr)))//Is humanoid, and is not a brain
 		to_chat(usr, span_warning("You can't pick things up!"))
 		return
 	var/mob/living/L = usr
@@ -610,7 +643,7 @@ var/list/global/slot_flags_enumeration = list(
 	if(L.get_active_hand()) //Hand is not full	//VOREStation Edit End
 		to_chat(usr, span_warning("Your hand is full."))
 		return
-	if(!istype(src.loc, /turf)) //Object is on a turf
+	if(!isturf(src.loc)) //Object is on a turf
 		to_chat(usr, span_warning("You can't pick that up!"))
 		return
 	//All checks are done, time to pick it up!
@@ -634,7 +667,7 @@ var/list/global/slot_flags_enumeration = list(
 
 /obj/item/proc/get_loc_turf()
 	var/atom/L = loc
-	while(L && !istype(L, /turf/))
+	while(L && !isturf(L))
 		L = L.loc
 	return loc
 
@@ -714,11 +747,6 @@ var/list/global/slot_flags_enumeration = list(
 	M.eye_blurry += rand(3,4)
 	return
 
-/obj/item/clean_blood()
-	. = ..()
-	if(blood_overlay)
-		overlays.Remove(blood_overlay)
-
 /obj/item/reveal_blood()
 	if(was_bloodied && !fluorescent)
 		fluorescent = 1
@@ -742,12 +770,9 @@ var/list/global/slot_flags_enumeration = list(
 	//Make the blood_overlay have the proper color then apply it.
 	blood_overlay.color = blood_color
 	add_overlay(blood_overlay)
-
-	//if this blood isn't already in the list, add it
 	if(istype(M))
-		if(blood_DNA[M.dna.unique_enzymes])
-			return 0 //already bloodied with this blood. Cannot add more.
-		blood_DNA[M.dna.unique_enzymes] = M.dna.b_type
+		add_blooddna(M.dna,M)
+
 	return 1 //we applied blood to the item
 
 GLOBAL_LIST_EMPTY(blood_overlays_by_type)
@@ -790,7 +815,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 /obj/item/var/ignore_visor_zoom_restriction = FALSE
 
 /obj/item/proc/zoom(var/mob/living/M, var/tileoffset = 14,var/viewsize = 9) //tileoffset is client view offset in the direction the user is facing. viewsize is how far out this thing zooms. 7 is normal view
-
+	SIGNAL_HANDLER
 	if(isliving(usr)) //Always prefer usr if set
 		M = usr
 
@@ -810,7 +835,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	if((M.stat && !zoom) || !(ishuman(M)))
 		to_chat(M, span_filter_notice("You are unable to focus through the [devicename]."))
 		cannotzoom = 1
-	else if(!zoom && (global_hud.darkMask[1] in M.client.screen))
+	else if(!zoom && (GLOB.global_hud.darkMask[1] in M.client.screen))
 		to_chat(M, span_filter_notice("Your visor gets in the way of looking through the [devicename]."))
 		cannotzoom = 1
 	else if(!zoom && M.get_active_hand() != src)
@@ -913,7 +938,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 
 	// testing("[src] (\ref[src]) - Slot: [slot_name], Inhands: [inhands], Worn Icon:[icon2use], Worn State:[state2use], Worn Layer:[layer2use]")
 	// Send icon data to unit test when it is running, hello old testing(). I'm like, your great great grandkid! THE FUTURE IS NOW OLD MAN!
-	#ifdef UNIT_TEST
+	#ifdef UNIT_TESTS
 	var/mob/living/carbon/human/H = loc
 	if(ishuman(H))
 		SEND_SIGNAL(H, COMSIG_UNITTEST_DATA, list("set_slot",slot_name,icon2use,state2use,inhands,type,H.species?.name))
@@ -955,13 +980,17 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	//2: species-specific sprite sheets (skipped for inhands)
 	if(LAZYLEN(sprite_sheets) && !inhands)
 		var/sheet = sprite_sheets[body_type]
-		if(sheet)
+		if(sheet && icon_exists(sheet, icon_state)) //Checks to make sure our custom sheet actually HAS the icon_state
 			return sheet
 
 	//3: slot-specific sprite sheets
 	if(LAZYLEN(item_icons))
 		var/sheet = item_icons[slot_name]
 		if(sheet)
+			/* //Alerts that we are equipping an item that has no item_state for the slot-specific icon sheet. Commented out because it's not really too important.
+			if(!icon_exists(sheet, icon_state))
+				log_debug("Item [src] is equippable on the [slot_name] but has no sprite for it!")
+			*/
 			return sheet
 
 	//4: item's default icon
@@ -1033,6 +1062,8 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 
 /obj/item/MouseEntered(location,control,params)
 	. = ..()
+	if(QDELETED(src))
+		return
 	if(usr?.read_preference(/datum/preference/toggle/inv_tooltips) && ((src in usr) || isstorage(loc))) // If in inventory or in storage we're looking at
 		var/user = usr
 		tip_timer = addtimer(CALLBACK(src, PROC_REF(openTip), location, control, params, user), 5, TIMER_STOPPABLE)
@@ -1129,9 +1160,53 @@ Note: This proc can be overwritten to allow for different types of auto-alignmen
 /obj/item/proc/item_tf_spawnpoint_set()
 	if(!item_tf_spawn_allowed)
 		item_tf_spawn_allowed = TRUE
-		item_tf_spawnpoints += src
+		GLOB.item_tf_spawnpoints += src
 
 /obj/item/proc/item_tf_spawnpoint_used()
 	if(item_tf_spawn_allowed)
 		item_tf_spawn_allowed = FALSE
-		item_tf_spawnpoints -= src
+		GLOB.item_tf_spawnpoints -= src
+
+// Ported from TG, used when dropping items on tables/closets.
+/obj/item/proc/do_drop_animation(atom/moving_from)
+	if(!istype(loc, /turf))
+		return
+
+	var/turf/current_turf = get_turf(src)
+	var/direction = get_dir(moving_from, current_turf)
+	var/from_x = moving_from.pixel_x
+	var/from_y = moving_from.pixel_y
+
+	if(direction & NORTH)
+		from_y -= 32
+	else if(direction & SOUTH)
+		from_y += 32
+	if(direction & EAST)
+		from_x -= 32
+	else if(direction & WEST)
+		from_x += 32
+	if(!direction)
+		from_y += 10
+		from_x += 6 * (prob(50) ? 1 : -1)
+
+	var/old_x = pixel_x
+	var/old_y = pixel_y
+	var/old_alpha = alpha
+	var/matrix/old_transform = transform
+	var/matrix/animation_matrix = new(old_transform)
+	animation_matrix.Turn(pick(-30, 30))
+	animation_matrix.Scale(0.7)
+
+	pixel_x = from_x
+	pixel_y = from_y
+	alpha = 0
+	transform = animation_matrix
+
+	animate(src, alpha = old_alpha, pixel_x = old_x, pixel_y = old_y, transform = old_transform, time = 3, easing = CUBIC_EASING)
+
+/obj/item/wash(clean_types)
+	. = ..()
+	if(cleanname)
+		name = cleanname
+	if(cleandesc)
+		desc = cleandesc

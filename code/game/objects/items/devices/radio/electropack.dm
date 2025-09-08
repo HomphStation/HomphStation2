@@ -7,7 +7,7 @@
 			slot_r_hand_str = 'icons/mob/items/righthand_storage.dmi',
 			)
 	item_state = "electropack"
-	frequency = 1449
+	frequency = AMAG_ELE_FREQ
 	slot_flags = SLOT_BACK
 	w_class = ITEMSIZE_HUGE
 
@@ -47,7 +47,7 @@
 	//..()
 	if(usr.stat || usr.restrained())
 		return
-	if(((ishuman(usr) && ((!( ticker ) || (ticker && ticker.mode != "monkey")) && usr.contents.Find(src))) || (usr.contents.Find(master) || (in_range(src, usr) && istype(loc, /turf)))))
+	if(((ishuman(usr) && ((!( SSticker ) || (SSticker && SSticker.mode != "monkey")) && usr.contents.Find(src))) || (usr.contents.Find(master) || (in_range(src, usr) && istype(loc, /turf)))))
 		usr.set_machine(src)
 		if(href_list["freq"])
 			var/new_frequency = sanitize_frequency(frequency + text2num(href_list["freq"]))
@@ -90,11 +90,9 @@
 		var/turf/T = M.loc
 		if(istype(T, /turf))
 			if(!M.moved_recently && M.last_move)
-				M.moved_recently = 1
+				M.moved_recently = TRUE
 				step(M, M.last_move)
-				sleep(50)
-				if(M)
-					M.moved_recently = 0
+				addtimer(VARSET_CALLBACK(M, moved_recently, FALSE), 5 SECONDS, TIMER_DELETE_ME)
 		to_chat(M, span_danger("You feel a sharp shock!"))
 		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 		s.set_up(3, 1, M)

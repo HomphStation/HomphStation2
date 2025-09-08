@@ -100,10 +100,15 @@
 
 /turf/simulated/wall/durasteel/Initialize(mapload)
 	. = ..(mapload, MAT_DURASTEEL, MAT_DURASTEEL)
-/turf/simulated/wall/durasteel/blueserg/New(var/newloc)
-	..(newloc,MAT_DURASTEEL, MAT_DURASTEEL)
+
+// CHOMPAdd Start
+/turf/simulated/wall/durasteel/blueserg/Initialize(mapload)
+	. = ..(mapload, MAT_DURASTEEL, MAT_DURASTEEL)
+
 /turf/simulated/wall/durasteel/blueserg/attackby(obj/item/I, mob/user)
 	return
+// CHOMPAdd ENd
+
 /turf/simulated/wall/wood/Initialize(mapload)
 	. = ..(mapload,  MAT_WOOD)
 
@@ -349,7 +354,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/hull_corner/LateInitialize()
-	. = ..()
 	update_look()
 
 /obj/structure/hull_corner/proc/get_dirs_to_test()
@@ -409,7 +413,7 @@
 
 /turf/simulated/wall/eris/special_wall_connections(list/dirs, list/inrange)
 	..()
-	for(var/direction in cardinal)
+	for(var/direction in GLOB.cardinal)
 		var/turf/T = get_step(src, direction)
 		var/decided_to_blend = FALSE
 		blend_obj_loop:
@@ -457,7 +461,7 @@
 
 /turf/simulated/wall/bay/special_wall_connections(list/dirs, list/inrange)
 	..()
-	for(var/direction in cardinal)
+	for(var/direction in GLOB.cardinal)
 		var/turf/T = get_step(src, direction)
 		var/decided_to_blend = FALSE
 		blend_obj_loop:
@@ -523,7 +527,7 @@
 	if(!material)
 		return
 	var/dirs = 0
-	var/list_to_use = diagonal_blending ? alldirs : cardinal
+	var/list_to_use = diagonal_blending ? GLOB.alldirs : GLOB.cardinal
 	main_direction_loop:
 		for(var/direction in list_to_use)
 			var/turf/simulated/wall/tgmc/W = get_step(src, direction)
@@ -602,6 +606,10 @@
 /turf/simulated/wall/tgmc/darkwall/deco3
 	icon_state = "darkwall_deco3"
 	force_icon = "_deco3"
+/turf/simulated/wall/tgmc/darkwall/fake_door
+	icon = 'icons/obj/doors/angled/elevator/door.dmi'
+	icon_state = "preview"
+	name = "locked elevator"
 
 /turf/simulated/wall/tgmc/whitewall
 	icon_state = "white0"

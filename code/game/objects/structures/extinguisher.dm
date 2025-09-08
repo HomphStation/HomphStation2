@@ -35,7 +35,7 @@
 		if(!has_extinguisher)
 			to_chat(user, span_notice("You start to unwrench the extinguisher cabinet."))
 			playsound(src, O.usesound, 50, 1)
-			if(do_after(user, 15 * O.toolspeed))
+			if(do_after(user, 15 * O.toolspeed, target = src))
 				to_chat(user, span_notice("You unwrench the extinguisher cabinet."))
 				new /obj/item/frame/extinguisher_cabinet( src.loc )
 				qdel(src)
@@ -50,9 +50,9 @@
 		return
 	if (ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+		var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 		if (user.hand)
-			temp = H.organs_by_name["l_hand"]
+			temp = H.organs_by_name[BP_L_HAND]
 		if(temp && !temp.is_usable())
 			to_chat(user, span_notice("You try to move your [temp.name], but cannot!"))
 			return

@@ -207,7 +207,7 @@
 	)
 
 //CHOMPedit: Exploration outpost ambience. Current tracks taken from Rainworld and Natural Selection 2.
-#define AMBIENCE_EXPOUTPOST list(\
+#define AMBIENCE_OUTPOST list(\
 	'sound/ambience/expoutpost/expoutpost1.ogg',\
 	'sound/ambience/expoutpost/expoutpost2.ogg',\
 	'sound/ambience/expoutpost/expoutpost3.ogg',\
@@ -244,7 +244,7 @@
 
 // CHOMPEdit: New Planet Ambience
 #define AMBIENCE_THOR list(\
-	'modular_chomp/sound/ambience/thor/birds_stinger1.ogg',\
-	'modular_chomp/sound/ambience/thor/birds_stinger2.ogg',\
-	'modular_chomp/sound/ambience/thor/birds_stinger3.ogg'\
+	'sound/ambience/thor/birds_stinger1.ogg',\
+	'sound/ambience/thor/birds_stinger2.ogg',\
+	'sound/ambience/thor/birds_stinger3.ogg'\
 )

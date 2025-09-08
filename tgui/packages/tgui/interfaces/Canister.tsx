@@ -8,11 +8,11 @@ import {
   Knob,
   LabeledControls,
   LabeledList,
+  RoundGauge,
   Section,
   Tooltip,
 } from 'tgui-core/components';
 import { formatSiUnit } from 'tgui-core/format';
-import { toFixed } from 'tgui-core/math';
 import type { BooleanLike } from 'tgui-core/react';
 
 type Data = {
@@ -41,7 +41,7 @@ export const Canister = (props) => {
     holding,
   } = data;
   return (
-    <Window width={360} height={242}>
+    <Window width={360} height={300}>
       <Window.Content>
         <Section
           title="Canister"
@@ -57,19 +57,29 @@ export const Canister = (props) => {
         >
           <LabeledControls>
             <LabeledControls.Item minWidth="66px" label="Tank Pressure">
-              <AnimatedNumber
+              <RoundGauge
+                size={2}
                 value={pressure}
+                ranges={{
+                  bad: [0, 101.325],
+                  average: [101.325, 101.325 * 15],
+                  good: [101.325 * 15, 10000],
+                }}
                 format={(value) => {
                   if (value < 10000) {
-                    return toFixed(value) + ' kPa';
+                    return `${(value).toFixed()} kPa`;
                   }
                   return formatSiUnit(value * 1000, 1, 'Pa');
                 }}
+                minValue={0}
+                maxValue={10000}
               />
             </LabeledControls.Item>
             <LabeledControls.Item label="Regulator">
               <Box position="relative" left="-8px">
                 <Knob
+                  tickWhileDragging
+                  format={(value) => value.toFixed(2)}
                   size={1.25}
                   color={!!valveOpen && 'yellow'}
                   value={releasePressure}
@@ -77,7 +87,7 @@ export const Canister = (props) => {
                   minValue={minReleasePressure}
                   maxValue={maxReleasePressure}
                   stepPixelSize={1}
-                  onDrag={(e, value: number) =>
+                  onChange={(e, value: number) =>
                     act('pressure', {
                       pressure: value,
                     })

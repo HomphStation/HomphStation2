@@ -33,6 +33,7 @@
 	var/interface_path = "RIGSuit"
 	var/ai_interface_path = "RIGSuit"
 	var/interface_title = "Hardsuit Controller"
+	var/interface_intro = "NT"
 	var/wearer_move_delay //Used for AI moving.
 	var/ai_controlled_move_delay = 10
 
@@ -70,6 +71,7 @@
 	// Rig status vars.
 	var/open = 0                                              // Access panel status.
 	var/locked = 1                                            // Lock status.
+	var/unremovable = FALSE											//If the rig can be removed or not. Used for protean rigs.
 	var/subverted = 0
 	var/interface_locked = 0
 	var/control_overridden = 0
@@ -184,6 +186,11 @@
 	qdel(spark_system)
 	spark_system = null
 	return ..()
+
+/obj/item/rig/MouseDrop(obj/over_object)
+	if(unremovable)
+		return
+	..()
 
 /obj/item/rig/examine(mob/user)
 	. = ..()
@@ -313,7 +320,7 @@
 
 		if(!instant)
 			M.visible_message(span_notice("[M]'s suit emits a quiet hum as it begins to adjust its seals."),span_notice("With a quiet hum, the suit begins running checks and adjusting components."))
-			if(seal_delay && !do_after(M,seal_delay))
+			if(seal_delay && !do_after(M, seal_delay, target = src))
 				if(M)
 					to_chat(M, span_warning("You must remain still while the suit is adjusting the components."))
 					playsound(src, 'sound/machines/rig/rigerror.ogg', 20, FALSE)
@@ -339,7 +346,7 @@
 
 				if(!failed_to_seal && (M.back == src || M.belt == src) && piece == compare_piece)
 
-					if(seal_delay && !instant && !do_after(M,seal_delay,needhand=0))
+					if(seal_delay && !instant && !do_after(M, seal_delay, target = src))
 						failed_to_seal = 1
 
 					piece.icon_state = "[suit_state][!seal_target ? "_sealed" : ""]"
@@ -675,7 +682,7 @@
 
 	if(seal_delay > 0 && istype(M) && (M.back == src || M.belt == src))
 		M.visible_message(span_notice("[M] starts putting on \the [src]..."), span_notice("You start putting on \the [src]..."))
-		if(!do_after(M,seal_delay))
+		if(!do_after(M, seal_delay, target = src))
 			if(M && (M.back == src || M.belt == src))
 				if(!M.unEquip(src))
 					return
@@ -797,6 +804,8 @@
 
 /obj/item/rig/dropped(mob/user)
 	. = ..(user)
+	// So the next user will see the boot animation
+	tgui_shared_states?.Cut()
 	for(var/piece in list("helmet","gauntlets","chest","boots"))
 		toggle_piece(piece, user, ONLY_RETRACT)
 	if(wearer && wearer.wearing_rig == src)
@@ -952,7 +961,7 @@
 			return 0
 
 	if(malfunctioning)
-		direction = pick(cardinal)
+		direction = pick(GLOB.cardinal)
 
 	// Inside an object, tell it we moved.
 	if(isobj(wearer.loc) || ismob(wearer.loc))
@@ -990,8 +999,8 @@
 			return wearer.pulledby.relaymove(wearer, direction)
 		else if(istype(wearer.buckled, /obj/structure/bed/chair/wheelchair))
 			if(ishuman(wearer.buckled))
-				var/obj/item/organ/external/l_hand = wearer.get_organ("l_hand")
-				var/obj/item/organ/external/r_hand = wearer.get_organ("r_hand")
+				var/obj/item/organ/external/l_hand = wearer.get_organ(BP_L_HAND)
+				var/obj/item/organ/external/r_hand = wearer.get_organ(BP_R_HAND)
 				if((!l_hand || (l_hand.status & ORGAN_DESTROYED)) && (!r_hand || (r_hand.status & ORGAN_DESTROYED)))
 					return // No hands to drive your chair? Tough luck!
 			wearer_move_delay += 2

@@ -53,11 +53,9 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 	ooc_notes = M.ooc_notes
 	ooc_notes_likes = M.ooc_notes_likes
 	ooc_notes_dislikes = M.ooc_notes_dislikes
-	//CHOMPEdit Start
 	ooc_notes_favs = M.ooc_notes_favs
 	ooc_notes_maybes = M.ooc_notes_maybes
 	ooc_notes_style = M.ooc_notes_style
-	//CHOMPEdit End
 	stored_mind = M.mind
 	M.ghostize()
 	stored_mind.current = null
@@ -69,11 +67,9 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 	M.ooc_notes = ooc_notes
 	M.ooc_notes_likes = ooc_notes_likes
 	M.ooc_notes_dislikes = ooc_notes_dislikes
-	//CHOMPEdit Start
 	M.ooc_notes_favs = ooc_notes_favs
 	M.ooc_notes_maybes = ooc_notes_maybes
 	M.ooc_notes_style = ooc_notes_style
-	//CHOMPEdit End
 	clear_mind()
 
 
@@ -201,7 +197,7 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 		return
 
 	var/target_ref = href_list["target"]
-	var/mob/living/target = locate(target_ref) in mob_list
+	var/mob/living/target = locate(target_ref) in GLOB.mob_list
 	if(!target)
 		to_chat(usr,span_warning("Unable to operate on that target."))
 		return
@@ -212,7 +208,7 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 
 	//The actual options
 	if(href_list["mindscan"])
-		if(!target.mind || (target.mind.name in prevent_respawns))
+		if(!target.mind || (target.mind.name in GLOB.prevent_respawns))
 			to_chat(usr,span_warning("Target seems totally braindead."))
 			return
 
@@ -223,7 +219,7 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 			persist_nif_data(H)
 
 		usr.visible_message("[usr] begins scanning [target]'s mind.",span_notice("You begin scanning [target]'s mind."))
-		if(do_after(usr,8 SECONDS,target))
+		if(do_after(usr, 8 SECONDS, target))
 			our_db.m_backup(target.mind,nif,one_time = TRUE)
 			to_chat(usr,span_notice("Mind backed up!"))
 		else
@@ -239,7 +235,7 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 		var/mob/living/carbon/human/H = target
 
 		usr.visible_message("[usr] begins scanning [target]'s body.",span_notice("You begin scanning [target]'s body."))
-		if(do_after(usr,8 SECONDS,target))
+		if(do_after(usr, 8 SECONDS, target))
 			var/datum/transhuman/body_record/BR = new()
 			BR.init_from_mob(H, TRUE, TRUE, database_key = db_key)
 			to_chat(usr,span_notice("Body scanned!"))
@@ -249,7 +245,7 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 		return
 
 	if(href_list["mindsteal"])
-		if(!target.mind || (target.mind.name in prevent_respawns))
+		if(!target.mind || (target.mind.name in GLOB.prevent_respawns))
 			to_chat(usr,span_warning("Target seems totally braindead."))
 			return
 
@@ -261,7 +257,7 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 		if(choice == "Continue" && usr.get_active_hand() == src && usr.Adjacent(target))
 
 			usr.visible_message(span_warning("[usr] begins downloading [target]'s mind!"),span_notice("You begin downloading [target]'s mind!"))
-			if(do_after(usr,35 SECONDS,target)) //This is powerful, yo.
+			if(do_after(usr, 35 SECONDS, target)) //This is powerful, yo.
 				if(!stored_mind && target.mind)
 					get_mind(target)
 					to_chat(usr,span_notice("Mind downloaded!"))
@@ -306,9 +302,13 @@ var/global/mob/living/carbon/human/dummy/mannequin/sleevemate_mob
 			if(H.resleeve_lock && stored_mind.loaded_from_ckey != H.resleeve_lock)
 				to_chat(usr,span_warning("\The [H] is protected from impersonation!"))
 				return
+			//Changeling bodies. Only changelings can be put in them.
+			if(H.changeling_locked && !is_changeling(stored_mind))
+				to_chat(usr,span_warning("\The [H] is too complex to put this mind into!"))
+				return
 
 		usr.visible_message(span_warning("[usr] begins uploading someone's mind into [target]!"),span_notice("You begin uploading a mind into [target]!"))
-		if(do_after(usr,35 SECONDS,target))
+		if(do_after(usr, 35 SECONDS, target))
 			if(!stored_mind)
 				to_chat(usr,span_warning("\The [src] no longer has a stored mind."))
 				return

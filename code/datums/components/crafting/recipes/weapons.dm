@@ -14,10 +14,10 @@
 	reqs = list(list(/obj/item/handcuffs/cable = 1),
 				list(/obj/item/stack/rods = 1),
 				list(/obj/item/material/shard = 1,
-					 /obj/item/material/butterflyblade = 1)
+						/obj/item/material/butterflyblade = 1)
 				)
 	parts = list(/obj/item/material/shard = 1,
-				 /obj/item/material/butterflyblade = 1)
+					/obj/item/material/butterflyblade = 1)
 	time = 40
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
@@ -63,5 +63,18 @@
 	reqs = list(list(/obj/item/binoculars/scope = 1),
 		list(/obj/item/gun/projectile/shotgun/pump/rifle = 1))
 	time = 180
+	category = CAT_WEAPONRY
+	subcategory = CAT_WEAPON
+
+/datum/crafting_recipe/ziplaser
+	name = "Ziplaser"
+	result = /obj/item/gun/energy/zip/craftable
+	reqs = list(list(/obj/item/cell/high  = 1),
+		list(/obj/item/stack/rods  = 2),
+		list(/obj/item/stack/material/steel  = 8),
+		list(/obj/item/stack/material/plastic  = 5),
+		list(/obj/item/cell/device  = 2)
+		)
+	time = 120
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON

@@ -35,7 +35,7 @@
 	say_list_type = /datum/say_list/horse
 	ai_holder_type = /datum/ai_holder/simple_mob/retaliate
 
-	can_be_drop_prey = FALSE //CHOMP Add
+	can_be_drop_prey = FALSE
 	allow_mind_transfer = TRUE
 
 /mob/living/simple_mob/vore/horse/big
@@ -80,11 +80,7 @@
 /mob/living/simple_mob/vore/horse/MouseDrop_T(mob/living/M, mob/living/user)
 	return
 
-/mob/living/simple_mob/vore/horse/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
+/mob/living/simple_mob/vore/horse/load_default_bellies()
 	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
@@ -141,11 +137,7 @@
 	vore_pounce_maxhealth = 200
 	vore_bump_emote	= "chomps down on"
 
-/mob/living/simple_mob/vore/horse/kelpie/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
+/mob/living/simple_mob/vore/horse/kelpie/load_default_bellies()
 	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
@@ -201,7 +193,7 @@
 				return
 
 			var/moving_to = 0 // Apparently this is required or it always picks 4, according to the previous developer for simplemob AI.
-			moving_to = pick(cardinal)
+			moving_to = pick(GLOB.cardinal)
 			holder.set_dir(moving_to)
 			holder.IMove(get_step(holder,moving_to))
 			wander_delay = base_wander_delay

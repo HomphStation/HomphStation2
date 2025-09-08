@@ -154,7 +154,7 @@
 
 	playsound(src, W.usesound, 50, 1)
 
-	if (do_after(user, 10 * W.toolspeed))
+	if (do_after(user, 10 * W.toolspeed, target = src))
 		user.visible_message( \
 			span_infoplain(span_bold("\The [user]") + " unfastens \the [src]."), \
 			span_notice("You have unfastened \the [src]."), \
@@ -187,7 +187,7 @@
 
 /obj/machinery/atmospherics/pipe/hide(var/i)
 	if(istype(loc, /turf/simulated))
-		invisibility = i ? 101 : 0
+		invisibility = i ? INVISIBILITY_ABSTRACT : INVISIBILITY_NONE
 	update_icon()
 
 /obj/machinery/atmospherics/pipe/process()

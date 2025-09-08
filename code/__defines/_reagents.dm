@@ -6,27 +6,34 @@
 
 // Gasses
 #define GAS_CO2 "carbon_dioxide"
+#define GASNAME_CO2 "Carbon Dioxide"
 #define GAS_N2 "nitrogen"
+#define GASNAME_N2 "Nitrogen"
 #define GAS_N2O "nitrous_oxide"
+#define GASNAME_N2O "Nitrous Oxide"
 #define GAS_O2 "oxygen"
+#define GASNAME_O2 "Oxygen"
 #define GAS_PHORON "phoron"
+#define GASNAME_PHORON "Phoron"
 #define GAS_VOLATILE_FUEL "volatile_fuel"
+#define GASNAME_VOLATILE_FUEL "Volatile Fuel"
+#define GAS_CH4 "methane"
+#define GASNAME_CH4 "Methane"
 
 
 // Gas Reagents
-#define REAGENT_CARBON_DIOXIDE "Carbon Dioxide"
 #define REAGENT_NITROGEN "Nitrogen"
 #define REAGENT_ID_NITROGEN "nitrogen"
-#define REAGENT_NITROUS_OXIDE "Nitrous Oxide"
 #define REAGENT_OXYGEN "Oxygen"
 #define REAGENT_ID_OXYGEN "oxygen"
-#define REAGENT_VOLATILE_FUEL "Volatile Fuel"
 #define REAGENT_HYDROGEN "Hydrogen"
 #define REAGENT_ID_HYDROGEN "hydrogen"
 #define REAGENT_FLUORINE "Fluorine"
 #define REAGENT_ID_FLUORINE "fluorine"
 #define REAGENT_CHLORINE "Chlorine"
 #define REAGENT_ID_CHLORINE "chlorine"
+#define REAGENT_MIASMA "Miasma"
+#define REAGENT_ID_MIASMA "miasma"
 
 
 // Fluid Reagents
@@ -83,11 +90,12 @@
 #define REAGENT_ID_TUNGSTEN "tungsten"
 #define REAGENT_NUTRIMENT "Nutriment"
 #define REAGENT_ID_NUTRIMENT "nutriment"
-#define REAGENT_STEEL "Liquid Steel"
-#define REAGENT_ID_STEEL "steel"
-#define REAGENT_PLASTEEL "Liquid Plasteel"
-#define REAGENT_ID_PLASTEEL "plasteel"
-
+#define REAGENT_TITANIUM "Titanium"
+#define REAGENT_ID_TITANIUM "titanium"
+#define REAGENT_TITANIUMDIOX "Titanium dioxide"
+#define REAGENT_ID_TITANIUMDIOX "titanium_diox"
+#define REAGENT_TIN	"Tin"
+#define REAGENT_ID_TIN "tin"
 
 // Xeno chem react
 #define XENO_CHEM_NUTRI "nutr"
@@ -146,6 +154,8 @@
 #define REAGENT_ID_PAROXETINE "paroxetine"
 #define REAGENT_QERRQUEM "Qerr-quem"
 #define REAGENT_ID_QERRQUEM "qerr_quem"
+#define REAGENT_APHRODISIAC "Aphrodisiac"
+#define REAGENT_ID_APHRODISIAC "aphrodisiac"
 
 
 // Modifiers
@@ -270,6 +280,8 @@
 #define REAGENT_ID_MENTHOL "menthol"
 #define REAGENT_EARTHSBLOOD "Earthsblood"
 #define REAGENT_ID_EARTHSBLOOD "earthsblood"
+#define REAGENT_ASUSTENANCE	"Artificial Sustenance"
+#define REAGENT_ID_ASUSTENANCE "a_sustenance"
 
 
 // Virology
@@ -285,6 +297,14 @@
 #define REAGENT_ID_PHORONVIRUSFOOD "phoronvirusfood"
 #define REAGENT_WEAKPHORONVIRUSFOOD "Weakened phoronic virus food"
 #define REAGENT_ID_WEAKPHORONVIRUSFOOD "weakphoronvirusfood"
+#define REAGENT_URANIUMVIRUSFOOD "Unstable virus food"
+#define REAGENT_ID_URANIUMVIRUSFOOD "uraniumvirusfood"
+#define REAGENT_UNSTABLEURANIUMVIRUSFOOD "Unstable uranium gel"
+#define REAGENT_ID_UNSTABLEURANIUMVIRUSFOOD "unstableuraniumvirusfood"
+#define REAGENT_STABLEURANIUMVIRUSFOOD "Stable uranium gel"
+#define REAGENT_ID_STABLEURANIUMVIRUSFOOD_ALT "stableuraniumvirusfood_alt"
+#define REAGENT_STABLEURANIUMVIRUSFOOD_ALT "Stable uranium gel"
+#define REAGENT_ID_STABLEURANIUMVIRUSFOOD "stableuraniumvirusfood"
 #define REAGENT_SIZEVIRUSFOOD "Sizeoxadone virus food"
 #define REAGENT_ID_SIZEVIRUSFOOD "sizevirusfood"
 
@@ -362,12 +382,16 @@
 #define REAGENT_ID_SUPERMATTER "supermatter"
 #define REAGENT_ADRENALINE "Adrenaline"
 #define REAGENT_ID_ADRENALINE "adrenaline"
+#define REAGENT_EPINEPHRINE "Epinephrine"
+#define REAGENT_ID_EPINEPHRINE "epinephrine"
 #define REAGENT_HOLYWATER "Holy Water"
 #define REAGENT_ID_HOLYWATER "holywater"
 #define REAGENT_AMMONIA "Ammonia"
 #define REAGENT_ID_AMMONIA "ammonia"
 #define REAGENT_DIETHYLAMINE "Diethylamine"
 #define REAGENT_ID_DIETHYLAMINE "diethylamine"
+#define REAGENT_LYE "Lye"
+#define REAGENT_ID_LYE "lye"
 #define REAGENT_FLUOROSURFACTANT "Fluorosurfactant"
 #define REAGENT_ID_FLUOROSURFACTANT "fluorosurfactant"
 #define REAGENT_FOAMINGAGENT "Foaming agent"
@@ -418,6 +442,8 @@
 #define REAGENT_ID_LIQUIDCARPETO "liquidcarpeto"
 #define REAGENT_ESSENTIALOIL "Essential Oils"
 #define REAGENT_ID_ESSENTIALOIL "essential_oil"
+#define REAGENT_PITCHERNECTAR "Pitcher Nectar"
+#define REAGENT_ID_PITCHERNECTAR "pitcher_nectar"
 
 
 // Admin chems
@@ -575,6 +601,8 @@
 #define REAGENT_ID_NUKIEMEGASHRINK "nukie_mega_shrink"
 #define REAGENT_NUKIEMEGAGROWTH "Nukie Mega Growth"
 #define REAGENT_ID_NUKIEMEGAGROWTH "nukie_mega_growth"
+#define REAGENT_NUKIEONE "Nukie One"
+#define REAGENT_ID_NUKIEONE "nukie_one"
 #define REAGENT_COATING "coating"
 #define REAGENT_ID_COATING "coating"
 #define REAGENT_BATTER "batter mix"
@@ -599,6 +627,8 @@
 #define REAGENT_ID_TOFU "tofu"
 #define REAGENT_SEAFOOD "seafood protein"
 #define REAGENT_ID_SEAFOOD "seafood"
+#define REAGENT_FUNGI "fungal protein"
+#define REAGENT_ID_FUNGI "fungi"
 #define REAGENT_CHEESE "cheese"
 #define REAGENT_ID_CHEESE "cheese"
 #define REAGENT_EGG "egg yolk"
@@ -1014,6 +1044,8 @@
 #define REAGENT_ID_CHAMPAGNE "champagne"
 #define REAGENT_CIDER "Cider"
 #define REAGENT_ID_CIDER "cider"
+#define REAGENT_TEAMUSH "Tea mush"
+#define REAGENT_ID_TEAMUSH "teamush"
 
 // Cocktails
 #define REAGENT_ACIDSPIT "Acid Spit"
@@ -1260,6 +1292,8 @@
 #define REAGENT_ID_PHORON "phoron"
 #define REAGENT_SPIDERTOXIN "Spidertoxin"
 #define REAGENT_ID_SPIDERTOXIN "spidertoxin"
+#define REAGENT_WARNINGTOXIN "Warningtoxin"
+#define REAGENT_ID_WARNINGTOXIN "warningtoxin"
 #define REAGENT_LEAD "Lead"
 #define REAGENT_ID_LEAD "lead"
 #define REAGENT_PLASTICIDE "Plasticide"
@@ -1348,6 +1382,11 @@
 #define REAGENT_ID_METAMORPHIC "metamorphic"
 #define REAGENT_BINDING "Binding Metal"
 #define REAGENT_ID_BINDING "binding"
+#define REAGENT_NUMBING_FLUID "Numbing Fluid"
+#define REAGENT_ID_NUMBING_FLUID "succubi_numbing"
+#define REAGENT_PARALYZE_FLUID "Paralyzing Fluid"
+#define REAGENT_ID_PARALYZE_FLUID "succubi_paralize"
+#define REAGENT_ID_APHRODIAC_FLUID "succubi_aphrodisiac"
 
 
 // Xenoslimes
@@ -1357,18 +1396,3 @@
 #define REAGENT_ID_SLIMEBONEFIXER "slime_bone_fixer"
 #define REAGENT_SLIMEORGANFIXER "Agent C"
 #define REAGENT_ID_SLIMEORGANFIXER "slime_organ_fixer"
-
-// Vore Belly Options
-
-#define REAGENT_ID_WATER_BELLY "water_liquidbelly"
-#define REAGENT_ID_MILK_BELLY "milk_liquidbelly"
-#define REAGENT_ID_CREAM_BELLY "cream_liquidbelly"
-#define REAGENT_ID_HONEY_BELLY "honey_liquidbelly"
-#define REAGENT_ID_CHERRYJELLY_BELLY "cherry_liquidbelly"
-#define REAGENT_ID_STOMACID_BELLY "stomacid_liquidbelly"
-#define REAGENT_ID_DIETSTOMACID_BELLY "diet_stomacid_liquidbelly"
-#define REAGENT_ID_CLEANER_BELLY "cleaner_liquidbelly"
-#define REAGENT_ID_LUBE_BELLY "lube_liquidbelly"
-#define REAGENT_ID_BIOMASS_BELLY "biomass_liquidbelly"
-#define REAGENT_ID_CONCENTRATEDRADIUM_BELLY "cradium_liquidbelly"
-#define REAGENT_ID_TRICORDRAZINE_BELLY "tricordrazine_liquidbelly"

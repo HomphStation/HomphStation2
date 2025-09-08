@@ -61,7 +61,7 @@
 	user.visible_message(span_danger("\The [user] begins to slit [src]'s throat with \the [W]!"))
 
 	user.next_move = world.time + 20 //also should prevent user from triggering this repeatedly
-	if(!do_after(user, 20))
+	if(!do_after(user, 2 SECONDS, target = src))
 		return 0
 	if(!(G && G.assailant == user && G.affecting == src)) //check that we still have a grab
 		return 0
@@ -109,7 +109,7 @@
 	user.visible_message(span_danger("\The [user] plunges \the [W] into \the [src]!"))
 
 	var/damage = shank_armor_helper(W, G, user)
-	apply_damage(damage, W.damtype, "torso", 0, sharp=W.sharp, edge=W.edge)
+	apply_damage(damage, W.damtype, BP_TORSO, 0, sharp=W.sharp, edge=W.edge)
 
 	if(W.hitsound)
 		playsound(src, W.hitsound, 50, 1, -1)

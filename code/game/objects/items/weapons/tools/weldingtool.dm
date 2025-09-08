@@ -38,6 +38,7 @@
 	var/eye_safety_modifier = 0 // Increasing this will make less eye protection needed to stop eye damage.  IE at 1, sunglasses will fully protect.
 	var/burned_fuel_for = 0 // Keeps track of how long the welder's been on, used to gradually empty the welder if left one, without RNG.
 	var/always_process = FALSE // If true, keeps the welder on the process list even if it's off.  Used for when it needs to regenerate fuel.
+	var/no_passive_burn = FALSE // If true, the welder will not passively burn fuel. Used for things like electric welders.
 	toolspeed = 1
 	drop_sound = 'sound/items/drop/weldingtool.ogg'
 	pickup_sound = 'sound/items/pickup/weldingtool.ogg'
@@ -127,9 +128,10 @@
 
 /obj/item/weldingtool/process()
 	if(welding)
-		++burned_fuel_for
-		if(burned_fuel_for >= WELDER_FUEL_BURN_INTERVAL)
-			remove_fuel(1)
+		if(!no_passive_burn)
+			++burned_fuel_for
+			if(burned_fuel_for >= WELDER_FUEL_BURN_INTERVAL)
+				remove_fuel(1)
 		if(get_fuel() < 1)
 			setWelding(0)
 		else			//Only start fires when its on and has enough fuel to actually keep working
@@ -274,7 +276,7 @@
 				T.visible_message(span_danger("\The [src] turns on."))
 			playsound(src, acti_sound, 50, 1)
 			src.force = 15
-			src.damtype = "fire"
+			src.damtype = BURN
 			src.w_class = ITEMSIZE_LARGE
 			src.hitsound = 'sound/items/welder.ogg'
 			welding = 1
@@ -296,7 +298,7 @@
 			T.visible_message(span_warning("\The [src] turns off."))
 		playsound(src, deac_sound, 50, 1)
 		src.force = 3
-		src.damtype = "brute"
+		src.damtype = BRUTE
 		src.w_class = initial(src.w_class)
 		src.welding = 0
 		src.hitsound = initial(src.hitsound)
@@ -313,6 +315,8 @@
 		var/mob/living/carbon/human/H = user
 		var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name[O_EYES]
 		if(!E)
+			return
+		if(user.isSynthetic()) //Fixes robots going blind when doing the equivalent of a bruise pack.
 			return
 		if(H.nif && H.nif.flag_check(NIF_V_UVFILTER,NIF_FLAGS_VISION)) return //VOREStation Add - NIF
 		switch(safety)
@@ -359,11 +363,6 @@
 	max_fuel = 40
 	origin_tech = list(TECH_ENGINEERING = 2, TECH_PHORON = 2)
 	matter = list(MAT_STEEL = 70, MAT_GLASS = 60)
-
-/obj/item/weldingtool/largetank/cyborg
-	name = "integrated welding tool"
-	desc = "An advanced welder designed to be used in robotic systems."
-	toolspeed = 0.5
 
 /obj/item/weldingtool/hugetank
 	name = "upgraded welding tool"
@@ -637,6 +636,10 @@
 		..()
 
 /obj/item/weldingtool/electric/proc/get_external_power_supply()
+	if(istype(src.loc, /obj/item/robotic_multibelt)) //We are in a multibelt
+		if(istype(src.loc.loc, /mob/living/silicon/robot))  //We are in a multibelt that is in a robot! This is sanity in case someone spawns a multibelt in via admin commands.
+			var/mob/living/silicon/robot/R = src.loc.loc
+			return R.cell
 	if(isrobot(src.loc))
 		var/mob/living/silicon/robot/R = src.loc
 		return R.cell
@@ -656,9 +659,6 @@
 
 /obj/item/weldingtool/electric/mounted
 	use_external_power = 1
-
-/obj/item/weldingtool/electric/mounted/cyborg
-	toolspeed = 0.5
 
 /obj/item/weldingtool/electric/mounted/exosuit
 	var/obj/item/mecha_parts/mecha_equipment/equip_mount = null

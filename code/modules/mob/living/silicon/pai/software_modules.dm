@@ -70,7 +70,7 @@
 			count++
 
 		// Check the carrier
-		var/datum/gender/TM = gender_datums[M.get_visible_gender()]
+		var/datum/gender/TM = GLOB.gender_datums[M.get_visible_gender()]
 		var/answer = tgui_alert(M, "[P] is requesting a DNA sample from you. Will you allow it to confirm your identity?", "[P] Check DNA", list("Yes", "No"))
 		if(answer == "Yes")
 			var/turf/T = get_turf(P.loc)
@@ -111,9 +111,9 @@
 
 /datum/pai_software/crew_manifest/tgui_data(mob/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
-	if(data_core)
-		data_core.get_manifest_list()
-	data["manifest"] = PDA_Manifest
+	if(GLOB.data_core)
+		GLOB.data_core.get_manifest_list()
+	data["manifest"] = GLOB.PDA_Manifest
 	return data
 
 /datum/pai_software/messenger
@@ -142,7 +142,7 @@
 	var/list/data = ..()
 
 	var/list/records = list()
-	for(var/datum/data/record/general in sortRecord(data_core.general))
+	for(var/datum/data/record/general in sortRecord(GLOB.data_core.general))
 		var/list/record = list()
 		record["name"] = general.fields["name"]
 		record["ref"] = "\ref[general]"
@@ -169,11 +169,11 @@
 		if(record)
 			var/datum/data/record/R = record
 			var/datum/data/record/M = null
-			if (!( data_core.general.Find(R) ))
+			if (!( GLOB.data_core.general.Find(R) ))
 				P.medical_cannotfind = 1
 			else
 				P.medical_cannotfind = 0
-				for(var/datum/data/record/E in data_core.medical)
+				for(var/datum/data/record/E in GLOB.data_core.medical)
 					if ((E.fields["name"] == R.fields["name"] || E.fields["id"] == R.fields["id"]))
 						M = E
 				P.medicalActive1 = R
@@ -198,7 +198,7 @@
 	var/list/data = ..()
 
 	var/list/records = list()
-	for(var/datum/data/record/general in sortRecord(data_core.general))
+	for(var/datum/data/record/general in sortRecord(GLOB.data_core.general))
 		var/list/record = list()
 		record["name"] = general.fields["name"]
 		record["ref"] = "\ref[general]"
@@ -225,13 +225,13 @@
 		if(record)
 			var/datum/data/record/R = record
 			var/datum/data/record/S = null
-			if (!( data_core.general.Find(R) ))
+			if (!( GLOB.data_core.general.Find(R) ))
 				P.securityActive1 = null
 				P.securityActive2 = null
 				P.security_cannotfind = 1
 			else
 				P.security_cannotfind = 0
-				for(var/datum/data/record/E in data_core.security)
+				for(var/datum/data/record/E in GLOB.data_core.security)
 					if ((E.fields["name"] == R.fields["name"] || E.fields["id"] == R.fields["id"]))
 						S = E
 				P.securityActive1 = R
@@ -291,7 +291,7 @@
 
 /mob/living/silicon/pai/proc/hackloop()
 	var/turf/T = get_turf(src)
-	for(var/mob/living/silicon/ai/AI in player_list)
+	for(var/mob/living/silicon/ai/AI in GLOB.player_list)
 		if(T.loc)
 			to_chat(AI, span_bolddanger("Network Alert: Brute-force encryption crack in progress in [T.loc]."))
 		else
@@ -332,41 +332,7 @@
 
 /datum/pai_software/atmosphere_sensor/tgui_data(mob/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
-
-	var/list/results = list()
-	var/turf/T = get_turf(user)
-	if(!isnull(T))
-		var/datum/gas_mixture/environment = T.return_air()
-		var/pressure = environment.return_pressure()
-		var/total_moles = environment.total_moles
-		if (total_moles)
-			var/o2_level = environment.gas[GAS_O2]/total_moles
-			var/n2_level = environment.gas[GAS_N2]/total_moles
-			var/co2_level = environment.gas[GAS_CO2]/total_moles
-			var/phoron_level = environment.gas[GAS_PHORON]/total_moles
-			var/unknown_level =  1-(o2_level+n2_level+co2_level+phoron_level)
-
-			// entry is what the element is describing
-			// Type identifies which unit or other special characters to use
-			// Val is the information reported
-			// Bad_high/_low are the values outside of which the entry reports as dangerous
-			// Poor_high/_low are the values outside of which the entry reports as unideal
-			// Values were extracted from the template itself
-			results = list(
-						list("entry" = "Pressure", "units" = "kPa", "val" = "[round(pressure,0.1)]", "bad_high" = 120, "poor_high" = 110, "poor_low" = 95, "bad_low" = 80),
-						list("entry" = "Temperature", "units" = "&deg;C", "val" = "[round(environment.temperature-T0C,0.1)]", "bad_high" = 35, "poor_high" = 25, "poor_low" = 15, "bad_low" = 5),
-						list("entry" = "Oxygen", "units" = "kPa", "val" = "[round(o2_level*100,0.1)]", "bad_high" = 140, "poor_high" = 135, "poor_low" = 19, "bad_low" = 17),
-						list("entry" = "Nitrogen", "units" = "kPa", "val" = "[round(n2_level*100,0.1)]", "bad_high" = 105, "poor_high" = 85, "poor_low" = 50, "bad_low" = 40),
-						list("entry" = "Carbon Dioxide", "units" = "kPa", "val" = "[round(co2_level*100,0.1)]", "bad_high" = 10, "poor_high" = 5, "poor_low" = 0, "bad_low" = 0),
-						list("entry" = "Phoron", "units" = "kPa", "val" = "[round(phoron_level*100,0.01)]", "bad_high" = 0.5, "poor_high" = 0, "poor_low" = 0, "bad_low" = 0),
-						list("entry" = "Other", "units" = "kPa", "val" = "[round(unknown_level, 0.01)]", "bad_high" = 1, "poor_high" = 0.5, "poor_low" = 0, "bad_low" = 0)
-						)
-
-	if(isnull(results))
-		results = list(list("entry" = "pressure", "units" = "kPa", "val" = "0", "bad_high" = 120, "poor_high" = 110, "poor_low" = 95, "bad_low" = 80))
-
-	data["aircontents"] = results
-
+	data["aircontents"] = get_gas_mixture_default_scan_data(get_turf(user))
 	return data
 
 /datum/pai_software/pai_hud
@@ -508,3 +474,14 @@
 				else
 					R.code = initial(R.code)
 				. = TRUE
+
+/datum/pai_software/deathalarm
+	name = "Death Alarm"
+	ram_cost = 25
+	id = "death_alarm"
+
+/datum/pai_software/deathalarm/toggle(mob/living/silicon/pai/user)
+	user.paiDA = !user.paiDA
+
+/datum/pai_software/deathalarm/is_active(mob/living/silicon/pai/user)
+	return user.paiDA

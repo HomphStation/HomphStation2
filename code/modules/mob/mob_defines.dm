@@ -120,12 +120,13 @@
 	var/m_intent = I_RUN//Living
 	var/lastKnownIP = null
 	var/obj/buckled = null//Living
+	var/no_pull_when_living = FALSE //Test for if it can be pulled when alive
 
 	var/seer = 0 //for cult//Carbon, probably Human
 
 	var/datum/hud/hud_used = null
 
-	var/list/grabbed_by = list(  )
+	var/list/grabbed_by = list()
 
 	var/list/mapobjs = list()
 
@@ -231,7 +232,11 @@
 
 	var/in_enclosed_vehicle = 0	//For mechs and fighters ambiance. Can be used in other cases.
 
-	var/list/progressbars = null //VOREStation Edit
+	///List of progress bars this mob is currently seeing for actions
+	var/list/progressbars = null //for stacking do_after bars
+
+	///For storing what do_after's someone has, key = string, value = amount of interactions of that type happening.
+	var/list/do_afters
 
 	var/datum/focus //What receives our keyboard inputs. src by default
 
@@ -240,9 +245,12 @@
 
 	var/list/datum/action/actions
 
-	var/list/viruses
-	var/list/resistances
+	VAR_PROTECTED/list/viruses
+	VAR_PROTECTED/list/resistances
 
 	var/custom_footstep = FOOTSTEP_MOB_SHOE
 	VAR_PRIVATE/is_motion_tracking = FALSE // Prevent multiple unsubs and resubs, also used to check if the vis layer is enabled, use has_motiontracking() to get externally.
 	VAR_PRIVATE/wants_to_see_motion_echos = TRUE
+
+	/// a ckey that persists client logout / ghosting, replaced when a client inhabits the mob
+	var/persistent_ckey

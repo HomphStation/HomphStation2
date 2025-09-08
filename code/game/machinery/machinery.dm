@@ -172,7 +172,7 @@ Class Procs:
 		pulse2.icon_state = "empdisable"
 		pulse2.name = "emp sparks"
 		pulse2.anchored = TRUE
-		pulse2.set_dir(pick(cardinal))
+		pulse2.set_dir(pick(GLOB.cardinal))
 
 		spawn(10)
 			qdel(pulse2)
@@ -401,7 +401,7 @@ Class Procs:
 		return 0
 	to_chat(user, span_notice("You start disconnecting the monitor."))
 	playsound(src, S.usesound, 50, 1)
-	if(do_after(user, 20 * S.toolspeed))
+	if(do_after(user, 2 SECONDS * S.toolspeed, target = src))
 		if(stat & BROKEN)
 			to_chat(user, span_notice("The broken glass falls out."))
 			new /obj/item/material/shard(src.loc)
@@ -429,6 +429,7 @@ Class Procs:
 	. = dismantle()
 
 /obj/machinery/proc/dismantle()
+	SEND_SIGNAL(src, COMSIG_OBJ_DECONSTRUCT)
 	playsound(src, 'sound/items/Crowbar.ogg', 50, 1)
 	for(var/obj/I in contents)
 		if(istype(I,/obj/item/card/id))
@@ -550,7 +551,7 @@ Class Procs:
 		A.forceMove(droploc)
 		if(scatter && isturf(droploc))
 			var/turf/T = droploc
-			A.Move(get_step(T, pick(alldirs)))
+			A.Move(get_step(T, pick(GLOB.alldirs)))
 
 	playsound(src, 'sound/machines/machine_die_short.ogg')
 	spark_system.start()

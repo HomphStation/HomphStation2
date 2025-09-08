@@ -78,7 +78,7 @@
 					food_inserted_micros -= F
 
 	if(!reagents.total_volume)
-		M.balloon_alert_visible("finishes eating \the [src].","finished eating \the [src].") // CHOMPEdit - Balloon alert
+		M.balloon_alert_visible("eats \the [src].","finishes eating \the [src].")
 
 		M.drop_from_inventory(src) // Drop food from inventory so it doesn't end up staying on the hud after qdel, and so inhands go away
 
@@ -120,20 +120,17 @@
 
 /obj/item/reagent_containers/food/snacks/attack(mob/living/M as mob, mob/living/user as mob, def_zone) //CHOMPEdit
 	if(reagents && !reagents.total_volume)
-		// to_chat(user, span_danger("None of [src] left!"))
-		balloon_alert(user, "none of [src] left!") // CHOMPEdit - Changed to balloon alert
+		balloon_alert(user, "none of \the [src] left!")
 		user.drop_from_inventory(src)
 		qdel(src)
 		return 0
 
 	if(package)
-		// to_chat(M, span_warning("How do you expect to eat this with the package still on?"))
-		balloon_alert(user, "the package is in the way.") // CHOMPEdit - Changed to balloon alert
+		balloon_alert(user, "the package is in the way!")
 		return FALSE
 
 	if(canned)
-		// to_chat(M, span_warning("How do you expect to eat this without opening it?"))
-		balloon_alert(user, "the can is closed.") // CHOMPEdit - Changed to balloon alert
+		balloon_alert(user, "the can is closed!")
 		return FALSE
 
 	if(istype(M, /mob/living/carbon))
@@ -151,8 +148,7 @@
 			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
 				if(!H.check_has_mouth())
-					// to_chat(user, "Where do you intend to put \the [src]? You don't have a mouth!")
-					balloon_alert(user, "you don't have a mouth!") // CHOMPEdit - Changed to balloon alert
+					balloon_alert(user, "you don't have a mouth!")
 					return
 				var/obj/item/blocked = null
 				if(survivalfood)
@@ -160,8 +156,7 @@
 				else
 					blocked = H.check_mouth_coverage()
 				if(blocked)
-					// to_chat(user, span_warning("\The [blocked] is in the way!"))
-					balloon_alert(user, "\the [blocked] is in the way!") // CHOMPEdit - Changed to balloon alert
+					balloon_alert(user, "\the [blocked] is in the way!")
 					return
 
 			user.setClickCooldown(user.get_attack_speed(src)) //puts a limit on how fast people can eat/drink things
@@ -173,19 +168,19 @@
 			if (fullness > 150 && fullness <= 350)
 				to_chat(M, span_notice("You take a bite of [src]."))
 			if (fullness > 350 && fullness <= 550)
-				to_chat(M, span_notice("You unwillingly chew a bit of [src]."))
+				to_chat(M, span_notice("You chew a bit of [src], despite feeling rather full."))
 			if (fullness > 550 && fullness <= 650)
 				to_chat(M, span_notice("You swallow some more of the [src], causing your belly to swell out a little."))
 			if (fullness > 650 && fullness <= 1000)
 				to_chat(M, span_notice("You stuff yourself with the [src]. Your stomach feels very heavy."))
 			if (fullness > 1000 && fullness <= 3000)
-				to_chat(M, span_notice("You gluttonously swallow down the hunk of [src]. You're so gorged, it's hard to stand."))
+				to_chat(M, span_notice("You swallow down the hunk of [src]. Surely you have to have some limits?"))
 			if (fullness > 3000 && fullness <= 5500)
-				to_chat(M, span_danger("You force the piece of [src] down your throat. You can feel your stomach getting firm as it reaches its limits."))
+				to_chat(M, span_danger("You force the piece of [src] down. You can feel your stomach getting firm as it reaches its limits."))
 			if (fullness > 5500 && fullness <= 6000)
-				to_chat(M, span_danger("You barely glug down the bite of [src], causing undigested food to force into your intestines. You can't take much more of this!"))
+				to_chat(M, span_danger("You glug down the bite of [src], you are reaching the very limits of what you can eat, but maybe a few more bites could be managed..."))
 			if (fullness > 6000) // There has to be a limit eventually.
-				to_chat(M, span_danger("Your stomach blorts and aches, prompting you to stop. You literally cannot force any more of [src] to go down your throat."))
+				to_chat(M, span_danger("Nope. That's it. You literally cannot force any more of [src] to go down your throat. It's fair to say you're full."))
 				return 0
 
 		else if(user.a_intent == I_HURT)
@@ -196,7 +191,7 @@
 				var/mob/living/carbon/human/H = M
 				if(!H.check_has_mouth())
 					// to_chat(user, "Where do you intend to put \the [src]? \The [H] doesn't have a mouth!")
-					balloon_alert(user, "\the [H] doesn't have a mouth!") // CHOMPEdit
+					balloon_alert(user, "\the [H] doesn't have a mouth!")
 					return
 				var/obj/item/blocked = null
 				var/unconcious = FALSE
@@ -211,7 +206,7 @@
 					var/mob/living/L = user
 					swallow_whole = L.stuffing_feeder
 				if(swallow_whole)
-					belly_target = tgui_input_list(user, "Choose Belly", "Belly Choice", M.feedable_bellies()) //CHOMPEdit
+					belly_target = tgui_input_list(user, "Choose Belly", "Belly Choice", M.feedable_bellies())
 
 				if(unconcious)
 					to_chat(user, span_warning("You can't feed [H] through \the [blocked] while they are unconcious!"))
@@ -219,21 +214,21 @@
 
 				if(blocked)
 					// to_chat(user, span_warning("\The [blocked] is in the way!"))
-					balloon_alert(user, "\the [blocked] is in the way!") // CHOMPEdit - Changed to balloon alert
+					balloon_alert(user, "\the [blocked] is in the way!")
 					return
 
 				if(swallow_whole)
 					if(!(M.feeding))
-						balloon_alert(user, "you can't feed [H] a whole [src] as they refuse to be fed whole things!") // CHOMPEdit
+						balloon_alert(user, "you can't feed [H] a whole [src] as they refuse to be fed whole things!")
 						return
 					if(!belly_target)
-						balloon_alert(user, "you can't feed [H] a whole [src] as they don't appear to have a belly to fit it!") // CHOMPEdit
+						balloon_alert(user, "you can't feed [H] a whole [src] as they don't appear to have a belly to fit it!")
 						return
 
 				if(swallow_whole)
-					user.balloon_alert_visible("[user] attempts to make [M] consume [src] whole into their [belly_target].") // CHOMPEdit
+					user.balloon_alert_visible("[user] attempts to make [M] consume [src] whole into their [belly_target].")
 				else
-					user.balloon_alert_visible("[user] attempts to feed [M] [src].") // CHOMPEdit
+					user.balloon_alert_visible("[user] attempts to feed [M] [src].")
 
 				var/feed_duration = 3 SECONDS
 				if(swallow_whole)
@@ -247,14 +242,14 @@
 				if(swallow_whole)
 					add_attack_logs(user,M,"Whole-fed with [src.name] containing [reagentlist(src)] into [belly_target]", admin_notify = FALSE)
 					user.visible_message("[user] successfully forces [src] into [M]'s [belly_target].")
-					user.balloon_alert_visible("Forces [src] into [M]'s [belly_target]") // CHOMPEdit
+					user.balloon_alert_visible("forces [src] into [M]'s [belly_target]")
 				else
 					add_attack_logs(user,M,"Fed with [src.name] containing [reagentlist(src)]", admin_notify = FALSE)
 					user.visible_message("[user] feeds [M] [src].")
-					user.balloon_alert_visible("feeds [M] [src].") // CHOMPEdit
+					user.balloon_alert_visible("feeds [M] [src].")
 
 			else
-				balloon_alert(user, "this creature does not seem to have a mouth!") // CHOMPEdit
+				balloon_alert(user, "this creature does not seem to have a mouth!")
 				return
 
 		if(swallow_whole)
@@ -340,8 +335,8 @@
 			return
 
 		if(package || canned)
-			to_chat(user, span_warning("You cannot stuff anything into \the [src] without opening it first.")) // CHOMPEdit
-			balloon_alert(user, "open \the [src] first!") // CHOMPEdit
+			to_chat(user, span_warning("You cannot stuff anything into \the [src] without opening it first."))
+			balloon_alert(user, "open \the [src] first!")
 			return
 
 		var/obj/item/holder/H = W
@@ -359,7 +354,7 @@
 		food_inserted_micros += M
 
 		to_chat(user, "Stuffed [M] into \the [src].")
-		balloon_alert(user, "stuffs [M] into \the [src].") // CHOMPEdit
+		balloon_alert(user, "stuffs [M] into \the [src].")
 		to_chat(M, span_warning("[user] stuffs you into \the [src]."))
 		return
 
@@ -374,11 +369,11 @@
 
 			if(tgui_alert(user,"You can't slice \the [src] here. Would you like to hide \the [W] inside it instead?","No Cutting Surface!",list("Yes","No")) != "Yes")
 				to_chat(user, span_warning("You cannot slice \the [src] here! You need a table or at least a tray to do it."))
-				balloon_alert(user, "you cannot slice \the [src] here! You need a table or at least a tray to do it.") // CHOMPEdit
+				balloon_alert(user, "you cannot slice \the [src] here! You need a table or at least a tray to do it.")
 				return
 			else
 				to_chat(user, "Slipped \the [W] inside \the [src].")
-				balloon_alert(user, "slipped \the [W] inside \the [src].") // CHOMPEdit
+				balloon_alert(user, "slipped \the [W] inside \the [src].")
 				user.drop_from_inventory(W, src)
 				add_fingerprint(user)
 				contents += W
@@ -387,18 +382,17 @@
 		if (has_edge(W))
 			if (!can_slice_here)
 				to_chat(user, span_warning("You cannot slice \the [src] here! You need a table or at least a tray to do it."))
-				balloon_alert(user, "you need a table or at least a tray to slice it.") // CHOMPEdit
+				balloon_alert(user, "you need a table or at least a tray to slice it.")
 				return
 
 			var/slices_lost = 0
 			if (W.w_class > 3)
 				user.visible_message(span_notice("\The [user] crudely slices \the [src] with [W]!"), span_notice("You crudely slice \the [src] with your [W]!"))
-				user.balloon_alert_visible("crudely slices \the [src]", "crudely sliced \the [src]") // CHOMPEdit
+				user.balloon_alert_visible("crudely slices \the [src]", "crudely sliced \the [src]")
 				slices_lost = rand(1,min(1,round(slices_num/2)))
 			else
 				user.visible_message(span_notice(span_bold("\The [user]") + " slices \the [src]!"), span_notice("You slice \the [src]!"))
-				user.balloon_alert_visible("slices \the [src]", "sliced \the [src]!") // CHOMPEdit
-	// CHOMPEdit End - A long list of to_chat to balloon_alert
+				user.balloon_alert_visible("slices \the [src]", "sliced \the [src]!")
 			var/reagents_per_slice = reagents.total_volume/slices_num
 			for(var/i=1 to (slices_num-slices_lost))
 				var/obj/slice = new slice_path (src.loc)
@@ -449,7 +443,7 @@
 /obj/item/reagent_containers/food/snacks/proc/unpackage(mob/user)
 	package = FALSE
 	to_chat(user, span_notice("You unwrap [src]."))
-	balloon_alert(user, "unwrapped \the [src].") // CHOMPEdit
+	balloon_alert(user, "unwrapped \the [src].")
 	playsound(user,opening_sound, 15, 1)
 	if(package_trash)
 		var/obj/item/T = new package_trash
@@ -462,7 +456,7 @@
 /obj/item/reagent_containers/food/snacks/proc/uncan(mob/user)
 	canned = FALSE
 	to_chat(user, span_notice("You unseal \the [src] with a crack of metal."))
-	balloon_alert(user, "unsealed \the [src]") // CHOMPEdit
+	balloon_alert(user, "unsealed \the [src]")
 	playsound(loc,opening_sound, rand(10,50), 1)
 	if(canned_open_state)
 		icon_state = canned_open_state
@@ -474,7 +468,7 @@
 	if(!isanimal(user) && !isalien(user))
 		return
 	user.visible_message(span_infoplain(span_bold("[user]") + " nibbles away at \the [src]."),span_info("You nibble away at \the [src]."))
-	user.balloon_alert_visible("nibbles away at \the [src].","nibbled away at \the [src].") // CHOMPEdit
+	user.balloon_alert_visible("nibbles away at \the [src].","nibbled away at \the [src].")
 	bitecount++
 	if(reagents)
 		reagents.trans_to_mob(user, bitesize, CHEM_INGEST)
@@ -902,6 +896,7 @@
 	reagents.add_reagent(REAGENT_ID_POISONBERRYJUICE, 5)
 
 /obj/item/reagent_containers/food/snacks/donut/plain/jelly/slimejelly
+	name = "slime jelly donut"
 	filling_color = "#ED1169"
 
 /obj/item/reagent_containers/food/snacks/donut/plain/jelly/slimejelly/Initialize(mapload)
@@ -909,6 +904,7 @@
 	reagents.add_reagent(REAGENT_ID_SLIMEJELLY, 5)
 
 /obj/item/reagent_containers/food/snacks/donut/plain/jelly/cherryjelly
+	name = "cherry jelly donut"
 	filling_color = "#ED1169"
 
 /obj/item/reagent_containers/food/snacks/donut/plain/jelly/cherryjelly/Initialize(mapload)
@@ -1150,6 +1146,7 @@
 /obj/item/reagent_containers/food/snacks/mushroomslice/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_PSILOCYBIN, 3)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 1)
 
 /obj/item/reagent_containers/food/snacks/tomatomeat
 	name = "tomato slice"
@@ -1557,6 +1554,7 @@
 	nutriment_desc = list("sweetness" = 2, "pie" = 3)
 	bitesize = 3
 
+/obj/item/reagent_containers/food/snacks/ber
 /obj/item/reagent_containers/food/snacks/berryclafoutis/berry/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_BERRYJUICE, 5)
@@ -1656,6 +1654,7 @@
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_AMATOXIN, 3)
 	reagents.add_reagent(REAGENT_ID_PSILOCYBIN, 1)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 2)
 
 /obj/item/reagent_containers/food/snacks/plump_pie
 	name = "plump pie"
@@ -1670,6 +1669,7 @@
 
 /obj/item/reagent_containers/food/snacks/plump_pie/Initialize(mapload)
 	. = ..()
+	reagents.add_reagent(REAGENT_ID_FUNGI, 2)
 	if(prob(10))
 		name = "exceptional plump pie"
 		desc = "Microwave is taken by a fey mood! It has cooked an exceptional plump pie!"
@@ -1857,7 +1857,7 @@
 /obj/item/reagent_containers/food/snacks/carrotfries/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_IMIDAZOLINE, 3)
-
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/cheesyfries
 	name = "Cheesy Fries"
@@ -1975,6 +1975,7 @@
 /obj/item/reagent_containers/food/snacks/spacylibertyduff/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_PSILOCYBIN, 6)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 1)
 
 /obj/item/reagent_containers/food/snacks/amanitajelly
 	name = "Amanita Jelly"
@@ -1992,6 +1993,7 @@
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_AMATOXIN, 6)
 	reagents.add_reagent(REAGENT_ID_PSILOCYBIN, 3)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 2)
 
 /obj/item/reagent_containers/food/snacks/poppypretzel
 	name = "Poppy pretzel"
@@ -2107,6 +2109,23 @@
 	name = "neaera cube"
 	monkey_type = SPECIES_MONKEY_SKRELL
 
+// Pet cubes!
+/obj/item/reagent_containers/food/snacks/monkeycube/pet
+	var/pet_path = null
+
+/obj/item/reagent_containers/food/snacks/monkeycube/pet/wrapped
+	desc = "Still wrapped in some paper."
+	icon_state = "monkeycubewrap"
+	flags = 0
+	wrapped = 1
+
+/obj/item/reagent_containers/food/snacks/monkeycube/pet/Expand()
+	src.visible_message("<b>\The [src]</b> expands!")
+	if(pet_path)
+		new pet_path(get_turf(src))
+	qdel(src)
+	return 1
+
 /obj/item/reagent_containers/food/snacks/spellburger
 	name = "Spell Burger"
 	desc = "This is absolutely Ei Nath."
@@ -2195,6 +2214,7 @@
 /obj/item/reagent_containers/food/snacks/fishandchips/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_PROTEIN, 3)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/rofflewaffles
 	name = "Roffle Waffles"
@@ -2222,6 +2242,12 @@
 	nutriment_amt = 1
 	nutriment_desc = list("toasted bread" = 2)
 	bitesize = 3
+
+/obj/item/reagent_containers/food/snacks/jelliedtoast/cherry
+	name = "Cherry Jellied Toast"
+
+/obj/item/reagent_containers/food/snacks/jelliedtoast/slime
+	name = "Slime Jellied Toast"
 
 /obj/item/reagent_containers/food/snacks/jelliedtoast/cherry/Initialize(mapload)
 	. = ..()
@@ -2263,6 +2289,12 @@
 	nutriment_amt = 5
 	nutriment_desc = list("buns" = 5)
 	bitesize = 2
+
+/obj/item/reagent_containers/food/snacks/jellyburger/slime
+	name = "Slime Jelly Burger"
+
+/obj/item/reagent_containers/food/snacks/jellyburger/cherry
+	name = "Cherry Jelly Burger"
 
 /obj/item/reagent_containers/food/snacks/jellyburger/slime/Initialize(mapload)
 	. = ..()
@@ -2521,6 +2553,15 @@
 	nutriment_desc = list("bread" = 2)
 	bitesize = 3
 
+/obj/item/reagent_containers/food/snacks/jellysandwich/slime
+	name = "Slime Jelly Sandwich"
+
+/obj/item/reagent_containers/food/snacks/jellysandwich/slime
+	name = "Cherry Jelly Sandwich"
+
+/obj/item/reagent_containers/food/snacks/jellysandwich/peanutbutter
+	name = "Peanut Butter Jelly Sandwich"
+
 /obj/item/reagent_containers/food/snacks/jellysandwich/slime/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_SLIMEJELLY, 5)
@@ -2562,6 +2603,7 @@
 
 /obj/item/reagent_containers/food/snacks/plumphelmetbiscuit/Initialize(mapload)
 	. = ..()
+	reagents.add_reagent(REAGENT_ID_FUNGI, 1)
 	if(prob(10))
 		name = "exceptional plump helmet biscuit"
 		desc = "Microwave is taken by a fey mood! It has cooked an exceptional plump helmet biscuit!"
@@ -2690,6 +2732,7 @@
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_BANANA, 5)
 	reagents.add_reagent(REAGENT_ID_WATER, 10)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/vegetablesoup
 	name = "Vegetable soup"
@@ -2888,6 +2931,7 @@
 	reagents.add_reagent(REAGENT_ID_TOMATOJUICE, 5)
 	reagents.add_reagent(REAGENT_ID_IMIDAZOLINE, 5)
 	reagents.add_reagent(REAGENT_ID_WATER, 5)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 1)
 
 /obj/item/reagent_containers/food/snacks/bearstew
 	name = "bear stew"
@@ -3572,6 +3616,10 @@
 	w_class = ITEMSIZE_TINY
 	nutriment_amt = 1
 
+/obj/item/reagent_containers/food/snacks/cracker/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
+
 /obj/item/reagent_containers/food/snacks/sliceable/grilled_carp
 	name = "Njarir Merana Grill"
 	desc = "A well-dressed fish, seared to perfection and adorned with herbs and spices in a traditional Nerahni Tajaran style. Can be sliced into proper serving sizes."
@@ -3755,11 +3803,13 @@
 	trash = /obj/item/trash/plate
 
 /obj/item/reagent_containers/food/snacks/gigapuddi/happy
+	name = "Astro-Pudding (Happy)"
 	desc = "A crème caramel of astronomical size, made with extra love."
 	icon = 'icons/obj/food.dmi'
 	icon_state = "happypuddi"
 
 /obj/item/reagent_containers/food/snacks/gigapuddi/anger
+	name = "Astro-Pudding (Angry)"
 	desc = "A crème caramel of astronomical size, made with extra hate."
 	icon_state = "angerpuddi"
 
@@ -4030,6 +4080,7 @@
 /obj/item/reagent_containers/food/snacks/sliceable/pizza/mushroompizza/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_PROTEIN, 5)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 5)
 
 /obj/item/reagent_containers/food/snacks/slice/mushroompizza
 	name = "Mushroompizza slice"
@@ -4088,7 +4139,7 @@
 	bitesize = 2
 
 /obj/item/reagent_containers/food/snacks/pizzacrunchslice
-	name = "pizza crunch"
+	name = "pizza crunch slice"
 	desc = "A little piece of a heart attack. It's toppings are a mystery, hidden under batter"
 	icon_state = "pizzacrunchslice"
 	filling_color = "#BAA14C"
@@ -4274,7 +4325,7 @@
 		if( src.open )
 			return
 
-		var/t = sanitize(tgui_input_text(user, "Enter what you want to add to the tag:", "Write", "", 30))
+		var/t = tgui_input_text(user, "Enter what you want to add to the tag:", "Write", "", 30)
 
 		var/obj/item/pizzabox/boxtotagto = src
 		if( boxes.len > 0 )
@@ -4603,8 +4654,8 @@
 	reagents.add_reagent(REAGENT_ID_SUGAR, 5)
 
 /obj/item/reagent_containers/food/snacks/roastedsunflower
-	name = "sunflower seeds"
-	desc = "Sunflower seeds!"
+	name = "roasted sunflower seeds"
+	desc = "Roasted sunflower seeds!"
 	icon = 'icons/obj/food.dmi'
 	icon_state = "sunflowerseed"
 	bitesize = 1
@@ -4612,6 +4663,10 @@
 	center_of_mass_y = 17
 	nutriment_amt = 2
 	nutriment_desc = list("salt" = 3)
+
+/obj/item/reagent_containers/food/snacks/roastedsunflower/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/roastedpeanuts
 	name = "peanuts"
@@ -4623,6 +4678,10 @@
 	center_of_mass_y = 17
 	nutriment_amt = 2
 	nutriment_desc = list("salt" = 3)
+
+/obj/item/reagent_containers/food/snacks/roastedpeanuts/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/liquidfood
 	name = "\improper LiquidFood Ration"
@@ -4720,6 +4779,11 @@
 	nutriment_amt = 10
 	nutriment_desc = list(PLANT_MUSHROOMS = 5, "salt" = 5)
 	bitesize = 3
+
+/obj/item/reagent_containers/food/snacks/skrellsnacks/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
+	reagents.add_reagent(REAGENT_ID_FUNGI, 1)
 
 /obj/item/reagent_containers/food/snacks/unajerky
 	name = "Moghes Imported Sissalik Jerky"
@@ -4922,6 +4986,7 @@
 /obj/item/reagent_containers/food/snacks/cubannachos/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_CAPSAICIN, 4)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/curryrice
 	name = "curry rice"
@@ -4934,6 +4999,7 @@
 /obj/item/reagent_containers/food/snacks/curryrice/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_CAPSAICIN, 4)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/piginblanket
 	name = "pig in a blanket"
@@ -6492,10 +6558,12 @@
 	bitesize = 1
 
 /obj/item/reagent_containers/food/snacks/omurice/heart
+	name = "omelette rice (Love)"
 	icon = 'icons/obj/food.dmi'
 	icon_state = "omuriceheart"
 
 /obj/item/reagent_containers/food/snacks/omurice/face
+	name = "omelette rice (Cute)"
 	icon = 'icons/obj/food.dmi'
 	icon_state = "omuriceface"
 
@@ -6836,6 +6904,10 @@
 	nutriment_desc = list("salt" = 1, "chips" = 2)
 	bitesize = 1
 
+/obj/item/reagent_containers/food/snacks/chips/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
+
 /obj/item/reagent_containers/food/snacks/chips/bbq
 	name = "\improper Legendary BBQ Chips"
 	desc = "You know I can't grab your ghost chips!"
@@ -6869,20 +6941,6 @@
 	nutriment_amt = 6
 	nutriment_desc = list("bread" = 2, "sweetness" = 3)
 	bitesize = 2
-
-/obj/item/reagent_containers/food/snacks/skrellsnacks
-	name = "\improper SkrellSnax"
-	desc = "Cured fungus shipped all the way from Qerr'balak, almost like jerky! Almost."
-	description_fluff = "Despite the packaging, most SkrellSnax sold in Vir are produced using locally-grown, Qerr'Balak-native Go'moa fungi in controversial Skrell-owned biodomes on the suface of Sif. SkrellSnax were originally a product of Natuna, designed to welcome Ue-Katish refugees to their colony. The brand was recreated by Centauri Provisions after Natuna and SolGov broke off diplomatic relations."
-	icon = 'icons/obj/food_snacks.dmi'
-	icon_state = "skrellsnacks"
-	trash = /obj/item/trash/skrellsnax
-	filling_color = "#A66829"
-	center_of_mass_x = 15
-	center_of_mass_y = 12
-	nutriment_amt = 10
-	nutriment_desc = list(PLANT_MUSHROOMS = 5, "salt" = 5)
-	bitesize = 3
 
 /obj/item/reagent_containers/food/snacks/sosjerky
 	name = "Scaredy's Private Reserve Beef Jerky"
@@ -6979,6 +7037,7 @@
 /obj/item/reagent_containers/food/snacks/squid/true/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_PROTEIN, 4)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/croutons
 	name = "\improper Suhariki"
@@ -7009,6 +7068,7 @@
 /obj/item/reagent_containers/food/snacks/salo/true/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_PROTEIN, 8)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/driedfish
 	name = "\improper Vobla"
@@ -7026,6 +7086,7 @@
 /obj/item/reagent_containers/food/snacks/driedfish/Initialize(mapload)
 	.=..()
 	reagents.add_reagent(REAGENT_ID_PROTEIN, 4)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/no_raisin
 	name = "4no Raisins"
@@ -7102,6 +7163,10 @@
 	nutriment_amt = 5
 	bitesize = 2
 
+/obj/item/reagent_containers/food/snacks/triton/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 10)
+
 /obj/item/reagent_containers/food/snacks/saturn
 	name = "\improper Saturn-Os"
 	icon = 'icons/obj/food_snacks.dmi'
@@ -7114,6 +7179,10 @@
 	nutriment_desc = list("salt" = 4, PLANT_PEANUT = 2,  "wood?" = 1)
 	nutriment_amt = 5
 	bitesize = 2
+
+/obj/item/reagent_containers/food/snacks/saturn/Initialize(mapload)
+	. = ..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/jupiter
 	name = "\improper Jove Gello"
@@ -7231,6 +7300,10 @@
 	nutriment_desc = list("fish" = 2, "salt" = 2, REAGENT_ID_AMMONIA = 1)
 	nutriment_amt = 4
 	bitesize = 1
+
+/obj/item/reagent_containers/food/snacks/hakarl/Initialize(mapload)
+	.=..()
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 ////////////////////weeb_vend (Nippon-tan!)////////////////////////////////////////////////////
 
@@ -7469,6 +7542,7 @@
 /obj/item/reagent_containers/food/snacks/canned/caviar/Initialize(mapload)
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_SEAFOOD, 5)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/canned/caviar/true
 	name = "\improper Classic Terran Caviar"
@@ -7486,6 +7560,7 @@
 	. = ..()
 	reagents.add_reagent(REAGENT_ID_SEAFOOD, 4)
 	reagents.add_reagent(REAGENT_ID_CARPOTOXIN, 1)
+	reagents.add_reagent(REAGENT_ID_SODIUMCHLORIDE, 1)
 
 /obj/item/reagent_containers/food/snacks/canned/maps
 	name = "\improper MAPS"

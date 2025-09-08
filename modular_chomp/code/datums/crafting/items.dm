@@ -179,7 +179,7 @@
 /obj/item/gun/energy/icelauncher
 	name = "Strange Pistol"
 	desc = "A homemade and somehow functional icicle launcher."
-	icon = 'icons/obj/gun_ch.dmi'
+	icon = 'icons/obj/gun.dmi'
 	icon_state = "ziplas"
 	item_state = "ziplas"
 	color = "#0000CC"
@@ -283,9 +283,9 @@
 			H.custom_pain("Your hands hurt like hell!",1)
 	..()
 
-/obj/item/clothing/gloves/toxinregen/New()
+/obj/item/clothing/gloves/toxinregen/Initialize(mapload)
+	. = ..()
 	START_PROCESSING(SSobj, src)
-	..()
 
 /obj/item/clothing/gloves/toxinregen/Destroy()
 	wearer = null

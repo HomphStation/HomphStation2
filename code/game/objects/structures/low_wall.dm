@@ -11,7 +11,6 @@
 	//atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_CAN_BE_PAINTED | ATOM_FLAG_ADJACENT_EXCEPTION
 	anchored = TRUE
 	density = TRUE
-	climbable = TRUE
 	throwpass = 1
 	layer = TABLE_LAYER
 
@@ -43,10 +42,11 @@
 
 	health = material.integrity
 
+	AddElement(/datum/element/climbable)
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/low_wall/LateInitialize()
-	. = ..()
 	update_connections(1)
 	update_icon()
 
@@ -96,7 +96,7 @@
 				return
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
 		to_chat(user, span_notice("Now disassembling the low wall..."))
-		if(do_after(user, 40, src))
+		if(do_after(user, 4 SECONDS, target = src))
 			to_chat(user, span_notice("You dissasembled the low wall!"))
 			dismantle()
 			return
@@ -124,9 +124,8 @@
 
 /obj/structure/low_wall/MouseDrop_T(atom/movable/AM, mob/user, src_location, over_location, src_control, over_control, params)
 	if(AM == user)
-		var/mob/living/H = user
-		if(istype(H) && can_climb(H))
-			do_climb(AM)
+		SEND_SIGNAL(src, COMSIG_CLIMBABLE_START_CLIMB, user)
+		return
 	var/obj/O = AM
 	if(!istype(O))
 		return
@@ -173,7 +172,7 @@
 		to_chat(user, span_warning("You need at least two rods to do this."))
 		return
 	to_chat(user, span_notice("Assembling grille..."))
-	if(!do_after(user, 1 SECONDS, R, exclusive = TASK_ALL_EXCLUSIVE))
+	if(!do_after(user, 1 SECONDS, target = R))
 		return
 	if(!R.use(2))
 		return
@@ -193,7 +192,7 @@
 		to_chat(user, span_warning("You need at least four sheets of glass to do this."))
 		return
 	to_chat(user, span_notice("Assembling window..."))
-	if(!do_after(user, 4 SECONDS, G, exclusive = TASK_ALL_EXCLUSIVE))
+	if(!do_after(user, 4 SECONDS, target = G))
 		return
 	if(!G.use(4))
 		return
@@ -264,8 +263,8 @@
 	if(ismob(AM)) // All mobs have a multiplier and a size according to mob_defines.dm
 		var/mob/I = AM
 		tforce = I.mob_size * (speed/THROWFORCE_SPEED_DIVISOR)
-	else
-		var/obj/O = AM
+	else if(isitem(AM))
+		var/obj/item/O = AM
 		tforce = O.throwforce * (speed/THROWFORCE_SPEED_DIVISOR)
 	if (tforce < 15)
 		return
@@ -351,7 +350,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/grille/bay/LateInitialize()
-	. = ..()
 	update_connections(1)
 	update_icon()
 
@@ -412,7 +410,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/window/bay/LateInitialize()
-	. = ..()
 	icon_state = ""
 	update_icon()
 
@@ -503,7 +500,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/window/eris/LateInitialize()
-	. = ..()
 	icon_state = ""
 	update_icon()
 

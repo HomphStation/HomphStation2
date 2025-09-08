@@ -28,8 +28,8 @@
 	//Excessively long because it won't accept subtypes for some reason!
 
 
-/obj/item/gun/energy/modular/New() //Initialize our components.
-	..()
+/obj/item/gun/energy/modular/Initialize(mapload)
+	. = ..()
 	guncomponents = list()
 	guncomponents += new /obj/item/stock_parts/capacitor
 	guncomponents += new /obj/item/stock_parts/micro_laser
@@ -138,7 +138,7 @@
 			to_chat(user, span_notice("[src] already has a power cell."))
 		else
 			user.visible_message("[user] is reloading [src].", span_notice("You start to insert [P] into [src]."))
-			if(do_after(user, 10))
+			if(do_after(user, 1 SECOND, target = src))
 				user.remove_from_mob(P)
 				power_supply = P
 				P.loc = src

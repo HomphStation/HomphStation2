@@ -11,7 +11,7 @@
 		vis_contents -= graphic_remove
 
 /turf/proc/update_air_properties()
-	var/block = c_airblock(src)
+	var/block = self_airblock()
 	if(block & AIR_BLOCKED)
 		//dbg(blocked)
 		return 1
@@ -77,7 +77,7 @@
 	var/unconnected_dirs = check_dirs
 
 	#ifdef MULTIZAS
-	var/to_check = cornerdirsz
+	var/to_check = GLOB.cornerdirsz
 	#else
 	var/to_check = cornerdirs
 	#endif
@@ -99,7 +99,7 @@
 		/*
 			//check that they are connected by the corner turf
 			var/connected_dirs = get_zone_neighbours(get_step(src, dir))
-			if(connected_dirs && (dir & reverse_dir[connected_dirs]) == dir)
+			if(connected_dirs && (dir & GLOB.reverse_dir[connected_dirs]) == dir)
 				unconnected_dirs &= ~dir //they are, so unflag the cardinals in question
 			*/
 			var/turf/simulated/T = get_step(src, dir)
@@ -120,9 +120,9 @@
 	. = 0
 	if(istype(T) && T.zone)
 		#ifdef MULTIZAS
-		var/to_check = cardinalz
+		var/to_check = GLOB.cardinalz
 		#else
-		var/to_check = cardinal
+		var/to_check = GLOB.cardinal
 		#endif
 		for(var/dir in to_check)
 			var/turf/simulated/other = get_step(T, dir)
@@ -139,8 +139,7 @@
 		c_copy_air()
 		zone = null //Easier than iterating through the list at the zone.
 
-	var/s_block // CHOMPEdit
-	ATMOS_CANPASS_TURF(s_block, src, src)
+	var/s_block = self_airblock()
 	if(s_block & AIR_BLOCKED)
 		#ifdef ZASDBG
 		if(verbose) to_world("Self-blocked.")
@@ -205,7 +204,7 @@
 		if(istype(unsim, /turf/simulated))
 
 			var/turf/simulated/sim = unsim
-			sim.open_directions |= GLOB.reverse_dir[d] // CHOMPEdit
+			sim.open_directions |= GLOB.reverse_dir[d]
 
 			if(TURF_HAS_VALID_ZONE(sim)) // CHOMPEdit
 
@@ -283,7 +282,7 @@
 	//Create gas mixture to hold data for passing
 	var/datum/gas_mixture/GM = new
 
-	GM.adjust_multi(GAS_O2, oxygen, GAS_CO2, carbon_dioxide, GAS_N2, nitrogen, GAS_PHORON, phoron)
+	GM.adjust_multi(GAS_O2, oxygen, GAS_CO2, carbon_dioxide, GAS_N2, nitrogen, GAS_PHORON, phoron, GAS_N2O, nitrous_oxide, GAS_CH4, methane)
 	GM.temperature = temperature
 
 	return GM
@@ -291,12 +290,14 @@
 /turf/remove_air(amount as num)
 	var/datum/gas_mixture/GM = new
 
-	var/sum = oxygen + carbon_dioxide + nitrogen + phoron
+	var/sum = oxygen + carbon_dioxide + nitrogen + phoron + nitrous_oxide + methane
 	if(sum>0)
-		GM.gas[GAS_O2] = (oxygen/sum)*amount
-		GM.gas[GAS_CO2] = (carbon_dioxide/sum)*amount
-		GM.gas[GAS_N2] = (nitrogen/sum)*amount
-		GM.gas[GAS_PHORON] = (phoron/sum)*amount
+		GM.gas[GAS_O2] 		= (oxygen / sum) * amount
+		GM.gas[GAS_CO2] 	= (carbon_dioxide / sum) * amount
+		GM.gas[GAS_N2] 		= (nitrogen / sum) * amount
+		GM.gas[GAS_PHORON] 	= (phoron / sum) * amount
+		GM.gas[GAS_N2O] 	= (nitrous_oxide / sum) * amount
+		GM.gas[GAS_CH4] 	= (methane / sum) * amount
 
 	GM.temperature = temperature
 	GM.update_values()
@@ -339,7 +340,7 @@
 /turf/proc/make_air()
 	air = new/datum/gas_mixture
 	air.temperature = temperature
-	air.adjust_multi(GAS_O2, oxygen, GAS_CO2, carbon_dioxide, GAS_N2, nitrogen, GAS_PHORON, phoron)
+	air.adjust_multi(GAS_O2, oxygen, GAS_CO2, carbon_dioxide, GAS_N2, nitrogen, GAS_PHORON, phoron, GAS_N2O, nitrous_oxide, GAS_CH4, methane)
 	air.group_multiplier = 1
 	air.volume = CELL_VOLUME
 

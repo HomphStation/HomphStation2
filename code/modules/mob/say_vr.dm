@@ -5,7 +5,7 @@
 /mob/verb/me_verb_subtle(message as message) //This would normally go in say.dm //CHOMPEdit
 	set name = "Subtle"
 	set desc = "Emote to nearby people (and your pred/prey)"
-	set hidden = 1
+	set hidden = TRUE
 
 	if(forced_psay)
 		pme(message)
@@ -69,13 +69,21 @@
 
 	var/input
 	if(!message)
-		input = sanitize_or_reflect(tgui_input_text(src,"Choose an emote to display."), src)
+		input = sanitize_or_reflect(tgui_input_text(src,"Choose an emote to display.", encode = FALSE), src)
 	else
 		input = message
 
 	if(input)
 		log_subtle(message,src)
 		message = span_emote_subtle(span_bold("[src]") + " " + span_italics("[input]"))
+		if(src.absorbed && isbelly(src.loc))
+			var/obj/belly/B = src.loc
+			if(B.absorbedrename_enabled)
+				var/formatted_name = B.absorbedrename_name
+				formatted_name = replacetext(formatted_name,"%pred", B.owner)
+				formatted_name = replacetext(formatted_name,"%belly", B.get_belly_name())
+				formatted_name = replacetext(formatted_name,"%prey", name)
+				message = span_emote_subtle(span_bold("[formatted_name]") + " " + span_italics("[input]"))
 		if(!(subtle_mode == "Adjacent Turfs (Default)"))
 			message = span_bold("(T) ") + message
 	else
@@ -196,7 +204,7 @@
 			if(src.client && M && !(get_z(src) == get_z(M)))
 				message = span_multizsay("[message]")
 			if(isobserver(M) && (!M.read_preference(/datum/preference/toggle/ghost_see_whisubtle) || \
-			(!(read_preference(/datum/preference/toggle/whisubtle_vis) || (isbelly(M.loc) && src == M.loc:owner)) && !M.client?.holder)))
+			(!(read_preference(/datum/preference/toggle/whisubtle_vis) || (isbelly(M.loc) && src == M.loc:owner)) && !check_rights_for(M.client, R_HOLDER))))
 				spawn(0)
 					M.show_message(undisplayed_message, 2)
 			else
@@ -206,6 +214,9 @@
 						if(voice_sounds_list)	//CHOMPEdit, changes to subtle emotes to use mob voice instead
 							M << sound(pick(voice_sounds_list), volume = 25)
 
+		for(var/obj/o in contents)
+			vis_objs |= o
+
 		for(var/obj/O as anything in vis_objs)
 			spawn(0)
 				O.see_emote(src, message, 2)
@@ -214,8 +225,6 @@
 	if(act == "me")
 		return custom_emote_vr(type, message, mode_selection)
 
-#define MAX_HUGE_MESSAGE_LEN 8192
-#define POST_DELIMITER_STR "\<\>"
 /proc/sanitize_or_reflect(message,user)
 	//Way too long to send
 	if(length(message) > MAX_HUGE_MESSAGE_LEN)
@@ -247,8 +256,6 @@
 	var/posts = CEILING((length/MAX_MESSAGE_LEN), 1)
 	to_chat(user,message)
 	to_chat(user, span_danger("^ This message was NOT SENT ^ -- It was [length] characters, and the limit is [MAX_MESSAGE_LEN]. It would fit in [posts] separate messages."))
-#undef MAX_HUGE_MESSAGE_LEN
-#undef POST_DELIMITER_STR
 
 ///// PSAY /////
 
@@ -261,7 +268,7 @@
 			to_chat(src, span_warning("You cannot speak in IC (muted)."))
 			return
 	if (!message)
-		message = tgui_input_text(src, "Type a message to say.","Psay")
+		message = tgui_input_text(src, "Type a message to say.","Psay", encode = FALSE)
 	message = sanitize_or_reflect(message,src)
 	if (!message)
 		return
@@ -274,6 +281,7 @@
 	var/f = FALSE		//did we find someone to send the message to other than ourself?
 	var/mob/living/pb	//predator body
 	var/mob/living/M = src
+	var/formatted_name = "\The [M]"
 	if(istype(M, /mob/living/dominated_brain))
 		var/mob/living/dominated_brain/db = M
 		if(db.loc != db.pred_body)
@@ -289,7 +297,15 @@
 			f = TRUE
 	else if(M.absorbed && isbelly(M.loc))
 		pb = M.loc.loc
-		to_chat(pb, span_psay("\The [M] thinks, \"[message]\""))	//To our pred if absorbed
+		var/obj/belly/B = M.loc
+		if(B.absorbedrename_enabled)
+			formatted_name = B.absorbedrename_name
+			formatted_name = replacetext(formatted_name,"%pred", B.owner)
+			formatted_name = replacetext(formatted_name,"%belly", B.get_belly_name())
+			formatted_name = replacetext(formatted_name,"%prey", "\The [M]")
+			to_chat(pb, span_psay("[formatted_name] thinks, \"[message]\""))
+		else
+			to_chat(pb, span_psay("\The [M] thinks, \"[message]\""))	//To our pred if absorbed
 		if(pb.read_preference(/datum/preference/toggle/subtle_sounds))
 			if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 				pb << sound(pick(voice_sounds_list), volume = 25)
@@ -308,7 +324,7 @@
 		for(var/B in pb.vore_organs)
 			for(var/mob/living/L in B)
 				if(L.absorbed && L != M && L.ckey)
-					to_chat(L, span_psay("\The [M] thinks, \"[message]\""))	//To any absorbed people in the pred
+					to_chat(L, span_psay("[formatted_name] thinks, \"[message]\""))	//To any absorbed people in the pred
 					if(L.read_preference(/datum/preference/toggle/subtle_sounds))
 						if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 							L << sound(pick(voice_sounds_list), volume = 25)
@@ -318,7 +334,7 @@
 	for(var/I in M.contents)
 		if(istype(I, /mob/living/dominated_brain))
 			var/mob/living/dominated_brain/db = I
-			to_chat(db, span_psay(span_bold("\The [M] thinks, \"[message]\"")))	//To any dominated brains inside us
+			to_chat(db, span_psay(span_bold("[formatted_name] thinks, \"[message]\"")))	//To any dominated brains inside us
 			if(db.read_preference(/datum/preference/toggle/subtle_sounds))
 				if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 					db << sound(pick(voice_sounds_list), volume = 25)
@@ -326,7 +342,7 @@
 	for(var/B in M.vore_organs)
 		for(var/mob/living/L in B)
 			if(L.absorbed)
-				to_chat(L, span_psay(span_bold("\The [M] thinks, \"[message]\"")))	//To any absorbed people inside us
+				to_chat(L, span_psay(span_bold("[formatted_name] thinks, \"[message]\"")))	//To any absorbed people inside us
 				if(L.read_preference(/datum/preference/toggle/subtle_sounds))
 					if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 						L << sound(pick(voice_sounds_list), volume = 25)
@@ -343,13 +359,13 @@
 			if(M.read_preference(/datum/preference/toggle/subtle_sounds))
 				if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 					M << sound(pick(voice_sounds_list), volume = 25)
-		for (var/mob/G in player_list)
+		for (var/mob/G in GLOB.player_list)
 			if (isnewplayer(G))
 				continue
 			else if(isobserver(G) &&  G.client?.prefs?.read_preference(/datum/preference/toggle/ghost_ears) && \
 			G.client?.prefs?.read_preference(/datum/preference/toggle/ghost_see_whisubtle))
-				if(client?.prefs?.read_preference(/datum/preference/toggle/whisubtle_vis) || G.client.holder)
-					to_chat(G, span_psay("\The [M] thinks, \"[message]\""))
+				if(client?.prefs?.read_preference(/datum/preference/toggle/whisubtle_vis) || check_rights_for(G.client, R_HOLDER))
+					to_chat(G, span_psay("[formatted_name] thinks, \"[message]\""))
 		log_say(message,M)
 	else		//There wasn't anyone to send the message to, pred or prey, so let's just say it instead and correct our psay just in case.
 		M.forced_psay = FALSE
@@ -366,7 +382,7 @@
 			to_chat(src, span_warning("You cannot speak in IC (muted)."))
 			return
 	if (!message)
-		message = tgui_input_text(src, "Type a message to emote.","Pme")
+		message = tgui_input_text(src, "Type a message to emote.","Pme", encode = FALSE)
 	message = sanitize_or_reflect(message,src)
 	if (!message)
 		return
@@ -378,6 +394,7 @@
 	var/f = FALSE		//did we find someone to send the message to other than ourself?
 	var/mob/living/pb	//predator body
 	var/mob/living/M = src
+	var/formatted_name = "\The [M]"
 	if(istype(M, /mob/living/dominated_brain))
 		var/mob/living/dominated_brain/db = M
 		if(db.loc != db.pred_body)
@@ -394,7 +411,15 @@
 
 	else if(M.absorbed && isbelly(M.loc))
 		pb = M.loc.loc
-		to_chat(pb, span_pemote("\The [M] [message]"))	//To our pred if absorbed
+		var/obj/belly/B = M.loc
+		if(B.absorbedrename_enabled)
+			formatted_name = B.absorbedrename_name
+			formatted_name = replacetext(formatted_name,"%pred", B.owner)
+			formatted_name = replacetext(formatted_name,"%belly", B.get_belly_name())
+			formatted_name = replacetext(formatted_name,"%prey", "\The [M]")
+			to_chat(pb, span_pemote("[formatted_name] [message]"))
+		else
+			to_chat(pb, span_pemote("\The [M] [message]"))	//To our pred if absorbed
 		if(pb.read_preference(/datum/preference/toggle/subtle_sounds))
 			if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 				pb << sound(pick(voice_sounds_list), volume = 25)
@@ -405,7 +430,7 @@
 		for(var/I in pb.contents)
 			if(istype(I, /mob/living/dominated_brain) && I != M)
 				var/mob/living/dominated_brain/db = I
-				to_chat(db, span_pemote("\The [M] [message]"))	//To any dominated brains in the pred
+				to_chat(db, span_pemote("[formatted_name] [message]"))	//To any dominated brains in the pred
 				if(db.read_preference(/datum/preference/toggle/subtle_sounds))
 					if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 						pb << sound(pick(voice_sounds_list), volume = 25)
@@ -413,7 +438,7 @@
 		for(var/B in pb.vore_organs)
 			for(var/mob/living/L in B)
 				if(L.absorbed && L != M && L.ckey)
-					to_chat(L, span_pemote("\The [M] [message]"))	//To any absorbed people in the pred
+					to_chat(L, span_pemote("[formatted_name] [message]"))	//To any absorbed people in the pred
 					if(L.read_preference(/datum/preference/toggle/subtle_sounds))
 						if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 							L << sound(pick(voice_sounds_list), volume = 25)
@@ -423,7 +448,7 @@
 	for(var/I in M.contents)
 		if(istype(I, /mob/living/dominated_brain))
 			var/mob/living/dominated_brain/db = I
-			to_chat(db, span_pemote(span_bold("\The [M] [message]")))	//To any dominated brains inside us
+			to_chat(db, span_pemote(span_bold("[formatted_name] [message]")))	//To any dominated brains inside us
 			if(db.read_preference(/datum/preference/toggle/subtle_sounds))
 				if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 					db << sound(pick(voice_sounds_list), volume = 25)
@@ -431,7 +456,7 @@
 	for(var/B in M.vore_organs)
 		for(var/mob/living/L in B)
 			if(L.absorbed)
-				to_chat(L, span_pemote(span_bold("\The [M] [message]")))	//To any absorbed people inside us
+				to_chat(L, span_pemote(span_bold("[formatted_name] [message]")))	//To any absorbed people inside us
 				if(L.read_preference(/datum/preference/toggle/subtle_sounds))
 					if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 						L << sound(pick(voice_sounds_list), volume = 25)
@@ -439,7 +464,7 @@
 
 	if(f)	//We found someone to send the message to
 		if(pb)
-			to_chat(M, span_pemote("\The [M] [message]"))	//To us if we are the prey
+			to_chat(M, span_pemote("[formatted_name] [message]"))	//To us if we are the prey
 			if(M.read_preference(/datum/preference/toggle/subtle_sounds))
 				if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 					M << sound(pick(voice_sounds_list), volume = 25)
@@ -448,13 +473,13 @@
 			if(M.read_preference(/datum/preference/toggle/subtle_sounds))
 				if(voice_sounds_list)	//CHOMPEdit, changes subtle emote sound to use mob voice instead
 					M << sound(pick(voice_sounds_list), volume = 25)
-		for (var/mob/G in player_list)
+		for (var/mob/G in GLOB.player_list)
 			if (isnewplayer(G))
 				continue
 			else if(isobserver(G) && G.client?.prefs?.read_preference(/datum/preference/toggle/ghost_ears) && \
 			G.client?.prefs?.read_preference(/datum/preference/toggle/ghost_see_whisubtle))
-				if(client?.prefs?.read_preference(/datum/preference/toggle/whisubtle_vis) || G.client.holder)
-					to_chat(G, span_pemote("\The [M] [message]"))
+				if(client?.prefs?.read_preference(/datum/preference/toggle/whisubtle_vis) || check_rights_for(G.client, R_HOLDER))
+					to_chat(G, span_pemote("[formatted_name] [message]"))
 		log_say(message,M)
 	else	//There wasn't anyone to send the message to, pred or prey, so let's just emote it instead and correct our psay just in case.
 		M.forced_psay = FALSE
@@ -469,7 +494,7 @@
 			to_chat(src, span_warning("You cannot speak in IC (muted)."))
 			return
 	if(!message)
-		message = tgui_input_text(src, "Type a message to narrate.","Narrate")
+		message = tgui_input_text(src, "Type a message to narrate.","Narrate", encode = FALSE)
 	message = sanitize_or_reflect(message,src)
 	if(!message)
 		return
@@ -490,7 +515,7 @@
 		ourfreq = voice_freq
 
 	if(client)
-		playsound(T, pick(emote_sound), 25, TRUE, falloff = 1 , is_global = TRUE, frequency = ourfreq, ignore_walls = TRUE, preference = /datum/preference/toggle/emote_sounds) //ChompEDIT - ignore walls
+		playsound(T, pick(GLOB.emote_sound), 25, TRUE, falloff = 1 , is_global = TRUE, frequency = ourfreq, ignore_walls = TRUE, preference = /datum/preference/toggle/emote_sounds) //ChompEDIT - ignore walls
 
 	var/list/in_range = get_mobs_and_objs_in_view_fast(T,world.view,2,remote_ghosts = client ? TRUE : FALSE)
 	var/list/m_viewers = in_range["mobs"]
@@ -508,6 +533,8 @@
 	set name = "Select Speech Bubble"
 	set category = "OOC.Chat Settings" //CHOMPEdit
 
-	var/new_speech_bubble = tgui_input_list(src, "Pick new voice (default for automatic selection)", "Character Preference", selectable_speech_bubbles)
+	var/new_speech_bubble = tgui_input_list(src, "Pick new voice (default for automatic selection)", "Character Preference", GLOB.selectable_speech_bubbles)
 	if(new_speech_bubble)
 		custom_speech_bubble = new_speech_bubble
+		if(dna)
+			dna.custom_speech_bubble = new_speech_bubble

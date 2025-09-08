@@ -37,11 +37,11 @@
 				if(!AMBLINAL.mind)
 					AMBLINAL.ghostjoin = 1
 					AMBLINAL.ghostjoin_icon()
-					active_ghost_pods |= AMBLINAL
+					GLOB.active_ghost_pods |= AMBLINAL
 			//VOREStation Add End
 		user.visible_message(span_notice("[user] pries \the [src] open."), \
-							 span_notice("You pry open \the [src]."), \
-							 span_notice("You hear splitting wood."))
+								span_notice("You pry open \the [src]."), \
+								span_notice("You hear splitting wood."))
 		qdel(src)
 	else
 		return attack_hand(user)
@@ -134,3 +134,7 @@
 /obj/structure/largecrate/animal/catslug
 	name = "catslug carrier"
 	starts_with = list(/mob/living/simple_mob/vore/alienanimals/catslug)
+
+/obj/structure/largecrate/animal/mothroach
+	name = "mothroach carrier"
+	starts_with = list(/mob/living/simple_mob/animal/passive/mothroach)

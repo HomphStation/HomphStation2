@@ -1,4 +1,4 @@
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 export type Data = Partial<
   MultiData &
@@ -61,6 +61,7 @@ export type sensor = {
   oxygen: string;
   carbon_dioxide: string;
   phoron: string;
+  methane: string;
   other: string;
   temp: string;
   reading: BooleanLike;

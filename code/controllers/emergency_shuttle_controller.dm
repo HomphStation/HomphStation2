@@ -2,8 +2,6 @@
 
 // Controls the emergency shuttle
 
-var/global/datum/emergency_shuttle_controller/emergency_shuttle = new
-
 /datum/emergency_shuttle_controller
 	var/datum/shuttle/autodock/ferry/emergency/shuttle // Set in shuttle_emergency.dm TODO - is it really?
 	var/list/escape_pods
@@ -18,11 +16,14 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle = new
 	var/deny_shuttle = 0	//allows admins to prevent the shuttle from being called
 	var/departed = 0		//if the shuttle has left the station at least once
 
-	var/datum/announcement/priority/emergency_shuttle_docked = new(0, new_sound = sound('sound/AI/shuttledock.ogg'))
-	var/datum/announcement/priority/emergency_shuttle_called = new(0, new_sound = sound('sound/AI/shuttlecalled.ogg'))
-	var/datum/announcement/priority/emergency_shuttle_recalled = new(0, new_sound = sound('sound/AI/shuttlerecalled.ogg'))
+	var/datum/announcement/priority/emergency_shuttle_docked
+	var/datum/announcement/priority/emergency_shuttle_called
+	var/datum/announcement/priority/emergency_shuttle_recalled
 
 /datum/emergency_shuttle_controller/New()
+	emergency_shuttle_docked = new(0, new_sound = sound('sound/AI/shuttledock.ogg'))
+	emergency_shuttle_called = new(0, new_sound = sound('sound/AI/shuttlecalled.ogg'))
+	emergency_shuttle_recalled = new(0, new_sound = sound('sound/AI/shuttlerecalled.ogg'))
 	escape_pods = list()
 	..()
 
@@ -136,7 +137,7 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle = new
 		priority_announcement.Announce(using_map.shuttle_recall_message)
 
 /datum/emergency_shuttle_controller/proc/can_call()
-	if (!universe.OnShuttleCall(null))
+	if (!GLOB.universe.OnShuttleCall(null))
 		return 0
 	if (deny_shuttle)
 		return 0
@@ -160,8 +161,8 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle = new
 
 /datum/emergency_shuttle_controller/proc/get_shuttle_prep_time()
 	// During mutiny rounds, the shuttle takes twice as long.
-	if(ticker && ticker.mode)
-		return SHUTTLE_PREPTIME * ticker.mode.shuttle_delay
+	if(SSticker && SSticker.mode)
+		return SHUTTLE_PREPTIME * SSticker.mode.shuttle_delay
 	return SHUTTLE_PREPTIME
 
 
@@ -271,10 +272,10 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle = new
 			return
 
 /obj/effect/starender
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 
 /obj/effect/starspawner
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	var/spawndir = SOUTH
 	var/spawning = 0
 

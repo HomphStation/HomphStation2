@@ -56,12 +56,8 @@
 	desc = "Dainty, well groomed and cared for, her eyes glitter with untold knowledge..."
 	gender = FEMALE
 
-/mob/living/simple_mob/animal/passive/mouse/white/apple/New()
-	..()
-	// Change my name back, don't want to be named Apple (666)
-	name = initial(name)
-	desc = initial(desc)
-
+/mob/living/simple_mob/animal/passive/mouse/white/apple/Initialize(mapload, keep_parent_data)
+	. = ..(mapload, TRUE)
 
 /obj/item/holder/mouse/attack_self(mob/living/carbon/user)
 	user.setClickCooldown(user.get_attack_speed())
@@ -69,3 +65,34 @@
 		if(isanimal(L))
 			var/mob/living/simple_mob/S = L
 			user.visible_message(span_notice("[user] [S.response_help] \the [S]."))
+
+/mob/living/simple_mob/animal/passive/mouse/mining
+	body_color = "brown"
+	icon = 'icons/mob/animal.dmi'
+	icon_state = "mouse_miner"
+	item_state = "mouse_miner"
+	icon_living = "mouse_miner"
+	name = "Cooper"
+	desc = "A lonely miner's best friend."
+
+/mob/living/simple_mob/animal/passive/mouse/mining/Initialize(mapload)
+	. = ..()
+
+	add_verb(src,/mob/living/proc/ventcrawl)
+	add_verb(src,/mob/living/proc/hide)
+	icon_state = "mouse_miner"
+	item_state = "mouse_miner"
+	icon_living = "mouse_miner"
+	icon_dead = "mouse_miner_dead"
+	icon_rest = "mouse_miner_sleep"
+	desc = "A lonely miner's best friend."
+
+
+/mob/living/simple_mob/animal/passive/mouse/mining/splat()
+	src.health = 0
+	src.set_stat(DEAD)
+	src.icon_dead = "mouse_miner_splat"
+	src.icon_state = "mouse_miner_splat"
+	layer = MOB_LAYER
+	if(client)
+		client.time_died_as_mouse = world.time

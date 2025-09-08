@@ -27,6 +27,7 @@
 	return ..()
 
 /obj/machinery/door/airlock/multi_tile/proc/SetBounds()
+	SIGNAL_HANDLER
 	if(dir in list(EAST, WEST))
 		bound_width = width * world.icon_size
 		bound_height = world.icon_size
@@ -48,4 +49,4 @@
 
 /obj/machinery/door/airlock/multi_tile/metal/mait
 	icon = 'icons/obj/doors/Door2x1_Maint.dmi'
-	//req_one_access = list(access_maint_tunnels) //VOREStaiton Edit - Maintenance is open access
+	//req_one_access = list(ACCESS_MAINT_TUNNELS) //VOREStaiton Edit - Maintenance is open access

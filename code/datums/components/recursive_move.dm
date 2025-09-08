@@ -12,12 +12,13 @@
 /datum/component/recursive_move/RegisterWithParent()
 	. = ..()
 	holder = parent
-	RegisterSignal(holder, COMSIG_PARENT_QDELETING, PROC_REF(on_holder_qdel))
+	RegisterSignal(holder, COMSIG_QDELETING, PROC_REF(on_holder_qdel))
 	spawn(0) // Delayed action if our holder is spawned in nullspace and then loc = target, hopefully this catches it. VV Add item does this, for example.
 		if(!QDELETED(src))
 			setup_parents()
 
 /datum/component/recursive_move/proc/setup_parents()
+	SIGNAL_HANDLER
 	if(length(parents)) // safety check just incase this was called without clearing
 		reset_parents()
 	var/atom/movable/cur_parent = holder?.loc // first loc could be null
@@ -34,7 +35,7 @@
 		recursion++
 		parents += cur_parent
 		RegisterSignal(cur_parent, COMSIG_ATOM_EXITED, PROC_REF(heirarchy_changed))
-		RegisterSignal(cur_parent, COMSIG_PARENT_QDELETING, PROC_REF(on_qdel))
+		RegisterSignal(cur_parent, COMSIG_QDELETING, PROC_REF(on_qdel))
 
 		cur_parent = cur_parent.loc
 
@@ -64,7 +65,7 @@
 	if(!length(parents))
 		return
 	for(var/atom/movable/cur_parent in parents)
-		UnregisterSignal(cur_parent, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(cur_parent, COMSIG_QDELETING)
 		UnregisterSignal(cur_parent, COMSIG_ATOM_EXITED)
 
 	UnregisterSignal(parents[parents.len], COMSIG_ATOM_ENTERING)
@@ -85,12 +86,14 @@
 //Some things will move their contents on qdel so we should prepare ourselves to be moved.
 //If this qdel does destroy our holder, on_holder_qdel will handle preperations for GC
 /datum/component/recursive_move/proc/on_qdel()
+	SIGNAL_HANDLER
 	reset_parents()
 	noparents = TRUE
 	RegisterSignal(holder, COMSIG_ATOM_ENTERING, PROC_REF(setup_parents))
 
 /datum/component/recursive_move/proc/on_holder_qdel()
-	UnregisterSignal(holder, COMSIG_PARENT_QDELETING)
+	SIGNAL_HANDLER
+	UnregisterSignal(holder, COMSIG_QDELETING)
 	reset_parents()
 	holder = null
 	qdel(src)
@@ -98,7 +101,7 @@
 /datum/component/recursive_move/Destroy()
 	. = ..()
 	reset_parents()
-	if(holder) UnregisterSignal(holder, COMSIG_PARENT_QDELETING)
+	if(holder) UnregisterSignal(holder, COMSIG_QDELETING)
 	holder = null
 
 /datum/component/recursive_move/proc/reset_parents()
@@ -111,6 +114,7 @@
 	desc = "spams world log with debugging information"
 
 /obj/item/bananapeel/testing/proc/shmove(var/atom/source, var/atom/old_loc, var/atom/new_loc)
+	SIGNAL_HANDLER
 	world.log << "the [source] moved from [old_loc]([old_loc.x],[old_loc.y],[old_loc.z]) to [new_loc]([new_loc.x],[new_loc.y],[new_loc.z])"
 
 /obj/item/bananapeel/testing/Initialize(mapload)

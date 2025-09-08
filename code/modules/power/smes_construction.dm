@@ -194,7 +194,7 @@
 	log_game("SMES FAILURE: <b>[src.x]X [src.y]Y [src.z]Z</b> User: [h_user.ckey], Intensity: [intensity]/100")
 	message_admins("SMES FAILURE: <b>[src.x]X [src.y]Y [src.z]Z</b> User: [h_user.ckey], Intensity: [intensity]/100 - <A href='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>JMP</a>")
 
-	var/used_hand = h_user.hand?"l_hand":"r_hand"
+	var/used_hand = h_user.hand?BP_L_HAND:BP_R_HAND
 
 	switch (intensity)
 		if (0 to 15)
@@ -313,7 +313,6 @@
 		// Multitool - change RCON tag
 		if(istype(W, /obj/item/multitool))
 			var/newtag = tgui_input_text(user, "Enter new RCON tag. Use \"NO_TAG\" to disable RCON or leave empty to cancel.", "SMES RCON system", "", MAX_NAME_LEN)
-			newtag = sanitize(newtag,MAX_NAME_LEN)
 			if(newtag)
 				RCon_tag = newtag
 				to_chat(user, span_notice("You changed the RCON tag to: [newtag]"))
@@ -342,7 +341,7 @@
 
 			playsound(src, W.usesound, 50, 1)
 			to_chat(user, span_warning("You begin to disassemble the [src]!"))
-			if (do_after(user, (100 * cur_coils) * W.toolspeed)) // More coils = takes longer to disassemble. It's complex so largest one with 5 coils will take 50s with a normal crowbar
+			if (do_after(user, (10 SECONDS * cur_coils) * W.toolspeed, target = src)) // More coils = takes longer to disassemble. It's complex so largest one with 5 coils will take 50s with a normal crowbar
 
 				if (failure_probability && prob(failure_probability))
 					total_system_failure(failure_probability, user)

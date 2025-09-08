@@ -118,30 +118,34 @@
 	name = "ignition switch"
 	desc = "A remote control switch for a mounted igniter."
 
-/obj/machinery/button/ignition/attack_hand(mob/user as mob)
+/obj/machinery/button/ignition/attack_hand(mob/user)
 
 	if(..())
 		return
 
 	use_power(5)
 
-	active = 1
+	if(active)
+		return
+
+	active = TRUE
 	icon_state = "launcheract"
 
-	for(var/obj/machinery/sparker/M in machines)
+	for(var/obj/machinery/sparker/M in GLOB.machines)
 		if(M.id == id)
 			spawn(0)
 				M.ignite()
 
-	for(var/obj/machinery/igniter/M in machines)
+	for(var/obj/machinery/igniter/M in GLOB.machines)
 		if(M.id == id)
 			use_power(50)
 			M.on = !(M.on)
 			M.icon_state = text("igniter[]", M.on)
 
-	sleep(50)
+	addtimer(CALLBACK(src, PROC_REF(finish_trigger)), 5 SECONDS, TIMER_DELETE_ME|TIMER_UNIQUE)
+
+/obj/machinery/button/ignition/proc/finish_trigger()
+	PRIVATE_PROC(TRUE)
 
 	icon_state = "launcherbtt"
-	active = 0
-
-	return
+	active = FALSE

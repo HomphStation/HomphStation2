@@ -17,9 +17,9 @@
 	name = "Medibot"
 	desc = "A little medical robot. He looks somewhat underwhelmed."
 	icon_state = "medibot0"
-	req_one_access = list(access_robotics, access_medical)
-	botcard_access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
-	max_frustration = 7	//CHOMPEdit
+	req_one_access = list(ACCESS_ROBOTICS, ACCESS_MEDICAL)
+	botcard_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CHEMISTRY, ACCESS_VIROLOGY, ACCESS_GENETICS)
+	max_frustration = 7	// CHOMPAdd
 
 	var/skin = null //Set to "tox", "ointment" or "o2" for the other two firstaid kits.
 
@@ -147,7 +147,7 @@
 	visible_message(span_warning("[src] is trying to inject [H]!"))
 	if(declare_treatment)
 		var/area/location = get_area(src)
-		global_announcer.autosay("[src] is treating <b>[H]</b> in <b>[location]</b>", "[src]", "Medical")
+		GLOB.global_announcer.autosay("[src] is treating <b>[H]</b> in <b>[location]</b>", "[src]", "Medical")
 	busy = 1
 	update_icons()
 	if(do_mob(src, H, 30))
@@ -207,12 +207,12 @@
 			say(message)
 			playsound(src, messagevoice[message], 70, FALSE)
 
-		if(do_after(H, 3 SECONDS, target=src))
+		if(do_after(H, 3 SECONDS, target = src))
 			tip_over(H)
 
 	else if(istype(H) && H.a_intent == I_HELP && is_tipped)
 		H.visible_message(span_notice("[H] begins righting [src]."), span_notice("You begin righting [src]..."))
-		if(do_after(H, 3 SECONDS, target=src))
+		if(do_after(H, 3 SECONDS, target = src))
 			set_right(H)
 	else
 		tgui_interact(H)
@@ -405,7 +405,7 @@
 		if(MEDBOT_PANIC_ENDING)
 			messagevoice = list("Is this the end?" = 'sound/voice/medbot/is_this_the_end.ogg', "Nooo!" = 'sound/voice/medbot/nooo.ogg')
 		if(MEDBOT_PANIC_END)
-			global_announcer.autosay("PSYCH ALERT: Crewmember [tipper_name] recorded displaying antisocial tendencies torturing bots in [get_area(src)]. Please schedule psych evaluation.", "[src]", "Medical")
+			GLOB.global_announcer.autosay("PSYCH ALERT: Crewmember [tipper_name] recorded displaying antisocial tendencies torturing bots in [get_area(src)]. Please schedule psych evaluation.", "[src]", "Medical")
 			set_right() // strong independent medbot
 
 	// if(prob(tipped_status)) // Commented out pending introduction of jitter stuff from /tg/
@@ -536,7 +536,7 @@
 /obj/item/firstaid_arm_assembly/attackby(obj/item/W as obj, mob/user as mob)
 	..()
 	if(istype(W, /obj/item/pen))
-		var/t = sanitizeSafe(tgui_input_text(user, "Enter new robot name", name, created_name, MAX_NAME_LEN), MAX_NAME_LEN)
+		var/t = sanitizeSafe(tgui_input_text(user, "Enter new robot name", name, created_name, MAX_NAME_LEN, encode = FALSE), MAX_NAME_LEN)
 		if(!t)
 			return
 		if(!in_range(src, user) && loc != user)

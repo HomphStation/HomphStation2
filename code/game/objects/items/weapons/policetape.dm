@@ -72,7 +72,7 @@ var/list/tape_roll_applications = list()
 /obj/item/tape/medical
 	name = "medical tape"
 	desc = "A length of medical tape.  Do not cross."
-	req_access = list(access_medical)
+	req_access = list(ACCESS_MEDICAL)
 	color = COLOR_WHITE
 
 /obj/item/taperoll/police
@@ -84,7 +84,7 @@ var/list/tape_roll_applications = list()
 /obj/item/tape/police
 	name = "police tape"
 	desc = "A length of police tape.  Do not cross."
-	req_access = list(access_security)
+	req_access = list(ACCESS_SECURITY)
 	color = COLOR_RED_LIGHT
 
 /obj/item/taperoll/engineering
@@ -99,7 +99,7 @@ var/list/tape_roll_applications = list()
 /obj/item/tape/engineering
 	name = "engineering tape"
 	desc = "A length of engineering tape. Better not cross it."
-	req_one_access = list(access_engine,access_atmospherics)
+	req_one_access = list(ACCESS_ENGINE,ACCESS_ATMOSPHERICS)
 	color = COLOR_YELLOW
 
 /obj/item/taperoll/atmos
@@ -111,7 +111,7 @@ var/list/tape_roll_applications = list()
 /obj/item/tape/atmos
 	name = "atmospherics tape"
 	desc = "A length of atmospherics tape. Better not cross it."
-	req_one_access = list(access_engine,access_atmospherics)
+	req_one_access = list(ACCESS_ENGINE,ACCESS_ATMOSPHERICS)
 	color = COLOR_DEEP_SKY_BLUE
 
 /obj/item/taperoll/update_icon()
@@ -155,13 +155,13 @@ var/list/tape_roll_applications = list()
 			// spread tape in all directions, provided there is a wall/window
 			var/turf/T
 			var/possible_dirs = 0
-			for(var/dir in cardinal)
+			for(var/dir in GLOB.cardinal)
 				T = get_step(start, dir)
 				if(T && T.density)
 					possible_dirs |= dir
 				else
 					for(var/obj/structure/window/W in T)
-						if(W.is_fulltile() || W.dir == reverse_dir[dir])
+						if(W.is_fulltile() || W.dir == GLOB.reverse_dir[dir])
 							possible_dirs |= dir
 			for(var/obj/structure/window/window in start)
 				if(istype(window) && !window.is_fulltile())
@@ -215,12 +215,12 @@ var/list/tape_roll_applications = list()
 							else
 								continue
 						else if(cur == end)
-							if(window.dir == reverse_dir[orientation])
+							if(window.dir == GLOB.reverse_dir[orientation])
 								can_place = 0
 								break
 							else
 								continue
-						else if (window.dir == reverse_dir[orientation] || window.dir == orientation)
+						else if (window.dir == GLOB.reverse_dir[orientation] || window.dir == orientation)
 							can_place = 0
 							break
 						else
@@ -244,21 +244,21 @@ var/list/tape_roll_applications = list()
 			tapetest = 0
 			tape_dir = dir
 			if(cur == start)
-				var/turf/T = get_step(start, reverse_dir[orientation])
+				var/turf/T = get_step(start, GLOB.reverse_dir[orientation])
 				if(T && !T.density)
 					tape_dir = orientation
 					for(var/obj/structure/window/W in T)
 						if(W.is_fulltile() || W.dir == orientation)
 							tape_dir = dir
 				for(var/obj/structure/window/window in cur)
-					if(istype(window) && !window.is_fulltile() && window.dir == reverse_dir[orientation])
+					if(istype(window) && !window.is_fulltile() && window.dir == GLOB.reverse_dir[orientation])
 						tape_dir = dir
 			else if(cur == end)
 				var/turf/T = get_step(end, orientation)
 				if(T && !T.density)
-					tape_dir = reverse_dir[orientation]
+					tape_dir = GLOB.reverse_dir[orientation]
 					for(var/obj/structure/window/W in T)
-						if(W.is_fulltile() || W.dir == reverse_dir[orientation])
+						if(W.is_fulltile() || W.dir == GLOB.reverse_dir[orientation])
 							tape_dir = dir
 				for(var/obj/structure/window/window in cur)
 					if(istype(window) && !window.is_fulltile() && window.dir == orientation)
@@ -378,7 +378,7 @@ var/list/tape_roll_applications = list()
 	if(user.a_intent == I_HELP)
 		to_chat(user, span_warning("You refrain from breaking \the [src]."))
 		return
-	user.visible_message(span_bold("\The [user]") + "breaks \the [src]!",span_notice("You break \the [src]."))
+	user.visible_message(span_bold("\The [user]") + " breaks \the [src]!",span_notice("You break \the [src]."))
 
 	for (var/obj/item/tape/T in gettapeline())
 		if(T == src)

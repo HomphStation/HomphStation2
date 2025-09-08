@@ -124,7 +124,7 @@
 	opacity = 0
 	anchored = FALSE
 	pressure_resistance = 2*ONE_ATMOSPHERE
-	req_access = list(access_engine)
+	req_access = list(ACCESS_ENGINE)
 	var/const/max_health = 100
 	var/health = max_health
 	var/active = 0
@@ -136,14 +136,14 @@
 	var/check_delay = 60	//periodically recheck if we need to rebuild a shield
 	use_power = USE_POWER_OFF
 	idle_power_usage = 0
-	var/global/list/blockedturfs =  list(
-		/turf/space,
-		/turf/simulated/floor/outdoors,
-	)
+
+/obj/machinery/shieldgen/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/climbable)
 
 /obj/machinery/shieldgen/Destroy()
 	collapse_shields()
-	..()
+	. = ..()
 
 /obj/machinery/shieldgen/proc/shields_up()
 	if(active) return 0 //If it's already turned on, how did this get called?
@@ -171,7 +171,7 @@
 
 /obj/machinery/shieldgen/proc/create_shields()
 	for(var/turf/target_tile in range(2, src))
-		if (is_type_in_list(target_tile,blockedturfs) && !(locate(/obj/machinery/shield) in target_tile))
+		if (is_type_in_list(target_tile,GLOB.shieldgen_blockedturfs) && !(locate(/obj/machinery/shield) in target_tile))
 			if (malfunction && prob(33) || !malfunction)
 				var/obj/machinery/shield/S = new/obj/machinery/shield(target_tile)
 				deployed_shields += S
@@ -293,7 +293,7 @@
 		var/obj/item/stack/cable_coil/coil = W
 		to_chat(user, span_notice("You begin to replace the wires."))
 		//if(do_after(user, min(60, round( ((getMaxHealth()/health)*10)+(malfunction*10) ))) //Take longer to repair heavier damage
-		if(do_after(user, 30))
+		if(do_after(user, 3 SECONDS, target = src))
 			if (coil.use(1))
 				health = max_health
 				malfunction = 0

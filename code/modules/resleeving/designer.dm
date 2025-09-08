@@ -13,7 +13,7 @@
 	icon_screen = "explosive"
 	light_color = "#315ab4"
 	circuit = /obj/item/circuitboard/body_designer
-	req_access = list(access_medical) // Used for loading people's designs
+	req_access = list(ACCESS_MEDICAL) // Used for loading people's designs
 	var/datum/tgui_module/appearance_changer/body_designer/designer_gui
 	var/obj/item/disk/body_record/disk = null
 	var/selected_record = FALSE
@@ -59,6 +59,7 @@
 	if(!designer_gui)
 		designer_gui = new(src, null)
 		designer_gui.linked_body_design_console = WEAKREF(src)
+		CallAsync(designer_gui, TYPE_PROC_REF(/datum/tgui_module/appearance_changer,jiggle_map))
 	if(!designer_gui.owner)
 		designer_gui.make_fake_owner()
 		selected_record = FALSE
@@ -85,8 +86,8 @@
 	desc = "A box of body record disks, apparently."
 	icon_state = "disk_kit"
 
-/obj/item/storage/box/body_record_disk/New()
-	..()
+/obj/item/storage/box/body_record_disk/Initialize(mapload)
+	. = ..()
 	for(var/i = 0 to 7)
 		new /obj/item/disk/body_record(src)
 

@@ -409,6 +409,10 @@
 /obj/effect/landmark/vines,
 /turf/simulated/open,
 /area/stellardelight/deck2/starboard)
+"aW" = (
+/obj/machinery/vending/cigarette,
+/turf/simulated/floor/airless,
+/area/stellardelight/deck3/exterior)
 "aX" = (
 /obj/structure/sign/deck3{
 	pixel_x = 32
@@ -418,6 +422,25 @@
 	},
 /turf/simulated/floor/tiled,
 /area/stellardelight/deck3/aft)
+"aY" = (
+/obj/structure/sign/small/nosmoking{
+	pixel_y = 27
+	},
+/obj/structure/railing/grey{
+	dir = 4
+	},
+/obj/item/trash/cigbutt,
+/obj/effect/floor_decal/shuttle/blue,
+/turf/simulated/floor/airless,
+/area/stellardelight/deck3/exterior)
+"aZ" = (
+/obj/machinery/maint_recycler,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/aftstarroom)
+"ba" = (
+/obj/machinery/maint_vendor,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/aftstarroom)
 "bb" = (
 /obj/effect/floor_decal/techfloor/orange{
 	dir = 8
@@ -425,6 +448,10 @@
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/tiled/techfloor,
 /area/stellardelight/deck3/transitgateway)
+"bc" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/portaft)
 "bd" = (
 /obj/structure/closet,
 /turf/simulated/floor,
@@ -440,6 +467,10 @@
 	},
 /turf/simulated/floor/reinforced/airless,
 /area/shuttle/sdboat/fore/airless_base)
+"bf" = (
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/starboardaft)
 "bg" = (
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
@@ -473,10 +504,18 @@
 	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/maintenance/stellardelight/deck3/starboardfore)
+"bi" = (
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/starboardcent)
 "bj" = (
 /obj/structure/flora/pottedplant/stoutbush,
 /turf/simulated/floor/tiled/dark,
 /area/lawoffice)
+"bk" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/portfore)
 "bl" = (
 /obj/structure/lattice,
 /obj/structure/cable/green{
@@ -504,6 +543,10 @@
 	},
 /turf/simulated/open,
 /area/stellardelight/deck2/fore)
+"bo" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/starboardfore)
 "bp" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 4
@@ -513,6 +556,10 @@
 	},
 /turf/simulated/floor/airless,
 /area/stellardelight/deck3/exterior)
+"bq" = (
+/obj/machinery/space_heater,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/aftstarroom)
 "br" = (
 /obj/structure/lattice,
 /obj/structure/cable{
@@ -528,6 +575,14 @@
 	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/ai)
+"bt" = (
+/obj/machinery/space_heater,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/maintenance/stellardelight/deck3/foreportroomb)
+"bu" = (
+/obj/machinery/space_heater,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck3/foreportrooma)
 "bx" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /turf/simulated/floor/carpet/purcarpet,
@@ -1847,7 +1902,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/portcent)
 "gB" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -2482,7 +2537,7 @@
 /turf/simulated/floor/tiled,
 /area/stellardelight/deck3/aft)
 "iY" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -3430,7 +3485,7 @@
 /obj/effect/map_helper/airlock/atmos/pump_out_external,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sdboat_docker_pump_out_external"
 	},
 /turf/simulated/wall/fancy_shuttle/low{
@@ -3722,7 +3777,7 @@
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -3734,7 +3789,7 @@
 /obj/machinery/access_button{
 	command = "cycle_interior";
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_starboard";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -3934,7 +3989,7 @@
 	dir = 6
 	},
 /obj/machinery/door/airlock/angled_bay/external/glass{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -3943,7 +3998,7 @@
 /obj/machinery/access_button{
 	command = "cycle_interior";
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_center_right";
 	pixel_x = 32;
 	req_one_access = list(13)
@@ -3953,12 +4008,12 @@
 "ou" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port_multi{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sd_escape_center_right";
 	master_tag = "escape_dock";
 	pixel_x = 24;
@@ -3970,7 +4025,7 @@
 	},
 /obj/machinery/airlock_sensor{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_x = -25
 	},
@@ -4482,7 +4537,7 @@
 	},
 /area/tcommsat/chamber)
 "qb" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -4507,7 +4562,7 @@
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -4519,7 +4574,7 @@
 /obj/machinery/access_button{
 	command = "cycle_interior";
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_port";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -4881,11 +4936,11 @@
 "rr" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port_multi{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sd_escape_starboard";
 	master_tag = "escape_dock";
 	pixel_y = 30;
@@ -4896,7 +4951,7 @@
 	tag_interior_door = null
 	},
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_y = -25
 	},
@@ -5099,7 +5154,7 @@
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -5111,7 +5166,7 @@
 /obj/machinery/access_button{
 	command = "cycle_interior";
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_port_landing";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -5469,7 +5524,7 @@
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -5478,7 +5533,7 @@
 /obj/machinery/access_button{
 	command = "cycle_exterior";
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_port";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -6057,7 +6112,7 @@
 /turf/simulated/floor/bluegrid,
 /area/ai_cyborg_station)
 "we" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -6085,18 +6140,18 @@
 "wm" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sd_starboard_landing";
 	pixel_y = 29
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
 /obj/effect/map_helper/airlock/sensor/chamber_sensor,
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_y = -25
 	},
@@ -6792,14 +6847,14 @@
 /obj/machinery/access_button{
 	command = "cycle_exterior";
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_starboard_landing";
 	pixel_y = 32;
 	req_one_access = list(13)
 	},
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -7328,14 +7383,14 @@
 	dir = 10
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sdboat_docker";
 	pixel_x = 5;
 	pixel_y = 25
 	},
 /obj/machinery/airlock_sensor{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_x = 25;
 	pixel_y = 2
@@ -7538,7 +7593,7 @@
 	id_tag = null
 	},
 /obj/machinery/embedded_controller/radio/airlock/airlock_controller{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "tcommsairlock";
 	pixel_y = 24;
 	req_one_access = list(61)
@@ -7633,7 +7688,7 @@
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -7642,7 +7697,7 @@
 /obj/machinery/access_button{
 	command = "cycle_exterior";
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_port_landing";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -7759,12 +7814,12 @@
 "BR" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port_multi{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sd_escape_center_left";
 	master_tag = "escape_dock";
 	pixel_x = -24;
@@ -7776,7 +7831,7 @@
 	},
 /obj/machinery/airlock_sensor{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_x = 25
 	},
@@ -7991,11 +8046,11 @@
 "CD" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port_multi{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sd_escape_port";
 	master_tag = "escape_dock";
 	pixel_y = 30;
@@ -8006,7 +8061,7 @@
 	tag_interior_door = null
 	},
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_y = -25
 	},
@@ -8518,7 +8573,7 @@
 /obj/machinery/access_button{
 	command = "cycle_exterior";
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "tcommsairlock";
 	pixel_x = -32;
 	req_one_access = list(61)
@@ -8749,10 +8804,11 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 5
 	},
+/obj/effect/recycler_vendor_beacon,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/portaft)
 "FH" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -9817,7 +9873,7 @@
 "JA" = (
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -9825,7 +9881,7 @@
 /obj/effect/map_helper/airlock/door/ext_door,
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_center_left";
 	pixel_x = -32;
 	req_one_access = list(13)
@@ -9908,7 +9964,7 @@
 	child_names_txt = "Port;Center Left;Center Right;Starboard";
 	child_tags_txt = "sd_escape_port;sd_escape_center_left;sd_escape_center_right;sd_escape_starboard";
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "escape_dock";
 	pixel_y = -18;
 	req_one_access = list(13)
@@ -10564,18 +10620,18 @@
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
 /obj/effect/map_helper/airlock/sensor/chamber_sensor,
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	pixel_y = -25
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sd_port_landing";
 	pixel_y = 29
 	},
@@ -10608,6 +10664,7 @@
 	pixel_y = 18
 	},
 /obj/item/book/manual/sd_guide,
+/obj/item/gold_star_printer,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/heads/hop)
 "Mu" = (
@@ -11132,7 +11189,7 @@
 /obj/machinery/access_button{
 	command = "cycle_interior";
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_starboard_landing";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -11142,7 +11199,7 @@
 	},
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -11230,7 +11287,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/foreportrooma)
 "Op" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -11349,7 +11406,7 @@
 	},
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "tcommsairlock";
 	pixel_x = 32;
 	req_one_access = list(61)
@@ -11918,7 +11975,7 @@
 "QJ" = (
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -11926,7 +11983,7 @@
 /obj/effect/map_helper/airlock/door/ext_door,
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_center_right";
 	pixel_x = 32;
 	req_one_access = list(13)
@@ -12704,7 +12761,7 @@
 /turf/simulated/floor/tiled,
 /area/stellardelight/deck3/aft)
 "TE" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -13158,7 +13215,7 @@
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/external/glass{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -13167,7 +13224,7 @@
 /obj/machinery/access_button{
 	command = "cycle_exterior";
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_starboard";
 	pixel_y = 32;
 	req_one_access = list(13)
@@ -13227,7 +13284,7 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/maintenance/stellardelight/deck3/forestarroomb)
 "Vz" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -13299,7 +13356,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/portcent)
 "VM" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -13471,7 +13528,7 @@
 /obj/effect/map_helper/airlock/atmos/pump_out_internal,
 /obj/machinery/light,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "sdboat_docker_pump_out_internal"
 	},
 /obj/effect/floor_decal/fancy_shuttle{
@@ -13630,7 +13687,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = 24
 	},
-/obj/structure/closet/secure_closet/CMO,
+/obj/structure/closet/secure_closet/chief_medical_officer,
 /obj/item/clothing/accessory/stethoscope,
 /obj/item/flashlight/pen,
 /obj/item/storage/belt/medical,
@@ -13882,7 +13939,7 @@
 	dir = 10
 	},
 /obj/machinery/door/airlock/angled_bay/external/glass{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = null;
 	locked = 1;
 	name = "Docking Port Airlock"
@@ -13891,7 +13948,7 @@
 /obj/machinery/access_button{
 	command = "cycle_interior";
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "sd_escape_center_left";
 	pixel_x = -32;
 	req_one_access = list(13)
@@ -14088,7 +14145,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = 24
 	},
-/obj/structure/closet/secure_closet/RD,
+/obj/structure/closet/secure_closet/research_director,
 /obj/item/aicard,
 /obj/item/clothing/glasses/omnihud/rnd,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
@@ -21479,15 +21536,15 @@ bd
 NE
 nV
 ZB
-dE
+bc
 NR
 dE
 hd
 dE
+bc
 dE
 dE
-dE
-dE
+bc
 fP
 HY
 ed
@@ -21596,12 +21653,12 @@ IP
 YD
 bC
 ms
-Ns
+bk
 Ns
 Hk
 Ns
-Ns
-Ns
+bk
+bk
 Ns
 Ns
 KW
@@ -21870,7 +21927,7 @@ MP
 hD
 zt
 dL
-xP
+bt
 pN
 pN
 zp
@@ -22718,7 +22775,7 @@ Zn
 zQ
 DM
 WI
-il
+bu
 hD
 ne
 vF
@@ -26136,7 +26193,7 @@ Ub
 Yj
 Yj
 Ef
-FE
+Ps
 Ps
 eE
 dx
@@ -26726,7 +26783,7 @@ ON
 Xd
 Ja
 Ly
-KJ
+bf
 by
 ow
 aC
@@ -26859,7 +26916,7 @@ Vg
 Vg
 RE
 RE
-xH
+bi
 DE
 me
 od
@@ -27125,16 +27182,16 @@ On
 DQ
 DQ
 DQ
-DQ
+bo
 DQ
 WB
 TP
+bo
 DQ
 DQ
 DQ
 DQ
-DQ
-DQ
+bo
 Mu
 zA
 Ln
@@ -27146,7 +27203,7 @@ RK
 hB
 In
 me
-NL
+aW
 NL
 qy
 NL
@@ -27288,7 +27345,7 @@ RE
 me
 me
 me
-NL
+aY
 NL
 we
 NL
@@ -27316,7 +27373,7 @@ CK
 CK
 by
 hQ
-lq
+bq
 lq
 rq
 lq
@@ -27458,7 +27515,7 @@ SK
 Jh
 Jh
 hQ
-lq
+ba
 lq
 rq
 lq
@@ -27605,7 +27662,7 @@ Qv
 Al
 VZ
 tu
-lq
+aZ
 nT
 xE
 YS

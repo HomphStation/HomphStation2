@@ -2,8 +2,8 @@
 CRYOGAIA_TURF_CREATE(/turf/simulated/open)
 /turf/simulated/open/cryogaia
 	edge_blending_priority = 0.5 //Turfs which also have e_b_p and higher than this will plop decorative edges onto this turf
-/turf/simulated/open/cryogaia/New()
-	..()
+/turf/simulated/open/cryogaia/Initialize(mapload)
+	. = ..()
 	if(outdoors)
 		SSplanets.addTurf(src)
 
@@ -205,9 +205,6 @@ CRYOGAIA_TURF_CREATE(/turf/simulated/mineral/floor)
 	name = "sand transit"
 	icon = 'icons/turf/transit_vr.dmi'
 	icon_state = "desert_ns"
-/turf/space/sandyscroll/New()
-	..()
-	icon_state = "desert_ns"
 
 //Sky stuff!
 // A simple turf to fake the appearance of flying.
@@ -241,7 +238,7 @@ CRYOGAIA_TURF_CREATE(/turf/simulated/mineral/floor)
 
 /turf/simulated/sky/snowscroll
 	name = "snow transit"
-	icon = 'icons/turf/transit_yw.dmi'
+	icon = 'icons/turf/transit_yw.dmi' //Moved to archive
 	icon_state = "snow_ns"
 
 

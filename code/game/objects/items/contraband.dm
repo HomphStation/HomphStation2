@@ -35,7 +35,7 @@
 	for(var/reagent in picked_reagents)
 		reagents.add_reagent(reagent, picked_reagents[reagent])
 
-	var/list/names = new
+	var/list/names = list()
 	for(var/datum/reagent/R in reagents.reagent_list)
 		names += R.name
 
@@ -52,7 +52,8 @@
 	icon_state = "powder"
 	item_state = "powder"
 	amount_per_transfer_from_this = 2
-	possible_transfer_amounts = 2
+	max_transfer_amount = 2
+	min_transfer_amount = 1
 	w_class = ITEMSIZE_TINY
 	volume = 50
 

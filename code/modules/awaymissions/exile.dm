@@ -4,12 +4,10 @@
 /obj/item/implanter/exile
 	name = "implanter-exile"
 
-/obj/item/implanter/exile/New()
-	src.imp = new /obj/item/implant/exile( src )
-	..()
+/obj/item/implanter/exile/Initialize(mapload)
+	. = ..()
+	imp = new /obj/item/implant/exile(src)
 	update()
-	return
-
 
 /obj/item/implant/exile
 	name = "exile"
@@ -29,13 +27,12 @@
 	icon_state = "implantcase-r"
 
 
-/obj/item/implantcase/exile/New()
-	src.imp = new /obj/item/implant/exile( src )
-	..()
-	return
+/obj/item/implantcase/exile/Initialize(mapload)
+	. = ..()
+	src.imp = new /obj/item/implant/exile(src)
 
 
 /obj/structure/closet/secure_closet/exile
 	name = "Exile Implants"
-	req_access = list(access_hos)
+	req_access = list(ACCESS_HOS)
 	starts_with = list(/obj/item/implanter/exile = 1, /obj/item/implantcase/exile = 5)

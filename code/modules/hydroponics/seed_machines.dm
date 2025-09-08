@@ -8,8 +8,8 @@
 	var/list/genes = list()
 	var/genesource = "unknown"
 
-/obj/item/disk/botany/New()
-	..()
+/obj/item/disk/botany/Initialize(mapload)
+	. = ..()
 	pixel_x = rand(-5,5)
 	pixel_y = rand(-5,5)
 
@@ -27,13 +27,13 @@
 	name = "flora disk box"
 	desc = "A box of flora data disks, apparently."
 
-/obj/item/storage/box/botanydisk/New()
-	..()
+/obj/item/storage/box/botanydisk/Initialize(mapload)
+	. = ..()
 	for(var/i = 0;i<7;i++)
 		new /obj/item/disk/botany(src)
 
 /obj/machinery/botany
-	icon = 'icons/obj/hydroponics_machines_vr.dmi' //VOREStation Edit
+	icon = 'icons/obj/hydroponics_machines.dmi'
 	icon_state = "hydrotray3"
 	density = TRUE
 	anchored = TRUE

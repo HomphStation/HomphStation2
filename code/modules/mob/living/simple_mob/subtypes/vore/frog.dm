@@ -14,7 +14,7 @@
 	order to make use of the ephemeral pools before they dry up. Because of this, the frog population is through the roof and has \
 	become a major issue for various colonies and stations.\
 	<br>\
-	These animals, are considered an invasive species, and thus hunters are encouraged to hunt them." //CHOMPedit
+	These animals, are considered an invasive species, and thus hunters are encouraged to hunt them."
 	value = CATALOGUER_REWARD_TRIVIAL
 
 /mob/living/simple_mob/vore/aggressive/frog
@@ -44,15 +44,15 @@
 	special_attack_max_range = 5
 	special_attack_cooldown = 100
 
-	can_be_drop_prey = FALSE //CHOMP Add
+	can_be_drop_prey = FALSE
 	allow_mind_transfer = TRUE
 
 // Pepe is love, not hate.
-/mob/living/simple_mob/vore/aggressive/frog/New()
+/mob/living/simple_mob/vore/aggressive/frog/Initialize(mapload)
+	. = ..()
 	if(rand(1,1000000) == 1)
 		name = "rare Pepe"
 		desc = "You found a rare Pepe. Screenshot for good luck."
-	..()
 
 /mob/living/simple_mob/vore/aggressive/frog/do_special_attack(atom/A)
 	set_AI_busy(TRUE)

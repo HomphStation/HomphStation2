@@ -18,12 +18,13 @@
 	var/minrate = 0
 	var/maxrate = 10 * ONE_ATMOSPHERE
 
-	var/list/scrubbing_gas = list(GAS_PHORON, GAS_CO2, GAS_N2O, GAS_VOLATILE_FUEL)
+	var/list/scrubbing_gas = list(GAS_PHORON, GAS_CO2, GAS_N2O, GAS_VOLATILE_FUEL, GAS_CH4)
 
 /obj/machinery/portable_atmospherics/powered/scrubber/Initialize(mapload, skip_cell)
 	. = ..()
 	if(!skip_cell)
 		cell = new/obj/item/cell/apc(src)
+	AddElement(/datum/element/climbable)
 
 /obj/machinery/portable_atmospherics/powered/scrubber/emp_act(severity)
 	if(stat & (BROKEN|NOPOWER))
@@ -172,6 +173,9 @@
 	gid++
 
 	name = "[name] (ID [id])"
+
+	// Not climbable!
+	RemoveElement(/datum/element/climbable)
 
 /obj/machinery/portable_atmospherics/powered/scrubber/huge/attack_hand(var/mob/user as mob)
 		to_chat(user, span_notice("You can't directly interact with this machine. Use the scrubber control console."))

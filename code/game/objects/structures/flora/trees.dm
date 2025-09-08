@@ -46,7 +46,7 @@
 
 	if(is_stump)
 		if(istype(W,/obj/item/shovel))
-			if(do_after(user, 5 SECONDS))
+			if(do_after(user, 5 SECONDS, target = src))
 				visible_message(span_infoplain(span_bold("\The [user]") + " digs up \the [src] stump with \the [W]."))
 				qdel(src)
 		return
@@ -272,8 +272,8 @@
 	pixel_y = -16
 	shake_animation_degrees = 2
 
-/obj/structure/flora/tree/winter/New()
-	..()
+/obj/structure/flora/tree/winter/Initialize(mapload)
+	. = ..()
 	icon_state = "[base_state][rand(1, 6)]"
 
 
@@ -289,8 +289,8 @@
 	pixel_y = -16
 	shake_animation_degrees = 2
 
-/obj/structure/flora/tree/winter1/New()
-	..()
+/obj/structure/flora/tree/winter1/Initialize(mapload)
+	. = ..()
 	icon_state = "[base_state][rand(1, 6)]"
 
 // Sif trees

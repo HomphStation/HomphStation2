@@ -30,7 +30,7 @@
 	if(!inv_overlay)
 		var/tmp_icon_state = "[overlay_state? "[overlay_state]" : "[icon_state]"]"
 		if(icon_override)
-			if("[tmp_icon_state]_tie" in cached_icon_states(icon_override))
+			if(icon_exists(icon_override, "[tmp_icon_state]_tie"))
 				tmp_icon_state = "[tmp_icon_state]_tie"
 			inv_overlay = image(icon = icon_override, icon_state = tmp_icon_state, dir = SOUTH)
 		else
@@ -61,7 +61,7 @@
 			tmp_icon_state = on_rolled["rolled"]
 
 	if(icon_override)
-		if("[tmp_icon_state]_mob" in cached_icon_states(icon_override))
+		if(icon_exists(icon_override, "[tmp_icon_state]_mob"))
 			tmp_icon_state = "[tmp_icon_state]_mob"
 		mob_overlay = image("icon" = icon_override, "icon_state" = "[tmp_icon_state]")
 	else if(H && LAZYACCESS(sprite_sheets, H.species.get_bodytype(H))) //Teshari can finally into webbing, too!
@@ -615,3 +615,20 @@
 	name = "white ranger poncho"
 	icon_state = "rangerponcho_snow"
 	item_state = "rangerponcho_snow"
+
+// leg warmers
+
+/obj/item/clothing/accessory/legwarmers
+	name = "thigh-length legwarmers"
+	desc = "A comfy pair of legwarmers. These are excessively long."
+	icon_state = "legwarmers_thigh"
+
+/obj/item/clothing/accessory/legwarmersmedium
+	name = "medium-length legwarmers"
+	desc = "A comfy pair of legwarmers. For those unfortunate enough to wear shorts in the cold."
+	icon_state = "legwarmers_medium"
+
+/obj/item/clothing/accessory/legwarmersshort
+	name = "short legwarmers"
+	desc = "A comfy pair of legwarmers. For those better in the cold than others."
+	icon_state = "legwarmers_short"

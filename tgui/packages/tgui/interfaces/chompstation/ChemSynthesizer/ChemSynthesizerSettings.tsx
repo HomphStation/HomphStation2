@@ -3,7 +3,7 @@ import { modalOpen } from 'tgui/interfaces/common/ComplexModal';
 import { Box, Button, LabeledList, Section, Stack } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
 
-import { Data } from './types';
+import type { Data } from './types';
 
 export const ChemSynthesizerSettings = (props) => {
   const { act, data } = useBackend<Data>();
@@ -23,11 +23,7 @@ export const ChemSynthesizerSettings = (props) => {
       <Stack.Item height={0} grow>
         <Section height="100%" title="Settings" overflowY="auto">
           <Stack direction="column">
-            <Stack.Item
-              style={{
-                marginLeft: '0.5em', // Remove if tgui core implements gap
-              }}
-            >
+            <Stack.Item>
               <Button
                 color={production_mode ? 'green' : 'bad'}
                 icon="wrench"
@@ -100,7 +96,7 @@ export const ChemSynthesizerSettings = (props) => {
                   <Box
                     className={classes([
                       'chem_master32x32',
-                      'bottle-' + bottle_icon,
+                      `bottle-${bottle_icon}`,
                     ])}
                     style={{
                       bottom: '10px',
@@ -135,7 +131,7 @@ export const ChemSynthesizerSettings = (props) => {
                   <Box
                     className={classes([
                       'chem_master32x32',
-                      'pill' + pill_icon,
+                      `pill${pill_icon}`,
                     ])}
                     style={{
                       bottom: '10px',
@@ -170,7 +166,7 @@ export const ChemSynthesizerSettings = (props) => {
                   <Box
                     className={classes([
                       'chem_master32x32',
-                      'patch' + patch_icon,
+                      `patch${patch_icon}`,
                     ])}
                     style={{
                       bottom: '10px',

@@ -1092,6 +1092,7 @@
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/effect/recycler_beacon,
 /turf/simulated/floor,
 /area/maintenance/station/eng_lower)
 "acg" = (
@@ -2106,6 +2107,10 @@
 	},
 /turf/simulated/floor/tiled/techfloor,
 /area/tcommsat/chamber)
+"adO" = (
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor,
+/area/maintenance/station/exploration)
 "adP" = (
 /obj/effect/floor_decal/corner/lightgrey{
 	dir = 9
@@ -2233,6 +2238,7 @@
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
+/obj/effect/recycler_beacon,
 /turf/simulated/floor,
 /area/maintenance/station/eng_lower)
 "aea" = (
@@ -2700,6 +2706,11 @@
 /obj/item/personal_shield_generator/belt/mining/loaded,
 /turf/simulated/floor/tiled,
 /area/quartermaster/belterdock/gear)
+"aeJ" = (
+/obj/effect/floor_decal/rust,
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor,
+/area/maintenance/station/exploration)
 "aeK" = (
 /obj/structure/cable/green{
 	icon_state = "1-2"
@@ -2749,6 +2760,10 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /turf/simulated/floor,
 /area/storage/tech)
+"aeN" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor,
+/area/maintenance/station/eng_lower)
 "aeO" = (
 /turf/simulated/shuttle/wall/voidcraft/green{
 	hard_corner = 1
@@ -2772,6 +2787,11 @@
 	},
 /turf/simulated/floor/tiled,
 /area/engineering/engine_monitoring)
+"aeR" = (
+/obj/effect/floor_decal/rust,
+/obj/effect/recycler_beacon,
+/turf/simulated/floor,
+/area/maintenance/station/eng_lower)
 "aeS" = (
 /obj/structure/cable/green{
 	icon_state = "1-2"
@@ -2795,6 +2815,11 @@
 	},
 /turf/simulated/floor/tiled,
 /area/engineering/engine_monitoring)
+"aeT" = (
+/obj/effect/floor_decal/rust,
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor,
+/area/maintenance/station/eng_lower)
 "aeU" = (
 /obj/machinery/door/firedoor/glass/hidden/steel,
 /turf/simulated/floor/tiled,
@@ -2815,6 +2840,10 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/engineering/storage)
+"aeY" = (
+/obj/machinery/ore_silo,
+/turf/simulated/floor/tiled,
+/area/quartermaster/storage)
 "aeZ" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 9
@@ -2847,6 +2876,10 @@
 	},
 /turf/simulated/floor/tiled,
 /area/shuttle/medivac/general)
+"afb" = (
+/obj/machinery/rnd/production/protolathe/department/engineering,
+/turf/simulated/floor/tiled/monotile,
+/area/engineering/workshop)
 "afe" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden,
 /turf/simulated/floor/tiled,
@@ -5329,17 +5362,9 @@
 /area/engineering/engineering_monitoring)
 "alZ" = (
 /obj/structure/table/rack/steel,
-/obj/item/circuitboard/rdserver{
+/obj/item/circuitboard/machine/rdserver{
 	pixel_x = -3;
 	pixel_y = 3
-	},
-/obj/item/circuitboard/protolathe{
-	pixel_x = -2;
-	pixel_y = 2
-	},
-/obj/item/circuitboard/destructive_analyzer{
-	pixel_x = -1;
-	pixel_y = 1
 	},
 /obj/item/circuitboard/rdconsole,
 /obj/item/circuitboard/autolathe{
@@ -9827,7 +9852,7 @@
 /area/quartermaster/foyer)
 "aAz" = (
 /obj/machinery/embedded_controller/radio/simple_docking_controller{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "cargo_bay";
 	pixel_x = 28
 	},
@@ -15664,7 +15689,7 @@
 "cUs" = (
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1l";
 	name = "interior access button";
 	pixel_x = -28;
@@ -15758,7 +15783,7 @@
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1l";
 	pixel_x = 28
 	},
@@ -17392,17 +17417,17 @@
 "eZN" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a3_pump"
 	},
 /obj/machinery/light/small,
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a3_sensor";
 	pixel_y = -25
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a3";
 	pixel_y = 28
 	},
@@ -17413,7 +17438,7 @@
 "faK" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "expshuttle_docker_pump_out_external";
 	pixel_x = -10;
 	pixel_y = 6
@@ -17466,7 +17491,7 @@
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "expshuttle_dock";
 	pixel_x = 32;
 	req_one_access = list(19,43,67)
@@ -17626,18 +17651,18 @@
 "fls" = (
 /obj/machinery/light/small,
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a1";
 	pixel_y = 28
 	},
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a1_sensor";
 	pixel_y = -25
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a1_pump"
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
@@ -18209,13 +18234,13 @@
 "fRm" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_station_pump"
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
 /obj/machinery/embedded_controller/radio/airlock/airlock_controller{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_station_airlock";
 	pixel_x = 28
 	},
@@ -18236,7 +18261,7 @@
 	},
 /obj/machinery/airlock_sensor/airlock_exterior/shuttle{
 	dir = 6;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "expshuttle_exterior_sensor";
 	master_tag = "expshuttle_docker";
 	pixel_x = 4;
@@ -19399,7 +19424,7 @@
 /obj/machinery/embedded_controller/radio/airlock/airlock_controller{
 	cycle_to_external_air = 1;
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_sat_airlock";
 	pixel_x = 28
 	},
@@ -19509,7 +19534,7 @@
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_sat_pump"
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
@@ -19700,7 +19725,7 @@
 "huy" = (
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "ai_sat_airlock";
 	name = "exterior access button";
 	pixel_x = -26;
@@ -20527,7 +20552,7 @@
 "hZE" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_station_pump"
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
@@ -21555,7 +21580,7 @@
 	},
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d2a1";
 	name = "interior access button";
 	pixel_x = 28;
@@ -21659,17 +21684,17 @@
 "jqN" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2a1_pump"
 	},
 /obj/machinery/light/small,
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2a1_sensor";
 	pixel_y = -25
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2a1";
 	pixel_y = 28
 	},
@@ -21680,7 +21705,7 @@
 "jqT" = (
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d2a1";
 	name = "exterior access button";
 	pixel_x = -5;
@@ -21837,7 +21862,7 @@
 "jBN" = (
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2l";
 	pixel_x = -28
 	},
@@ -21993,7 +22018,7 @@
 /obj/structure/handrail,
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
 	cycle_to_external_air = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "expshuttle_docker";
 	pixel_y = 28
 	},
@@ -22183,7 +22208,7 @@
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1l_pump"
 	},
 /obj/effect/map_helper/airlock/atmos/chamber_pump,
@@ -22287,11 +22312,11 @@
 "jXI" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_sat_pump"
 	},
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_sat_sensor";
 	pixel_x = -30;
 	pixel_y = 8
@@ -22485,7 +22510,7 @@
 "khk" = (
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1a1";
 	name = "exterior access button";
 	pixel_x = -5;
@@ -22533,7 +22558,7 @@
 "kiG" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "expshuttle_docker_pump_out_external";
 	pixel_x = 10;
 	pixel_y = 6
@@ -22632,7 +22657,7 @@
 	dir = 4
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod_berth{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "large_escape_pod_1_berth";
 	pixel_y = 28
 	},
@@ -23573,7 +23598,7 @@
 "lfI" = (
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1a3";
 	name = "interior access button";
 	pixel_x = 28;
@@ -23855,17 +23880,17 @@
 "luR" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a2_pump"
 	},
 /obj/machinery/light/small,
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a2_sensor";
 	pixel_y = -25
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1a2";
 	pixel_y = 28
 	},
@@ -23890,11 +23915,11 @@
 "lvZ" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2l_pump"
 	},
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2l_sensor";
 	pixel_x = -30;
 	pixel_y = 8
@@ -24130,6 +24155,7 @@
 	dir = 1
 	},
 /obj/effect/floor_decal/rust,
+/obj/effect/recycler_vendor_beacon,
 /turf/simulated/floor,
 /area/maintenance/station/eng_lower)
 "lEZ" = (
@@ -24685,6 +24711,7 @@
 /area/engineering/engineering_airlock)
 "mnj" = (
 /obj/effect/floor_decal/rust,
+/obj/effect/recycler_beacon,
 /turf/simulated/floor,
 /area/maintenance/station/cargo)
 "mnt" = (
@@ -25316,7 +25343,7 @@
 /obj/machinery/door/airlock/glass_external,
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d2l";
 	name = "exterior access button";
 	pixel_x = -28;
@@ -25500,11 +25527,11 @@
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1l_pump"
 	},
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d1l_sensor";
 	pixel_x = 30;
 	pixel_y = 8
@@ -25791,7 +25818,7 @@
 "ntS" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "securiship_docker_pump_out_external"
 	},
 /obj/effect/map_helper/airlock/atmos/pump_out_external,
@@ -26797,6 +26824,7 @@
 /area/tether/station/dock_two)
 "oRj" = (
 /obj/effect/landmark/stardog,
+/obj/effect/recycler_vendor_beacon,
 /turf/simulated/floor,
 /area/maintenance/station/eng_lower)
 "oRC" = (
@@ -27262,6 +27290,7 @@
 	},
 /obj/structure/catwalk,
 /obj/effect/floor_decal/rust,
+/obj/effect/recycler_vendor_beacon,
 /turf/simulated/floor/plating,
 /area/maintenance/station/cargo)
 "pJm" = (
@@ -27460,7 +27489,7 @@
 /area/tether/exploration)
 "qbk" = (
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "large_escape_pod_1";
 	pixel_x = -28;
 	pixel_y = -24
@@ -27542,7 +27571,7 @@
 "qgR" = (
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "ai_station_airlock";
 	name = "interior access button";
 	pixel_x = 28;
@@ -28216,7 +28245,7 @@
 /obj/effect/floor_decal/corner/brown/bordercorner2{
 	dir = 8
 	},
-/obj/structure/table/standard,
+/obj/machinery/rnd/production/protolathe/department/cargo,
 /turf/simulated/floor/tiled,
 /area/quartermaster/office)
 "qWN" = (
@@ -28491,7 +28520,7 @@
 "rqP" = (
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1a2";
 	name = "exterior access button";
 	pixel_x = -5;
@@ -28558,7 +28587,7 @@
 	},
 /obj/effect/map_helper/airlock/sensor/chamber_sensor,
 /obj/machinery/airlock_sensor{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "ai_station_sensor";
 	pixel_x = -30;
 	pixel_y = 8
@@ -29621,7 +29650,7 @@
 "sIO" = (
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1a3";
 	name = "exterior access button";
 	pixel_x = -5;
@@ -30429,7 +30458,7 @@
 	},
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
 	cycle_to_external_air = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "medivac_docker";
 	pixel_y = 27
 	},
@@ -30539,7 +30568,7 @@
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "medivac_bay";
 	pixel_x = -24;
 	pixel_y = 26
@@ -30744,7 +30773,7 @@
 /obj/effect/overmap/visitable/ship/landable/securiship,
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
 	cycle_to_external_air = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "securiship_docker";
 	pixel_y = 27
 	},
@@ -31390,7 +31419,7 @@
 /area/tcommsat/computer)
 "uKX" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "medivac_docker_pump_out_internal"
 	},
 /obj/effect/map_helper/airlock/atmos/pump_out_internal,
@@ -31551,7 +31580,7 @@
 "uUy" = (
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1a1";
 	name = "interior access button";
 	pixel_x = -28;
@@ -31578,7 +31607,7 @@
 "uWa" = (
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "ai_sat_airlock";
 	name = "interior access button";
 	pixel_x = -28;
@@ -31634,7 +31663,7 @@
 "uXD" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "dock_d2l_pump"
 	},
 /obj/effect/floor_decal/industrial/warning{
@@ -31762,7 +31791,7 @@
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "securiship_bay";
 	pixel_x = 24;
 	pixel_y = -26
@@ -31786,7 +31815,7 @@
 /area/shuttle/securiship/general)
 "veh" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "securiship_docker_pump_out_internal"
 	},
 /obj/effect/map_helper/airlock/atmos/pump_out_internal,
@@ -31953,7 +31982,7 @@
 "voN" = (
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1l";
 	name = "exterior access button";
 	pixel_x = 28;
@@ -32188,7 +32217,7 @@
 "vFi" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
 	dir = 1;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "medivac_docker_pump_out_external"
 	},
 /obj/effect/map_helper/airlock/atmos/pump_out_external,
@@ -32595,7 +32624,7 @@
 	},
 /obj/machinery/access_button{
 	command = "cycle_exterior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "ai_station_airlock";
 	name = "exterior access button";
 	pixel_x = -26;
@@ -34134,7 +34163,7 @@
 "ydT" = (
 /obj/machinery/access_button{
 	command = "cycle_interior";
-	frequency = 1380;
+	frequency = 1381;
 	master_tag = "dock_d1a2";
 	name = "interior access button";
 	pixel_x = -28;
@@ -40528,7 +40557,7 @@ aqq
 arE
 atk
 avm
-asU
+afb
 atN
 axU
 axW
@@ -42921,7 +42950,7 @@ aaN
 caS
 auI
 aik
-ack
+aeN
 adG
 kNF
 upj
@@ -43208,22 +43237,22 @@ hcW
 qHy
 gCZ
 fgA
-ach
+aeT
 abC
 abC
 abC
 abC
-ach
+aeR
 ack
 ack
 cYG
-ack
+aeN
 ack
 kkH
 ack
 ioI
 ach
-ack
+aeN
 acw
 ahq
 aiX
@@ -43503,7 +43532,7 @@ mIs
 mIs
 ack
 ack
-ach
+aeR
 oer
 xTg
 euy
@@ -43511,7 +43540,7 @@ oer
 euy
 xTg
 oer
-ack
+aeN
 bhG
 wku
 aDM
@@ -43653,7 +43682,7 @@ oer
 xuP
 qTD
 oer
-ack
+aeN
 azJ
 wku
 pBP
@@ -45117,7 +45146,7 @@ uqB
 xyX
 wkd
 oyD
-aDz
+aeY
 kJz
 xyO
 iEl
@@ -46358,7 +46387,7 @@ fYY
 oGG
 voI
 xNg
-pMf
+adO
 juI
 aaq
 aat
@@ -46784,7 +46813,7 @@ pMf
 pMf
 pMf
 aaq
-uEU
+aeJ
 jyP
 aaq
 aaq
@@ -47210,7 +47239,7 @@ pMf
 pMf
 pMf
 aaq
-pMf
+adO
 juI
 etY
 aac
@@ -47341,7 +47370,7 @@ aac
 aac
 etY
 aZv
-pMf
+adO
 dVT
 cCM
 biX

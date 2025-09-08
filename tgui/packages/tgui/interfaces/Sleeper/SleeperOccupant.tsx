@@ -5,8 +5,8 @@ import {
   LabeledList,
   ProgressBar,
   Section,
+  Stack,
 } from 'tgui-core/components';
-import { toFixed } from 'tgui-core/math';
 
 import { stats, tempColors } from './constants';
 import type { Data } from './types';
@@ -18,24 +18,32 @@ export const SleeperOccupant = (props) => {
     <Section
       title="Occupant"
       buttons={
-        <>
-          <Box color="label" inline>
-            Auto-eject if dead:&nbsp;
-          </Box>
-          <Button
-            icon={auto_eject_dead ? 'toggle-on' : 'toggle-off'}
-            selected={auto_eject_dead}
-            onClick={() =>
-              act('auto_eject_dead_' + (auto_eject_dead ? 'off' : 'on'))
-            }
-          >
-            {auto_eject_dead ? 'On' : 'Off'}
-          </Button>
-          <Button icon="user-slash" onClick={() => act('ejectify')}>
-            Eject
-          </Button>
-          <Button onClick={() => act('changestasis')}>{stasis}</Button>
-        </>
+        <Stack>
+          <Stack.Item>
+            <Box color="label" inline>
+              Auto-eject if dead:&nbsp;
+            </Box>
+          </Stack.Item>
+          <Stack.Item>
+            <Button
+              icon={auto_eject_dead ? 'toggle-on' : 'toggle-off'}
+              selected={auto_eject_dead}
+              onClick={() =>
+                act(`auto_eject_dead_${auto_eject_dead ? 'off' : 'on'}`)
+              }
+            >
+              {auto_eject_dead ? 'On' : 'Off'}
+            </Button>
+          </Stack.Item>
+          <Stack.Item>
+            <Button icon="user-slash" onClick={() => act('ejectify')}>
+              Eject
+            </Button>
+          </Stack.Item>
+          <Stack.Item>
+            <Button onClick={() => act('changestasis')}>{stasis}</Button>
+          </Stack.Item>
+        </Stack>
       }
     >
       <LabeledList>
@@ -51,7 +59,7 @@ export const SleeperOccupant = (props) => {
               bad: [-Infinity, 0],
             }}
           >
-            {toFixed(occupant.health)}
+            {occupant.health.toFixed()}
           </ProgressBar>
         </LabeledList.Item>
         <LabeledList.Item label="Status" color={stats[occupant.stat][0]}>
@@ -64,8 +72,8 @@ export const SleeperOccupant = (props) => {
             value={occupant.bodyTemperature / occupant.maxTemp}
             color={tempColors[occupant.temperatureSuitability + 3]}
           >
-            {toFixed(occupant.btCelsius)}&deg;C,
-            {toFixed(occupant.btFaren)}&deg;F
+            {occupant.btCelsius.toFixed()}&deg;C,
+            {occupant.btFaren.toFixed()}&deg;F
           </ProgressBar>
         </LabeledList.Item>
         {!!occupant.hasBlood && (

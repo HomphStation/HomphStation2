@@ -31,11 +31,11 @@
 		if(bound_mob in contents)
 			unleash()
 		to_chat(bound_mob, span_notice("You feel like yourself again. You are no longer under the influence of \the [src]'s command."))
-		UnregisterSignal(bound_mob, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(bound_mob, COMSIG_QDELETING)
 		bound_mob.capture_caught = FALSE
 		bound_mob = null
 	if(owner)
-		UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(owner, COMSIG_QDELETING)
 		owner = null
 	return ..()
 
@@ -44,7 +44,7 @@
 	if(user == owner && bound_mob)
 		. += span_notice("[bound_mob]'s crystal")
 		if(isanimal(bound_mob))
-			. += span_notice("[bound_mob.health / bound_mob.maxHealth * 100]%")
+			. += span_notice("[bound_mob.health / bound_mob.getMaxHealth() * 100]%")
 		if(bound_mob.ooc_notes)
 			. += span_deptradio("OOC Notes:") + " <a href='byond://?src=\ref[bound_mob];ooc_notes=1'>\[View\]</a> - <a href='byond://?src=\ref[src];print_ooc_notes_chat=1'>\[Print\]</a>"
 		. += span_deptradio("<a href='byond://?src=\ref[bound_mob];vore_prefs=1'>\[Mechanical Vore Preferences\]</a>")
@@ -156,7 +156,7 @@
 	else
 		M.visible_message("\The [src] flickers in \the [M]'s hand and emits a little tone.", "\The [src] flickers in your hand and emits a little tone.")
 		playsound(src, 'sound/effects/capture-crystal-out.ogg', 75, 1, -1)
-		UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
+		UnregisterSignal(owner, COMSIG_QDELETING)
 		owner = null
 
 //Let's make inviting ghosts be an option you can do instead of an automatic thing!
@@ -251,8 +251,8 @@
 
 //Make it so the crystal knows if its mob references get deleted to make sure things get cleaned up
 /obj/item/capture_crystal/proc/knowyoursignals(mob/living/M, mob/living/U)
-	RegisterSignal(M, COMSIG_PARENT_QDELETING, PROC_REF(mob_was_deleted), TRUE)
-	RegisterSignal(U, COMSIG_PARENT_QDELETING, PROC_REF(owner_was_deleted), TRUE)
+	RegisterSignal(M, COMSIG_QDELETING, PROC_REF(mob_was_deleted), TRUE)
+	RegisterSignal(U, COMSIG_QDELETING, PROC_REF(owner_was_deleted), TRUE)
 
 //The basic capture command does most of the registration work.
 /obj/item/capture_crystal/proc/capture(mob/living/M, mob/living/U)
@@ -275,10 +275,10 @@
 /obj/item/capture_crystal/proc/capture_chance(mob/living/M, user)
 	if(capture_chance_modifier >= 100)		//Master crystal always work
 		return 100
-	var/capture_chance = ((1 - (M.health / M.maxHealth)) * 100)	//Inverted health percent! 100% = 0%
+	var/capture_chance = ((1 - (M.health / M.getMaxHealth())) * 100)	//Inverted health percent! 100% = 0%
 	//So I don't know how this works but here's a kind of explanation
 	//Basic chance + ((Mob's max health - minimum calculated health) / (Max allowed health - Min allowed health)*(Chance at Max allowed health - Chance at minimum allowed health)
-	capture_chance += 35 + ((M.maxHealth - 5)/ (1000-5)*(-100 - 35))
+	capture_chance += 35 + ((M.getMaxHealth() - 5)/ (1000-5)*(-100 - 35))
 	//Basically! Mobs over 1000 max health will be unable to be caught without using status effects.
 	//Thanks Aronai!
 	var/effect_count = 0	//This will give you a smol chance to capture if you have applied status effects, even if the chance would ordinarily be <0
@@ -336,8 +336,9 @@
 
 //The clean up procs!
 /obj/item/capture_crystal/proc/mob_was_deleted()
-	UnregisterSignal(bound_mob, COMSIG_PARENT_QDELETING)
-	UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
+	SIGNAL_HANDLER
+	UnregisterSignal(bound_mob, COMSIG_QDELETING)
+	UnregisterSignal(owner, COMSIG_QDELETING)
 	bound_mob.capture_caught = FALSE
 	bound_mob = null
 	owner = null
@@ -346,7 +347,8 @@
 	update_icon()
 
 /obj/item/capture_crystal/proc/owner_was_deleted()
-	UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
+	SIGNAL_HANDLER
+	UnregisterSignal(owner, COMSIG_QDELETING)
 	owner = null
 	active = FALSE
 	update_icon()
@@ -474,8 +476,13 @@
 	var/image/coolanimation = image('icons/obj/capture_crystal_vr.dmi', null, "animation")
 	coolanimation.plane = PLANE_LIGHTING_ABOVE
 	thing.overlays += coolanimation
-	sleep(11)
+	addtimer(CALLBACK(src, PROC_REF(animate_action_finished),thing,coolanimation), 1.1 SECOND, TIMER_DELETE_ME)
+
+/obj/item/capture_crystal/proc/animate_action_finished(atom/thing,var/image/coolanimation)
+	SHOULD_NOT_OVERRIDE(TRUE)
+	PROTECTED_PROC(TRUE)
 	thing.overlays -= coolanimation
+	qdel(coolanimation)
 
 //IF the crystal somehow ends up in a tummy and digesting with a bound mob who doesn't want to be eaten, let's move them to the ground
 /obj/item/capture_crystal/digest_act(var/atom/movable/item_storage = null)

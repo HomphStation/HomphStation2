@@ -38,11 +38,11 @@
 		return
 
 	// Advance plant age.
-	if(prob(30)) //CHOMPedit start: I have to push the age increase down for a line for this to work with the compiler.
+	if(prob(30))
 		age += 1 * HYDRO_SPEED_MULTIPLIER
 		if(age_mod >= 1) //Age reagents double the speed of plant growth in sufficient quantities
 			age += 1 * HYDRO_SPEED_MULTIPLIER
-			age_mod -= 1 //CHOMPedit end
+			age_mod -= 1
 
 	//Highly mutable plants have a chance of mutating every tick.
 	if(seed.get_trait(TRAIT_IMMUTABLE) == -1)
@@ -131,7 +131,7 @@
 		seed.get_trait(TRAIT_SPREAD) == 2 && \
 		2 * age >= seed.get_trait(TRAIT_MATURATION) && \
 		!(locate(/obj/effect/plant) in get_turf(src)) && \
-	 	prob(2 * seed.get_trait(TRAIT_POTENCY)))
+		prob(2 * seed.get_trait(TRAIT_POTENCY)))
 		// CHOMPEdit Start - Need to start processing the vine or it'll never spread.
 		var/obj/effect/plant/D = new /obj/effect/plant(get_turf(src), seed)
 		SSplants.add_plant(D)

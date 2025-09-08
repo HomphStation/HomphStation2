@@ -29,7 +29,7 @@ export const SpaceHeater = (props) => {
         <Section title="Status">
           <LabeledList>
             <LabeledList.Item label="Target Temperature">
-              {temp} K ({temp - T0C}&deg; C)
+              {temp.toFixed(2)} K ({(temp - T0C).toFixed(2)}&deg; C)
             </LabeledList.Item>
             <LabeledList.Item label="Current Charge">
               {power}% {!cell && '(No Cell Inserted)'}
@@ -41,6 +41,7 @@ export const SpaceHeater = (props) => {
             <LabeledControls.Item label="Thermostat">
               <Knob
                 animated
+                format={(value) => value.toFixed(2)}
                 value={temp - T0C}
                 minValue={minTemp - T0C}
                 maxValue={maxTemp - T0C}

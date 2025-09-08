@@ -106,6 +106,8 @@
 /turf/simulated/floor/water/Entered(atom/movable/AM, atom/oldloc)
 	if(isliving(AM))
 		var/mob/living/L = AM
+		if(L.hovering || L.flying || L.is_incorporeal())
+			return
 		L.update_water()
 		if(L.check_submerged() <= 0)
 			return
@@ -117,6 +119,8 @@
 /turf/simulated/floor/water/Exited(atom/movable/AM, atom/newloc)
 	if(isliving(AM))
 		var/mob/living/L = AM
+		if(L.hovering || L.flying || L.is_incorporeal())
+			return
 		L.update_water()
 		if(L.check_submerged() <= 0)
 			return
@@ -164,7 +168,7 @@
 /mob/living/proc/check_submerged()
 	if(buckled)
 		return 0
-	if(hovering || flying)
+	if(hovering || flying || is_incorporeal())
 		if(flying)
 			adjust_nutrition(-0.5)
 		return 0
@@ -229,12 +233,12 @@ var/list/shoreline_icon_cache = list()
 		add_overlay(shoreline_icon_cache[cache_string])
 
 /turf/simulated/floor/water/is_safe_to_enter(mob/living/L)
-	 //CHOMPEDIT: Aquatic flags simulated water as safe now
+	//CHOMPEDIT: Aquatic flags simulated water as safe now
 	if(istype(L,/mob/living/carbon))
 		var /mob/living/carbon/A = L
 		if(/datum/trait/positive/aquatic in A.species.traits)
 			return TRUE
-		 //CHOMPEDIT: Aquatic flags simulated water as safe now
+	//CHOMPEDIT: Aquatic flags simulated water as safe now
 	if(L.get_water_protection() < 1)
 		return FALSE
 	return ..()

@@ -7,12 +7,24 @@
 /obj/structure/undies_wardrobe,
 /turf/simulated/floor/wood/alt/panel,
 /area/redgate/fantasy/house)
+"ac" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/item/clothing/suit/armor/combat/crusader/quizzler,
+/turf/simulated/floor/wood/alt,
+/area/redgate/fantasy/house)
 "ad" = (
 /obj/structure/bed/chair/sofa/left/purp{
 	dir = 8
 	},
 /turf/simulated/floor/wood/alt,
 /area/redgate/fantasy/castle)
+"ae" = (
+/obj/structure/closet/crate/wooden,
+/obj/item/flashlight/lantern,
+/obj/item/material/knife/tacknife/boot,
+/obj/item/clothing/suit/armor/combat/crusader/pink,
+/turf/simulated/floor/wood/alt/panel,
+/area/redgate/fantasy/walls)
 "ag" = (
 /obj/machinery/light/small/torch,
 /turf/simulated/floor/carpet/purple,
@@ -757,10 +769,7 @@
 "eQ" = (
 /obj/structure/table/woodentable,
 /obj/random/potion_ingredient,
-/obj/item/paper{
-	info = "<b>Apprentice, I have written out these instructions so that you may operate the alembic in your own time without me needing to watch over your every step.<br><br>The alembic is simple to operate, simply activate the spontaneous heating stone beneath it to begin boiling the contents. However, the contents that you choose are critical in creating a potion of any merit, and mixing the wrong materials may create something completely useless, wasting our resources!<br><br>You must mix two materials, and only ever two. One primary ingredient, this can be one of many materials with valuable alchemical properties. The other is a potion base, this will be essential to properly break down and transmute the ingredient into a potent potion. Once you have added the two, boil as above, and collect the distilate in a bottle. As for choosing your base, here is a short guide, but be aware that the properties of an ingredient are not always immediately apparent and some experimentation may be required:<br><br>Alkahest is a potent solvent and particularly useful for dissolving metals.<br><br>Aqua Regia is a heavily corrosive mixture of acids that readily dissolve most organic materials.<br><br>Ichor is a rich ferrous fluid that binds well to minerals, it can often break down gemstones.</b>";
-	name = "alchemy instructions"
-	},
+/obj/item/paper/alchemy,
 /turf/simulated/floor/wood/alt/panel,
 /area/redgate/fantasy/castle)
 "eR" = (
@@ -975,7 +984,7 @@
 "gg" = (
 /obj/structure/closet/crate/wooden,
 /obj/item/clothing/gloves/combat/knight,
-/obj/item/clothing/suit/storage/hooded/knight/robin,
+/obj/item/clothing/suit/storage/hooded/knight/chain,
 /obj/item/clothing/head/welding/knight,
 /obj/item/clothing/shoes/knight/black,
 /obj/machinery/light/small/torch{
@@ -2348,10 +2357,7 @@
 /area/redgate/fantasy/castle)
 "oH" = (
 /obj/structure/table/woodentable,
-/obj/item/paper{
-	info = "<b>Apprentice, I have written out these instructions so that you may operate the alembic in your own time without me needing to watch over your every step.<br><br>The alembic is simple to operate, simply activate the spontaneous heating stone beneath it to begin boiling the contents. However, the contents that you choose are critical in creating a potion of any merit, and mixing the wrong materials may create something completely useless, wasting our resources!<br><br>You must mix two materials, and only ever two. One primary ingredient, this can be one of many materials with valuable alchemical properties. The other is a potion base, this will be essential to properly break down and transmute the ingredient into a potent potion. Once you have added the two, boil as above, and collect the distilate in a bottle. As for choosing your base, here is a short guide, but be aware that the properties of an ingredient are not always immediately apparent and some experimentation may be required:<br><br>Alkahest is a potent solvent and particularly useful for dissolving metals.<br><br>Aqua Regia is a heavily corrosive mixture of acids that readily dissolve most organic materials.<br><br>Ichor is a rich ferrous fluid that binds well to minerals, it can often break down gemstones.</b>";
-	name = "alchemy instructions"
-	},
+/obj/item/paper/alchemy,
 /turf/simulated/floor/wood,
 /area/redgate/fantasy/alchemist)
 "oI" = (
@@ -3244,9 +3250,7 @@
 	dir = 1
 	},
 /obj/structure/table/alien/blue,
-/obj/item/paper/alien{
-	info = "<b>Thus far the mission has been a success, we've managed to integrate ourselves into the local community without arousing suspicion.<br><br>We had initially overestimated the technological level of the locals, and their initial encounters with our equipment did cause a concern. However, we were able to latch onto their superstitious beliefs in magic to explain away the abilities that we possess. To enhance this perception, we've taken to hiding our technology in more mundane looking materials, and the townsfolk appear to be content with this.</b>"
-	},
+/obj/item/paper/alien/message,
 /turf/simulated/floor/tiled/milspec/sterile,
 /area/redgate/fantasy/aliens)
 "tX" = (
@@ -7926,8 +7930,8 @@
 /area/redgate/fantasy/streets)
 "XB" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/map_effect/interval/effect_emitter/smoke/fire,
 /obj/structure/bonfire,
+/obj/effect/map_effect/interval/effect_emitter/smoke,
 /turf/simulated/floor/wood/alt,
 /area/redgate/fantasy/house)
 "XC" = (
@@ -9180,7 +9184,7 @@ Ew
 KM
 Jo
 KM
-Jo
+ae
 KM
 Cu
 KM
@@ -10809,7 +10813,7 @@ Wt
 qK
 XO
 XO
-XO
+ac
 HC
 Wt
 dL

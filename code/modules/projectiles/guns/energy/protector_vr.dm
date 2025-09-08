@@ -15,7 +15,7 @@
 	icon_override = 'icons/vore/custom_guns_vr.dmi'
 	item_state = "gun"
 
-	fire_sound = 'sound/weapons/Taser.ogg'
+	fire_sound = 'sound/weapons/taser.ogg'
 	projectile_type = /obj/item/projectile/beam/stun/med //CHOMPedit, default proj uses weak stun but firemode switches to med, fixing
 
 	modifystate = "stun"
@@ -134,7 +134,7 @@
 		list(mode_name="electrode", projectile_type=/obj/item/projectile/energy/electrode/strong, modifystate="zap", charge_cost = 800),
 		)
 
-	req_access = list(access_armory) //for toggling safety
+	req_access = list(ACCESS_ARMORY) //for toggling safety
 	var/locked = 1
 	var/lockable = 1
 

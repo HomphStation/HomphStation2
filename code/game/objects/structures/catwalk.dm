@@ -46,7 +46,7 @@
 			O.update() //Will cause anything on the open turf to fall if it should
 
 /obj/structure/catwalk/proc/redraw_nearby_catwalks()
-	for(var/direction in alldirs)
+	for(var/direction in GLOB.alldirs)
 		var/obj/structure/catwalk/L = locate() in get_step(src, direction)
 		if(L)
 			L.update_connections()
@@ -113,7 +113,7 @@
 	if(istype(C, /obj/item/stack/tile/floor) && !plated_tile)
 		var/obj/item/stack/tile/floor/ST = C
 		to_chat(user, span_notice("Placing tile..."))
-		if (!do_after(user, 10))
+		if (!do_after(user, 1 SECOND, target = src))
 			return
 		if(!ST.use(1))
 			return

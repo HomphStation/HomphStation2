@@ -13,8 +13,7 @@
 	full_name = "Cynosure Station"
 	path = "cynosure"
 
-	lobby_icon = 'icons/misc/title.dmi'
-	lobby_screens = list("mockingjay00") // New lobby screen if possible.
+	lobby_screens = list('html/lobby/mockingjay00.webp') // New lobby screen if possible.
 
 	holomap_smoosh = list(list(
 		Z_LEVEL_STATION_ONE,
@@ -320,13 +319,13 @@
 /obj/machinery/suit_cycler/exploration
 	name = "Explorer suit cycler"
 	model_text = "Exploration"
-	req_one_access = list(access_explorer)
+	req_one_access = list(ACCESS_EXPLORER)
 
 /obj/machinery/suit_cycler/pilot
 	name = "Pilot suit cycler"
 	model_text = "Pilot"
 	req_access = null
-	req_one_access = list(access_explorer)
+	req_one_access = list(ACCESS_EXPLORER)
 
 // Putting this here in order to not disrupt existing maps/downstreams.
 /turf/simulated/open

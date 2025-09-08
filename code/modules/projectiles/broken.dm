@@ -9,19 +9,18 @@
 
 	var/do_rotation = TRUE
 
-/obj/item/broken_gun/New(var/newloc, var/path)
-	..()
+/obj/item/broken_gun/Initialize(mapload, path)
+	. = ..()
 	if(path)
 		if(!setup_gun(path))
-			qdel(src)
-			return
+			return INITIALIZE_HINT_QDEL
 		setup_repair_needs()
 
-/obj/item/broken_gun/Initialize(mapload)
-	. = ..()
-	spawn(30 SECONDS)
-		if(!my_guntype && !QDELETED(src))
-			qdel(src)
+	addtimer(CALLBACK(src, PROC_REF(validate_gun_type)), 30 SECONDS, TIMER_DELETE_ME)
+
+/obj/item/broken_gun/proc/validate_gun_type()
+	if(!my_guntype)
+		qdel(src)
 
 /obj/item/broken_gun/examine(mob/user)
 	. = ..()
@@ -29,7 +28,7 @@
 		if(get_dist(get_turf(user),get_turf(src)) <= 1)
 			to_chat(user, span_notice("You begin inspecting \the [src]."))
 
-			if(do_after(user, 5 SECONDS))
+			if(do_after(user, 5 SECONDS, target = src))
 				to_chat(user, span_notice("\The [src] can possibly be restored with:"))
 				for(var/obj/item/res as anything in material_needs)
 					if(material_needs[res] > 0)
@@ -90,7 +89,7 @@
 
 /obj/item/broken_gun/attackby(obj/item/W as obj, mob/user as mob)
 	if(can_repair_with(W, user))
-		if(do_after(user, (rand() * 10 SECONDS) + 5 SECONDS))
+		if(do_after(user, (rand() * 10 SECONDS + 5 SECONDS), target = src))
 			repair_with(W, user)
 		return
 

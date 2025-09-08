@@ -2,7 +2,7 @@
 	name = "gun cabinet"
 	icon = 'icons/obj/guncabinet.dmi'
 	icon_state = "base"
-	req_one_access = list(access_armory)
+	req_one_access = list(ACCESS_ARMORY)
 	closet_appearance = null
 
 /obj/structure/closet/secure_closet/guncabinet/Initialize(mapload)
@@ -49,15 +49,13 @@
 		else
 			add_overlay("open")
 
-//VOREStation Add Start
 /obj/structure/closet/secure_closet/guncabinet/excursion
 	name = "expedition weaponry cabinet"
-	req_one_access = list(access_explorer,access_armory) //CHOMP keep explo
+	req_one_access = list(ACCESS_EXPLORER,ACCESS_ARMORY) //CHOMP keep explo
 
-/obj/structure/closet/secure_closet/guncabinet/excursion/New()
-	..()
+/obj/structure/closet/secure_closet/guncabinet/excursion/Initialize(mapload)
+	. = ..()
 	for(var/i = 1 to 2)
 		new /obj/item/gun/energy/locked/frontier(src)
 	for(var/i = 1 to 2)
 		new /obj/item/gun/energy/locked/frontier/holdout(src)
-//VOREStation Add End

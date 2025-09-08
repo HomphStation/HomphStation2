@@ -176,10 +176,10 @@
 	name = "long fur coat"
 	desc = "A sophisticated long coat made of fur."
 
-	icon = 'icons/inventory/suit/mob_vr.dmi'
+	icon = 'icons/inventory/suit/mob.dmi'
 	icon_state = "russofurcoat"
 
-	icon_override = 'icons/inventory/suit/mob_vr.dmi'
+	icon_override = 'icons/inventory/suit/mob.dmi'
 	item_state = "russofurcoat"
 
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
@@ -200,7 +200,7 @@
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|ARMS
 	allowed = list(POCKET_GENERIC, POCKET_EMERGENCY, POCKET_SECURITY, POCKET_DETECTIVE)
-	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 10, bullet = 20, laser = 10, energy = 0, bomb = 0, bio = 0, rad = 0) //As much armor as the cyberpunk jacket. Also priced the same.
 	var/unbuttoned = 0
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/verb/toggle()
@@ -230,21 +230,21 @@
 	desc = "A uniform jacket from the United Federation. Starfleet still uses this uniform and there are variations of it. Wearing this may make you feel all scientific."
 	icon_state = "fedblue"
 	item_state = "fedblue"
-	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 50, rad = 0) //As much armor as a normal labcoat.
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/fedeng
 	name = "Federation Uniform Jacket (Yellow)"
 	desc = "A uniform jacket from the United Federation. Starfleet still uses this uniform and there are variations of it.Wearing it may make you feel like checking a warp core, whatever that is."
 	icon_state = "fedeng"
 	item_state = "fedeng"
-	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 20) //I was going to say 'as much as a hazard vest' but then I checked and found that hazard vests either never HAD rad resistance or had it removed... Whatever. I gave the hazard vest it's rad resistance back as well.
 
 /obj/item/clothing/suit/storage/fluff/fedcoat/fedcapt
 	name = "Federation Uniform Jacket (Command)"
 	desc = "A uniform jacket from the United Federation. Starfleet still uses this uniform and there are variations of it. You feel like a commanding officer of Starfleet."
 	icon_state = "fedcapt"
 	item_state = "fedcapt"
-	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 10, bullet = 20, laser = 10, energy = 0, bomb = 0, bio = 0, rad = 0)
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat
 	name = "Modern Federation Uniform Jacket (Command)"
@@ -259,7 +259,7 @@
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|ARMS
 	allowed = list(POCKET_GENERIC, POCKET_EMERGENCY, POCKET_SECURITY, POCKET_DETECTIVE)
-	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 10, bullet = 20, laser = 10, energy = 0, bomb = 0, bio = 0, rad = 0)
 
 	//Variants
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/modernfedblue
@@ -274,14 +274,14 @@
 	desc = "A modern uniform jacket from the United Federation. Their Starfleet had recently started using these uniforms. You feel like you can handle any type of technical engineering problems."
 	icon_state = "fedmoderneng"
 	item_state = "fedmoderneng"
-	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 20)
 
 /obj/item/clothing/suit/storage/fluff/modernfedcoat/modernfedsec
 	name = "Modern Federation Uniform Jacket (Red)"
 	desc = "A modern uniform jacket from the United Federation. Their Starfleet had recently started using these uniforms. This uniform makes you want to protect and serve as an officer."
 	icon_state = "fedmodernsec"
 	item_state = "fedmodernsec"
-	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 10, bullet = 20, laser = 10, energy = 0, bomb = 0, bio = 0, rad = 0)
 
 /obj/item/clothing/head/caphat/formal/fedcover
 	name = "Federation Officer's Cap"
@@ -844,9 +844,6 @@
 	name = DEVELOPER_WARNING_NAME
 	desc = "Why did you spawn this one? Dork."
 	sensor_mode = 3
-
-	icon = 'icons/inventory/uniform/item_vr.dmi'
-	default_worn_icon = 'icons/inventory/uniform/mob_vr.dmi'
 	icon_state = "khi_uniform"
 
 /obj/item/clothing/under/rank/khi/cmd //Command version
@@ -977,6 +974,7 @@
 	desc = "Ankle coverings for digitigrade creatures. Gilded!"
 	icon = 'icons/vore/custom_clothes_vr.dmi'
 	icon_state = "gildedcuffs"
+	blocks_footsteps = FALSE
 
 	icon_override = 'icons/vore/custom_onmob_vr.dmi'
 	item_icons = null
@@ -1127,12 +1125,9 @@ Departamental Swimsuits, for general use
 //Just some alt-uniforms themed around Star Trek - Pls don't sue, Mr Roddenberry ;_;
 // PS. <3 Nienhaus
 
-
 /obj/item/clothing/under/rank/trek
 	name = "Section 31 Uniform"
 	desc = "Oooh... right."
-	icon = 'icons/inventory/uniform/item_vr.dmi'
-	default_worn_icon = 'icons/inventory/uniform/mob_vr.dmi'
 
 //TOS
 /obj/item/clothing/under/rank/trek/command
@@ -1197,8 +1192,8 @@ Departamental Swimsuits, for general use
 /obj/item/clothing/suit/storage/trek/ds9
 	name = "Padded Overcoat"
 	desc = "The overcoat worn by all officers of the 2380s."
-	icon = 'icons/inventory/suit/item_vr.dmi'
-	default_worn_icon = 'icons/inventory/suit/mob_vr.dmi'
+	icon = 'icons/inventory/suit/item.dmi'
+	default_worn_icon = 'icons/inventory/suit/mob.dmi'
 	icon_state = "trek_ds9_coat"
 	body_parts_covered = CHEST|ARMS
 	permeability_coefficient = 0.50
@@ -1986,7 +1981,7 @@ Departamental Swimsuits, for general use
 	translocator_unequip(translocator, usr)
 
 /obj/item/clothing/head/fluff/nikki/proc/translocator_equip(var/obj/item/perfect_tele/T, var/mob/living/carbon/human/user)
-	if (do_after(user, 2 SECONDS, T))
+	if (do_after(user, 2 SECONDS, target = T))
 		user.unEquip(T)
 		translocator_unequip(translocator, user)
 		T.forceMove(src)
@@ -2549,8 +2544,6 @@ End CHOMP Removal*/
 /obj/item/clothing/glasses/big_round
 	name = "big round blue glasses"
 	desc = "A set of glasses! They are big, round, and very reflective, catching the light and obscuring the eyes!"
-	icon = 'icons/inventory/eyes/item_vr.dmi'
-	icon_override = 'icons/inventory/eyes/mob_vr.dmi'
 	icon_state = "bigroundglasses"
 	slot_flags = SLOT_EYES | SLOT_EARS
 	glasses_layer_above = TRUE

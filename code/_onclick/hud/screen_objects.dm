@@ -409,6 +409,12 @@
 											else
 												contents.Add(0)
 
+										// Grunts rejoice!
+										if (GAS_CH4)
+											if(t.air_contents.gas[GAS_CH4] && !t.air_contents.gas[GAS_O2])
+												contents.Add(t.air_contents.gas[GAS_CH4])
+											else
+												contents.Add(0)
 
 								else
 									//no tank so we set contents to 0
@@ -551,79 +557,79 @@
 
 		if("AI Core")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.view_core()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.view_core()
 
 		if("Show Camera List")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				var/camera = tgui_input_list(AI, "Pick Camera:", "Camera Choice", AI.get_camera_list())
-				AI.ai_camera_list(camera)
+				var/mob/living/silicon/ai/ai_user = usr
+				var/camera = tgui_input_list(ai_user, "Pick Camera:", "Camera Choice", ai_user.get_camera_list())
+				ai_user.ai_camera_list(camera)
 
 		if("Track With Camera")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				var/target_name = tgui_input_list(AI, "Pick Mob:", "Mob Choice", AI.trackable_mobs())
-				AI.ai_camera_track(target_name)
+				var/mob/living/silicon/ai/ai_user = usr
+				var/target_name = tgui_input_list(ai_user, "Pick Mob:", "Mob Choice", ai_user.trackable_mobs())
+				ai_user.ai_camera_track(target_name)
 
 		if("Toggle Camera Light")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.toggle_camera_light()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.toggle_camera_light()
 
 		if("Crew Monitoring")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.subsystem_crew_monitor()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.subsystem_crew_monitor()
 
 		if("Show Crew Manifest")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.subsystem_crew_manifest()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.subsystem_crew_manifest()
 
 		if("Show Alerts")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.subsystem_alarm_monitor()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.subsystem_alarm_monitor()
 
 		if("Announcement")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.ai_announcement()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.ai_announcement()
 
 		if("Call Emergency Shuttle")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.ai_call_shuttle()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.ai_call_shuttle()
 
 		if("State Laws")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.ai_checklaws()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.ai_checklaws()
 
 		if("PDA - Send Message")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.aiPDA.start_program(AI.aiPDA.find_program(/datum/data/pda/app/messenger))
-				AI.aiPDA.cmd_pda_open_ui(usr)
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.aiPDA.start_program(ai_user.aiPDA.find_program(/datum/data/pda/app/messenger))
+				ai_user.aiPDA.cmd_pda_open_ui(usr)
 
 		if("PDA - Show Message Log")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.aiPDA.start_program(AI.aiPDA.find_program(/datum/data/pda/app/messenger))
-				AI.aiPDA.cmd_pda_open_ui(usr)
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.aiPDA.start_program(ai_user.aiPDA.find_program(/datum/data/pda/app/messenger))
+				ai_user.aiPDA.cmd_pda_open_ui(usr)
 
 		if("Take Image")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.take_image()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.take_image()
 
 		if("View Images")
 			if(isAI(usr))
-				var/mob/living/silicon/ai/AI = usr
-				AI.view_images()
+				var/mob/living/silicon/ai/ai_user = usr
+				ai_user.view_images()
 		else
-			return attempt_vr(src,"Click_vr",list(location,control,params)) //VOREStation Add - Additional things.
+			return attempt_vr(src,"Click_vr",list(location,control,params))
 	return 1
 
 /obj/screen/inventory/Click()
@@ -706,51 +712,6 @@
 /obj/screen/setup_preview/bg/Click(params)
 	pref?.bgstate = next_in_list(pref.bgstate, pref.bgstate_options)
 	pref?.update_preview_icon()
-
-/obj/screen/splash
-	screen_loc = "1,1"
-	layer = LAYER_HUD_ABOVE
-	plane = PLANE_PLAYER_HUD_ABOVE
-	var/client/holder
-
-INITIALIZE_IMMEDIATE(/obj/screen/splash)
-/obj/screen/splash/Initialize(mapload, visible)
-	. = ..()
-
-	if(!isclient(loc))
-		return INITIALIZE_HINT_QDEL
-
-	holder = loc
-
-	if(!visible)
-		alpha = 0
-
-	if(!lobby_image)
-		return INITIALIZE_HINT_QDEL
-
-	icon = lobby_image.icon
-	icon_state = lobby_image.icon_state
-
-	holder.screen += src
-
-/obj/screen/splash/proc/Fade(out, qdel_after = TRUE)
-	if(QDELETED(src))
-		return
-	if(out)
-		animate(src, alpha = 0, time = 30)
-	else
-		alpha = 0
-		animate(src, alpha = 255, time = 30)
-	if(qdel_after)
-		QDEL_IN(src, 30)
-
-/obj/screen/splash/Destroy()
-	if(holder)
-		holder.screen -= src
-		holder = null
-	return ..()
-
-
 /**
  * This object holds all the on-screen elements of the mapping unit.
  * It has a decorative frame and onscreen buttons. The map itself is drawn
@@ -810,13 +771,13 @@ INITIALIZE_IMMEDIATE(/obj/screen/splash)
 
 
 /obj/screen/movable/mapper_holder/Destroy()
-	qdel_null(mask_full)
-	qdel_null(mask_ping)
-	qdel_null(bg)
+	QDEL_NULL(mask_full)
+	QDEL_NULL(mask_ping)
+	QDEL_NULL(bg)
 
-	qdel_null(frame)
-	qdel_null(powbutton)
-	qdel_null(mapbutton)
+	QDEL_NULL(frame)
+	QDEL_NULL(powbutton)
+	QDEL_NULL(mapbutton)
 
 	extras_holder = null
 	owner = null

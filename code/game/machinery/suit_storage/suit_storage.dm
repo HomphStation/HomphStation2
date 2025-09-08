@@ -283,11 +283,11 @@
 		if(i==3) //End of the cycle
 			if(!issuperUV)
 				if(HELMET)
-					HELMET.clean_blood()
+					HELMET.wash(CLEAN_SCRUB)
 				if(SUIT)
-					SUIT.clean_blood()
+					SUIT.wash(CLEAN_SCRUB)
 				if(MASK)
-					MASK.clean_blood()
+					MASK.wash(CLEAN_SCRUB)
 			else //It was supercycling, destroy everything
 				if(HELMET)
 					HELMET = null
@@ -365,7 +365,7 @@
 		to_chat(usr, span_warning("It's too cluttered inside for you to fit in!"))
 		return
 	visible_message(span_info("[usr] starts squeezing into the suit storage unit!"), 3)
-	if(do_after(usr, 10))
+	if(do_after(usr, 1 SECOND, target = src))
 		usr.stop_pulling()
 		usr.client.perspective = EYE_PERSPECTIVE
 		usr.client.eye = src
@@ -405,7 +405,7 @@
 			to_chat(user, span_warning("The unit's storage area is too cluttered."))
 			return
 		visible_message(span_notice("[user] starts putting [G.affecting.name] into the Suit Storage Unit."), 3)
-		if(do_after(user, 20))
+		if(do_after(user, 2 SECONDS, target = src))
 			if(!G || !G.affecting) return //derpcheck
 			var/mob/M = G.affecting
 			if(M.client)

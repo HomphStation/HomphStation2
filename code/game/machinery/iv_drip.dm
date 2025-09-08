@@ -69,7 +69,7 @@
 	if(W.has_tool_quality(TOOL_SCREWDRIVER))
 		playsound(src, W.usesound, 50, 1)
 		to_chat(user, span_notice("You start to dismantle the IV drip."))
-		if(do_after(user, 15))
+		if(do_after(user, 15, target = src))
 			to_chat(user, span_notice("You dismantle the IV drip."))
 			new /obj/item/stack/rods(src.loc, 6)
 			if(beaker)
@@ -88,7 +88,7 @@
 
 		if(!(get_dist(src, attached) <= 1 && isturf(attached.loc)))
 			visible_message("The needle is ripped out of [attached], doesn't that hurt?")
-			attached:apply_damage(3, BRUTE, pick("r_arm", "l_arm"))
+			attached:apply_damage(3, BRUTE, pick(BP_R_ARM, BP_L_ARM))
 			attached = null
 			update_icon()
 			return

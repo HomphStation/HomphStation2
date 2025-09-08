@@ -20,6 +20,8 @@ var/induromol_code = rand(1, 50)
 	name = REAGENT_MUTAGENX
 	description = "Seems as if it would induce instant, random mutations in a living humanoid"
 	color = "#20E7F5"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 /datum/reagent/phororeagent/extreme_mutagen/on_mob_life(var/mob/living/M as mob)
 	spawn(20) //give time to inject entire syringe if wanted
@@ -76,6 +78,8 @@ var/induromol_code = rand(1, 50)
 	id = REAGENT_ID_GENEDRAZINE
 	name = REAGENT_GENEDRAZINE
 	description = "Seems as if it would heal very quickly, but at the cost of genetic damage"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 /datum/reagent/phororeagent/genedrazine/on_mob_life(var/mob/living/M as mob, var/alien)
 	var/healedDamage = 0
@@ -261,7 +265,7 @@ var/induromol_code = rand(1, 50)
 	for(var/mob/living/carbon/human/H in viewers(T, 2))
 		var/distTo = sqrt(((T.x - H.x) ** 2) + ((T.y - H.y) ** 2))
 		if(distTo < dist && (istype(H.l_hand, /obj/item/reagent_containers) || \
-				 istype(H.r_hand, /obj/item/reagent_containers)))
+		istype(H.r_hand, /obj/item/reagent_containers)))
 			immune = H //so reagent spill does not affect user, they already threw up when it was created
 
 	src = null
@@ -533,6 +537,8 @@ var/induromol_code = rand(1, 50)
 	description = "Structure indicates it could purge living cells of non-essential reagents"
 	color = "#8C4C3E"
 	var/message_given = 0
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 /datum/reagent/phororeagent/expulsicol/on_mob_life(var/mob/living/M as mob, var/alien)
 	if(!message_given)
@@ -619,6 +625,8 @@ var/induromol_code = rand(1, 50)
 	name = REAGENT_SAPOFORMATOR
 	description = "Enough units splashed on the ground would appear to have great cleaning effects"
 	color = "#EEE139"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 /datum/reagent/phororeagent/sapoformator/reaction_obj(var/obj/O, var/volume)
 	if(istype(O,/obj/effect/decal/cleanable))
@@ -729,7 +737,7 @@ var/induromol_code = rand(1, 50)
 	if(!init)
 		to_chat(M, span_warning("You start tripping balls."))
 		init = 1
-	var/drugs = list(REAGENT_ID_SPACEDRUGS, REAGENT_ID_SEROTROTIUM, REAGENT_ID_PSILOCYBIN, REAGENT_ID_NUKACOLA, REAGENT_ID_ATOMICBOMB, REAGENT_ID_HIPPIESDELIGHT)
+	var/drugs = list(REAGENT_ID_BLISS, REAGENT_ID_SEROTROTIUM, REAGENT_ID_PSILOCYBIN, REAGENT_ID_NUKACOLA, REAGENT_ID_ATOMICBOMB, REAGENT_ID_HIPPIESDELIGHT)
 	for(var/drug in drugs)
 		M.reagents.add_reagent(drug, 1)
 	M.reagents.add_reagent(REAGENT_ID_MINDBREAKER, 0.2)
@@ -833,6 +841,8 @@ var/induromol_code = rand(1, 50)
 	name = REAGENT_OBSCURITOL
 	description = "Exhibits strange electromagnetic properties"
 	color = "#5D505E"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 /datum/reagent/phororeagent/obscuritol/initial_reaction(var/obj/item/reagent_containers/container, var/turf/T, var/volume, var/message)
 	var/obj/machinery/light/L
@@ -869,6 +879,8 @@ var/induromol_code = rand(1, 50)
 	color = "#540E5C"
 	metabolism = 5 * REM
 	overdose = 15
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 /datum/reagent/phororeagent/oxyphoromin/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	M.add_chemical_effect(CE_PAINKILLER, 600)
@@ -1091,7 +1103,7 @@ not yet finished to a satisfactory degree, or I just don't like it enough to kee
 	reaction_turf(var/turf/T, var/volume) //can't melt space, centcomm walls, or shuttles
 											//maybe make work off explosion resistance?
 		if(!istype(T, /turf/space) && !istype(T, /turf/unsimulated/wall) && !istype(T.loc, /area/shuttle) \
-						 && !istype(T.loc, /area/supply/station)) //TODO: Deal with bluespace tiles
+		&& !istype(T.loc, /area/supply/station)) //TODO: Deal with bluespace tiles
 			src = null //ensure sleep proc doesn't return upon completion
 			if(volume <= 10)
 				return
@@ -1141,6 +1153,8 @@ nocturnol //Should give night vision, does not seem to work using this method of
 	name = REAGENT_NOCTURNOL
 	description = "Reagent bears strong resemblance to enzymes found in feline eyes"
 	color = "#61E34F"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_MATSCI
 
 	on_mob_life(var/mob/living/M as mob, var/alien)
 		M.see_in_dark = 50

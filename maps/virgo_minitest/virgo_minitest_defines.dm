@@ -6,8 +6,7 @@
 	full_name = "NSS Ade-testing"
 	path = "virgo_minitest"
 
-	lobby_icon = 'icons/misc/title_vr.dmi'
-	lobby_screens = list("logo2")
+	lobby_screens = list('html/lobby/logo2.png')
 
 	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'
 
@@ -61,10 +60,6 @@
 							)
 
 	allowed_spawns = list("Arrivals Shuttle","Gateway","Cryogenic Storage","Cyborg Storage")
-
-/datum/map/virgo_minitest/New()
-	..()
-	SSticker.start_immediately = TRUE
 
 /datum/map_z_level/minitest/station
 	z = Z_LEVEL_MAIN_VIRGO_TESTING

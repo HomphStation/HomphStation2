@@ -33,7 +33,7 @@ export const Flamethrower = (props) => {
               </Button>
             }
           >
-            {!has_tank ? 'No Tank' : fuel_kpa <= 0 ? 'Empty' : fuel_kpa + 'Kpa'}
+            {!has_tank ? 'No Tank' : fuel_kpa <= 0 ? 'Empty' : `${fuel_kpa}Kpa`}
           </LabeledList.Item>
           <LabeledList.Item
             buttons={
@@ -53,6 +53,7 @@ export const Flamethrower = (props) => {
           >
             {!!constructed && (
               <Knob
+                format={(value) => value.toFixed()}
                 size={1.5}
                 minValue={throw_min}
                 maxValue={throw_max}

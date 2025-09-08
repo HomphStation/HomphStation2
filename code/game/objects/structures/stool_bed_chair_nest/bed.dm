@@ -30,6 +30,7 @@
 		new_material = MAT_STEEL
 	material = get_material_by_name(new_material)
 	if(!istype(material))
+		stack_trace("Material of type: [new_material] does not exist.")
 		return INITIALIZE_HINT_QDEL
 	if(new_padding_material)
 		padding_material = get_material_by_name(new_padding_material)
@@ -46,20 +47,20 @@
 	cut_overlays()
 	// Base icon.
 	var/cache_key = "[base_icon]-[material.name]"
-	if(isnull(stool_cache[cache_key]))
+	if(isnull(GLOB.stool_cache[cache_key]))
 		var/image/I = image(icon, base_icon)
 		if(applies_material_colour) //VOREStation Add - Goes with added var
 			I.color = material.icon_colour
-		stool_cache[cache_key] = I
-	add_overlay(stool_cache[cache_key])
+		GLOB.stool_cache[cache_key] = I
+	add_overlay(GLOB.stool_cache[cache_key])
 	// Padding overlay.
 	if(padding_material)
 		var/padding_cache_key = "[base_icon]-padding-[padding_material.name]"
-		if(isnull(stool_cache[padding_cache_key]))
+		if(isnull(GLOB.stool_cache[padding_cache_key]))
 			var/image/I =  image(icon, "[base_icon]_padding")
 			I.color = padding_material.icon_colour
-			stool_cache[padding_cache_key] = I
-		add_overlay(stool_cache[padding_cache_key])
+			GLOB.stool_cache[padding_cache_key] = I
+		add_overlay(GLOB.stool_cache[padding_cache_key])
 	// Strings.
 	desc = initial(desc)
 	if(padding_material)
@@ -146,7 +147,7 @@
 			to_chat(user, span_notice("\The [src] already has someone buckled to it."))
 			return
 		user.visible_message(span_notice("[user] attempts to buckle [affecting] into \the [src]!"))
-		if(do_after(user, 20, G.affecting))
+		if(do_after(user, 2 SECONDS, G.affecting, target = src))
 			affecting.loc = loc
 			spawn(0)
 				if(buckle_mob(affecting))
@@ -377,7 +378,7 @@
 	desc = "Whatever species designed this must've enjoyed relaxation as well. Looks vaguely comfy."
 	catalogue_data = list(/datum/category_item/catalogue/anomalous/precursor_a/alien_bed)
 	icon = 'icons/obj/abductor.dmi'
-	icon_state = "bed"
+	icon_state = "bed_red"
 	flippable = FALSE
 
 /obj/structure/bed/alien/update_icon()
@@ -408,7 +409,7 @@
 		else
 			user.visible_message("[user] begins securing \the [src] to the floor.", "You start securing \the [src] to the floor.")
 
-		if(do_after(user, 20 * W.toolspeed))
+		if(do_after(user, 2 SECONDS * W.toolspeed, target = src))
 			if(!src) return
 			to_chat(user, span_notice("You [anchored? "un" : ""]secured \the [src]!"))
 			anchored = !anchored

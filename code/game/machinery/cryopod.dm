@@ -11,7 +11,7 @@
 /obj/machinery/computer/cryopod
 	name = "cryogenic oversight console"
 	desc = "An interface between crew and the cryogenic storage oversight systems."
-	icon = 'icons/obj/Cryogenic2_vr.dmi' //VOREStation Edit - New Icon
+	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "cellconsole"
 	circuit = /obj/item/circuitboard/cryopodcontrol
 	density = FALSE
@@ -27,7 +27,7 @@
 	var/storage_name = "Cryogenic Oversight Control"
 	var/allow_items = 1
 
-	req_one_access = list(access_heads) //VOREStation Add
+	req_one_access = list(ACCESS_HEADS) //VOREStation Add
 
 /obj/machinery/computer/cryopod/update_icon()
 	..()
@@ -181,7 +181,7 @@
 
 	name = "cryogenic feed"
 	desc = "A bewildering tangle of machinery and pipes."
-	icon = 'icons/obj/Cryogenic2_vr.dmi' //VOREStation Edit - New Icon
+	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "cryo_rear"
 	anchored = TRUE
 	dir = WEST
@@ -191,8 +191,8 @@
 /obj/machinery/cryopod
 	name = "cryogenic freezer"
 	desc = "A man-sized pod for entering suspended animation."
-	icon = 'icons/obj/Cryogenic2_vr.dmi' //VOREStation Edit - New Icon
-	icon_state = "cryopod_0" //VOREStation Edit - New Icon
+	icon = 'icons/obj/Cryogenic2.dmi'
+	icon_state = "cryopod_0"
 	density = TRUE
 	anchored = TRUE
 	unacidable = TRUE
@@ -252,7 +252,7 @@
 /obj/machinery/cryopod/robot/door/dorms
 	name = "Residential District Elevator"
 	desc = "A small elevator that goes down to the deeper section of the colony."
-	icon = 'icons/obj/Cryogenic2_vr.dmi'
+	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "lift_closed"
 	base_icon_state = "lift_open"
 	occupied_icon_state = "lift_closed"
@@ -265,7 +265,7 @@
 /obj/machinery/cryopod/robot/door/travel
 	name = "Passenger Elevator"
 	desc = "A small elevator that goes down to the passenger section of the vessel."
-	icon = 'icons/obj/Cryogenic2_vr.dmi'
+	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "lift_closed"
 	base_icon_state = "lift_open"
 	occupied_icon_state = "lift_closed"
@@ -448,7 +448,7 @@
 			preserve = 1
 
 		if(istype(W,/obj/item/implant/health))
-			for(var/obj/machinery/computer/cloning/com in machines)
+			for(var/obj/machinery/computer/cloning/com in GLOB.machines)
 				for(var/datum/dna2/record/R in com.records)
 					if(locate(R.implant) == W)
 						qdel(R)
@@ -470,7 +470,7 @@
 			qdel(B)
 
 	//Update any existing objectives involving this mob.
-	for(var/datum/objective/O in all_objectives)
+	for(var/datum/objective/O in GLOB.all_objectives)
 		// We don't want revs to get objectives that aren't for heads of staff. Letting
 		// them win or lose based on cryo is silly so we remove the objective.
 		if(O.target == to_despawn.mind)
@@ -496,34 +496,34 @@
 			to_despawn.mind.special_role = null
 
 		//else
-			//if(ticker.mode.name == "AutoTraitor")
-				//var/datum/game_mode/traitor/autotraitor/current_mode = ticker.mode
+			//if(SSticker.mode.name == "AutoTraitor")
+				//var/datum/game_mode/traitor/autotraitor/current_mode = SSticker.mode
 				//current_mode.possible_traitors.Remove(to_despawn)
 
 		// Delete them from datacore.
 
-		if(PDA_Manifest.len)
-			PDA_Manifest.Cut()
-		for(var/datum/data/record/R in data_core.medical)
+		if(GLOB.PDA_Manifest.len)
+			GLOB.PDA_Manifest.Cut()
+		for(var/datum/data/record/R in GLOB.data_core.medical)
 			if((R.fields["name"] == to_despawn.real_name))
 				qdel(R)
-		for(var/datum/data/record/T in data_core.security)
+		for(var/datum/data/record/T in GLOB.data_core.security)
 			if((T.fields["name"] == to_despawn.real_name))
 				qdel(T)
-		for(var/datum/data/record/G in data_core.general)
+		for(var/datum/data/record/G in GLOB.data_core.general)
 			if((G.fields["name"] == to_despawn.real_name))
 				qdel(G)
 
 		// Also check the hidden version of each datacore, if they're an offmap role.
 		var/datum/job/J = SSjob.get_job(job)
 		if(J?.offmap_spawn)
-			for(var/datum/data/record/R in data_core.hidden_general)
+			for(var/datum/data/record/R in GLOB.data_core.hidden_general)
 				if((R.fields["name"] == to_despawn.real_name))
 					qdel(R)
-			for(var/datum/data/record/T in data_core.hidden_security)
+			for(var/datum/data/record/T in GLOB.data_core.hidden_security)
 				if((T.fields["name"] == to_despawn.real_name))
 					qdel(T)
-			for(var/datum/data/record/G in data_core.hidden_medical)
+			for(var/datum/data/record/G in GLOB.data_core.hidden_medical)
 				if((G.fields["name"] == to_despawn.real_name))
 					qdel(G)
 
@@ -629,7 +629,7 @@
 
 	visible_message("[usr] [on_enter_visible_message] [src].", 3)
 
-	if(do_after(usr, 20))
+	if(do_after(usr, 2 SECONDS, target = src))
 
 		if(!usr || !usr.client)
 			return
@@ -714,7 +714,8 @@
 
 	if(M.client)
 		if(tgui_alert(M,"Would you like to enter long-term storage?","Cryopod",list("Yes","No")) == "Yes")
-			if(!M) return
+			if(!M || !M.Adjacent(src))
+				return
 			willing = 1
 	else
 		willing = 1
@@ -725,7 +726,7 @@
 		else
 			visible_message("\The [user] starts putting [M] into \the [src].", 3)
 
-		if(do_after(user, 20))
+		if(do_after(user, 2 SECONDS, target = src))
 			if(occupant)
 				to_chat(user, span_warning("\The [src] is already occupied."))
 				return

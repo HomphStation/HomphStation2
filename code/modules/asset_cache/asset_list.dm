@@ -77,7 +77,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /// Simply takes any generated file and saves it to the round-specific /logs folder. Useful for debugging potential issues with spritesheet generation/display.
 /// Only called when the SAVE_SPRITESHEETS config option is uncommented.
 /datum/asset/proc/save_to_logs(file_name, file_location)
-	var/asset_path = "[log_path]/generated_assets/[file_name]"
+	var/asset_path = "[GLOB.log_directory]/generated_assets/[file_name]"
 	fdel(asset_path) // just in case, sadly we can't use rust_g stuff here.
 	fcopy(file_location, asset_path)
 
@@ -440,7 +440,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 /datum/asset/spritesheet/proc/queuedInsert(sprite_name, icon/I, icon_state="", dir=SOUTH, frame=1, moving=FALSE)
 	I = icon(I, icon_state=icon_state, dir=dir, frame=frame, moving=moving)
-	if(!I || !length(icon_states(I)))  // that direction or state doesn't exist
+	if(!I || !length(cached_icon_states(I)))  // that direction or state doesn't exist
 		return
 	var/size_id = "[I.Width()]x[I.Height()]"
 	var/size = sizes[size_id]
@@ -476,7 +476,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	if(!directions)
 		directions = list(SOUTH)
 
-	for(var/icon_state_name in icon_states(I))
+	for(var/icon_state_name in cached_icon_states(I))
 		for(var/direction in directions)
 			var/prefix2 = (directions.len > 1) ? "[dir2text(direction)]-" : ""
 			Insert("[prefix][prefix2][icon_state_name]", I, icon_state=icon_state_name, dir=direction)

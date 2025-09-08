@@ -8,8 +8,8 @@
 	icon_state = "secbot0"
 	maxHealth = 100
 	health = 100
-	req_one_access = list(access_security, access_forensics_lockers)
-	botcard_access = list(access_security, access_sec_doors, access_forensics_lockers, access_maint_tunnels)
+	req_one_access = list(ACCESS_SECURITY, ACCESS_FORENSICS_LOCKERS)
+	botcard_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_FORENSICS_LOCKERS, ACCESS_MAINT_TUNNELS)
 	patrol_speed = 2
 	target_speed = 3
 	max_frustration = 7	//CHOMPEdit
@@ -51,7 +51,7 @@
 				var/mob/living/L = pulledby
 				UnarmedAttack(L)
 				say("Do not interfere with active law enforcement routines!")
-				global_announcer.autosay("[src] was interfered with in <b>[get_area(src)]</b>, activating defense routines.", "[src]", "Security")
+				GLOB.global_announcer.autosay("[src] was interfered with in <b>[get_area(src)]</b>, activating defense routines.", "[src]", "Security")
 //VOREStation Add End
 /mob/living/bot/secbot/beepsky
 	name = "Officer Beepsky"
@@ -69,8 +69,8 @@
 
 	xeno_harm_strength = 9 // Weaker than regular slimesky but they can stun.
 	baton_glow = "#33CCFF"
-	req_one_access = list(access_research, access_robotics)
-	botcard_access = list(access_research, access_robotics, access_xenobiology, access_xenoarch, access_tox, access_tox_storage, access_maint_tunnels)
+	req_one_access = list(ACCESS_RESEARCH, ACCESS_ROBOTICS)
+	botcard_access = list(ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_XENOARCH, ACCESS_TOX, ACCESS_TOX_STORAGE, ACCESS_MAINT_TUNNELS)
 	used_weapon = /obj/item/melee/baton/slime
 	var/xeno_stun_strength = 5 // How hard to slimebatoned()'d naughty slimes. 5 works out to 2 discipline and 5 weaken.
 
@@ -202,7 +202,7 @@
 
 	if(!target)
 		playsound(src, pick(threat_found_sounds), 50)
-		global_announcer.autosay("[src] was attacked by a hostile <b>[target_name(attacker)]</b> in <b>[get_area(src)]</b>.", "[src]", "Security")
+		GLOB.global_announcer.autosay("[src] was attacked by a hostile <b>[target_name(attacker)]</b> in <b>[get_area(src)]</b>.", "[src]", "Security")
 	target = attacker
 	attacked = TRUE
 
@@ -210,7 +210,7 @@
 /mob/living/bot/secbot/proc/demand_surrender(mob/target, var/threat)
 	var/suspect_name = target_name(target)
 	if(declare_arrests)
-		global_announcer.autosay("[src] is [arrest_type ? "detaining" : "arresting"] a level [threat] suspect <b>[suspect_name]</b> in <b>[get_area(src)]</b>.", "[src]", "Security")
+		GLOB.global_announcer.autosay("[src] is [arrest_type ? "detaining" : "arresting"] a level [threat] suspect <b>[suspect_name]</b> in <b>[get_area(src)]</b>.", "[src]", "Security")
 	say("Down on the floor, [suspect_name]! You have [SECBOT_WAIT_TIME*2] seconds to comply.")
 	playsound(src, pick(preparing_arrest_sounds), 50)
 	// Register to be told when the target moves
@@ -219,6 +219,7 @@
 
 // Callback invoked if the registered target moves
 /mob/living/bot/secbot/proc/target_moved(atom/movable/moving_instance, atom/old_loc, atom/new_loc)
+	SIGNAL_HANDLER
 	if(get_dist(get_turf(src), get_turf(target)) >= 1)
 		awaiting_surrender = INFINITY	// Done waiting!
 		UnregisterSignal(moving_instance, COMSIG_OBSERVER_MOVED)
@@ -267,7 +268,7 @@
 			var/action = arrest_type ? "detaining" : "arresting"
 			if(!ishuman(target))
 				action = "fighting"
-			global_announcer.autosay("[src] is [action] a level [threat] [action != "fighting" ? "suspect" : "threat"] <b>[target_name(target)]</b> in <b>[get_area(src)]</b>.", "[src]", "Security")
+			GLOB.global_announcer.autosay("[src] is [action] a level [threat] [action != "fighting" ? "suspect" : "threat"] <b>[target_name(target)]</b> in <b>[get_area(src)]</b>.", "[src]", "Security")
 		UnarmedAttack(target)
 
 /mob/living/bot/secbot/handlePanic()	// Speed modification based on alert level.
@@ -323,7 +324,7 @@
 			cuff = FALSE
 		if(!cuff)
 			H.stun_effect_act(0, stun_strength, null)
-			playsound(src, 'sound/weapons/Egloves.ogg', 50, 1, -1)
+			playsound(src, 'sound/weapons/egloves.ogg', 50, 1, -1)
 			do_attack_animation(H)
 			busy = TRUE
 			update_icons()
@@ -475,7 +476,7 @@
 		qdel(src)
 
 	else if(istype(W, /obj/item/pen))
-		var/t = sanitizeSafe(tgui_input_text(user, "Enter new robot name", name, created_name, MAX_NAME_LEN), MAX_NAME_LEN)
+		var/t = sanitizeSafe(tgui_input_text(user, "Enter new robot name", name, created_name, MAX_NAME_LEN, encode = FALSE), MAX_NAME_LEN)
 		if(!t)
 			return
 		if(!in_range(src, user) && loc != user)

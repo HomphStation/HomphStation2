@@ -16,7 +16,7 @@ export const DNAModifierMainRadiationEmitter = (props) => {
   const { radiationIntensity, radiationDuration, occupant } = data;
 
   return (
-    (occupant && occupant.isViableSubject && (
+    (occupant?.isViableSubject && (
       <Section fill title="Radiation Emitter">
         <Stack>
           <Stack.Item grow />
@@ -27,6 +27,7 @@ export const DNAModifierMainRadiationEmitter = (props) => {
               </Stack.Item>
               <Stack.Item>
                 <Knob
+                  format={(value) => value.toFixed()}
                   minValue={1}
                   maxValue={10}
                   stepPixelSize={20}
@@ -47,6 +48,7 @@ export const DNAModifierMainRadiationEmitter = (props) => {
               </Stack.Item>
               <Stack.Item>
                 <Knob
+                  format={(value) => value.toFixed()}
                   minValue={1}
                   maxValue={20}
                   stepPixelSize={10}

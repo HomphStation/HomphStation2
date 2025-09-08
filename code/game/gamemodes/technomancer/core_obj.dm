@@ -123,8 +123,7 @@
 				spawn(1)
 					L.visible_message(span_infoplain(span_bold("\The [L]") + " begins to fade away..."))
 					animate(L, alpha = 255, alpha = 0, time = 30) // Makes them fade into nothingness.
-					sleep(30)
-					qdel(L)
+					QDEL_IN(L, 30)
 
 // Deletes all the summons and wards from the core, so that Destroy() won't have issues.
 /obj/item/technomancer_core/proc/dismiss_all_summons()
@@ -213,12 +212,12 @@
 	if(client && hud_used)
 		if(istype(back, /obj/item/technomancer_core)) //I reckon there's a better way of doing this.
 			var/obj/item/technomancer_core/core = back
-			wiz_energy_display.invisibility = 0
+			wiz_energy_display.invisibility = INVISIBILITY_NONE
 			var/ratio = core.energy / core.max_energy
 			ratio = max(round(ratio, 0.05) * 100, 5)
 			wiz_energy_display.icon_state = "wiz_energy[ratio]"
 		else
-			wiz_energy_display.invisibility = 101
+			wiz_energy_display.invisibility = INVISIBILITY_ABSTRACT
 
 //Resonance Aperture
 

@@ -18,6 +18,7 @@
 /obj/item/rig_module/mounted/Initialize(mapload)
 	. = ..()
 	gun = new gun_type(src)
+	gun.mounted_gun = TRUE
 
 /obj/item/rig_module/mounted/engage(atom/target)
 
@@ -120,7 +121,7 @@
 
 	name = "mop projector"
 	desc = "A powerful mop projector."
-	icon_state = "mop"
+	icon_state = "generic"
 
 	activate_string = "Project Mop"
 	deactivate_string = "Cancel Mop"

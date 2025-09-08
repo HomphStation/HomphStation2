@@ -2,7 +2,7 @@
 
 /obj/item/resonator
 	name = "resonator"
-	icon = 'icons/obj/mining_vr.dmi'
+	icon = 'icons/obj/mining.dmi'
 	icon_state = "resonator"
 	item_state = "resonator"
 	item_icons = list(
@@ -138,7 +138,7 @@
 	new /obj/effect/temp_visual/resonance_crush(T)
 
 	// Mineral turfs get drilled!
-	if(istype(T, /turf/simulated/mineral))
+	if(ismineralturf(T))
 		var/turf/simulated/mineral/M = T
 		M.GetDrilled()
 		qdel(src)

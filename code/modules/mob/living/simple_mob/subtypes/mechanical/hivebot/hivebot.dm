@@ -13,7 +13,7 @@
 	movement_sound = 'sound/effects/servostep.ogg'
 
 	attacktext = list("clawed")
-	projectilesound = 'sound/weapons/Gunshot_old.ogg'
+	projectilesound = 'sound/weapons/gunshot_old.ogg'
 
 	organ_names = /decl/mob_organ_names/hivebot
 
@@ -30,7 +30,7 @@
 	s.start()
 	qdel(src)
 
-// The hivebot's default projectile. //CHOMP Edit this is no longer actually used by ranged_damage.dm for the hivebot. Hivebot now uses custom 22 long rifle.
+// The hivebot's default projectile.
 /obj/item/projectile/bullet/hivebot
 	damage = 10
 	damage_type = BRUTE

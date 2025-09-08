@@ -123,10 +123,7 @@ var/list/all_maps = list()
 
 	var/datum/skybox_settings/default_skybox // What skybox do we use if a zlevel doesn't have a custom one? Provide a type.
 
-	//CHOMPStation Edit Start TFF 24/12/19 - Chompers welcome screen message
-	var/lobby_icon = 'icons/misc/splash_screen.dmi' // The icon which contains the lobby image(s)
-	var/list/lobby_screens = list()				 // The list of lobby screen to pick() from. If left unset the first icon state is always selected.
-	//CHOMPStation Edit End
+	var/list/lobby_screens = list('html/lobby/mockingjay00.webp')                 // The list of lobby screen to pick() from. If left unset the first icon state is always selected.
 
 	var/default_law_type = /datum/ai_laws/nanotrasen // The default lawset use by synth units, if not overriden by their laws var.
 
@@ -140,6 +137,8 @@ var/list/all_maps = list()
 	var/list/unit_test_z_levels //To test more than Z1, set your z-levels to test here.
 
 	var/list/planet_datums_to_make = list() // Types of `/datum/planet`s that will be instantiated by SSPlanets.
+
+	var/list/skipped_tests = list() // /datum/unit_test's to skip
 
 /datum/map/New()
 	..()
@@ -214,8 +213,8 @@ var/list/all_maps = list()
 /datum/map/proc/get_empty_zlevel()
 	// Try to free up a z level from existing temp sectors
 	if(!empty_levels.len)
-		for(var/Z in map_sectors)
-			var/obj/effect/overmap/visitable/sector/temporary/T = map_sectors[Z]
+		for(var/Z in GLOB.map_sectors)
+			var/obj/effect/overmap/visitable/sector/temporary/T = GLOB.map_sectors["[Z]"]
 			T.cleanup() // If we can release some of these, do that.
 
 	// Else, we need to buy a new one.
@@ -278,20 +277,20 @@ var/list/all_maps = list()
 // This list needs to be purged but people insist on adding more cruft to the radio.
 /datum/map/proc/default_internal_channels()
 	return list(
-		num2text(PUB_FREQ)   = list(),
-		num2text(AI_FREQ)	= list(access_synth),
-		num2text(ENT_FREQ)   = list(),
-		num2text(ERT_FREQ)   = list(access_cent_specops),
-		num2text(COMM_FREQ)  = list(access_heads),
-		num2text(ENG_FREQ)   = list(access_engine_equip, access_atmospherics),
-		num2text(MED_FREQ)   = list(access_medical_equip),
-		num2text(MED_I_FREQ) = list(access_medical_equip),
-		num2text(BDCM_FREQ)  = list(access_security), // CHOMPEdit
-		num2text(SEC_FREQ)   = list(access_security),
-		num2text(SEC_I_FREQ) = list(access_security),
-		num2text(SCI_FREQ)   = list(access_tox,access_robotics,access_xenobiology),
-		num2text(SUP_FREQ)   = list(access_cargo),
-		num2text(SRV_FREQ)   = list(access_janitor, access_hydroponics),
+		num2text(PUB_FREQ)	= list(),
+		num2text(AI_FREQ)	= list(ACCESS_SYNTH),
+		num2text(ENT_FREQ)	= list(),
+		num2text(ERT_FREQ)	= list(ACCESS_CENT_SPECOPS),
+		num2text(COMM_FREQ)	= list(ACCESS_HEADS),
+		num2text(ENG_FREQ)	= list(ACCESS_ENGINE_EQUIP, ACCESS_ATMOSPHERICS),
+		num2text(MED_FREQ)	= list(ACCESS_MEDICAL_EQUIP),
+		num2text(MED_I_FREQ)= list(ACCESS_MEDICAL_EQUIP),
+		num2text(BDCM_FREQ)	= list(ACCESS_SECURITY), // CHOMPAdd
+		num2text(SEC_FREQ)	= list(ACCESS_SECURITY),
+		num2text(SEC_I_FREQ)= list(ACCESS_SECURITY),
+		num2text(SCI_FREQ)	= list(ACCESS_TOX,ACCESS_ROBOTICS,ACCESS_XENOBIOLOGY),
+		num2text(SUP_FREQ)	= list(ACCESS_CARGO),
+		num2text(SRV_FREQ)	= list(ACCESS_JANITOR, ACCESS_HYDROPONICS),
 	)
 
 /datum/map/proc/get_skybox_datum(z)

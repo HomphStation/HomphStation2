@@ -31,7 +31,7 @@
 	icon_state = "base"
 
 	ports = new()
-	for(var/d in cardinal)
+	for(var/d in GLOB.cardinal)
 		var/datum/omni_port/new_port = new(src, d)
 		switch(d)
 			if(NORTH)
@@ -90,7 +90,7 @@
 		return 1
 	to_chat(user, span_notice("You begin to unfasten \the [src]..."))
 	playsound(src, W.usesound, 50, 1)
-	if(do_after(user, 40 * W.toolspeed))
+	if(do_after(user, 40 * W.toolspeed, target = src))
 		user.visible_message( \
 			span_infoplain(span_bold("\The [user]") + "unfastens \the [src]."), \
 			span_notice("You have unfastened \the [src]."), \
@@ -175,7 +175,7 @@
 			if(ATM_OUTPUT)
 				ic_on += "_out_glow"
 				ic_off += "_out"
-			if(ATM_O2 to ATM_N2O)
+			if(ATM_O2 to ATM_LASTGAS)
 				ic_on += "_filter"
 				ic_off += "_out"
 

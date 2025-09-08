@@ -157,7 +157,6 @@
 				printed after an intro ending with: \"Around you, you see...\" to the prey. If you already \
 				have prey, this will be printed to them after \"Your surroundings change to...\". Limit 2048 char.", \
 				"VR Environment", html_decode(inside_flavor), MAX_MESSAGE_LEN*2, TRUE, prevent_enter = TRUE)
-				new_flavor = sanitize(new_flavor, MAX_MESSAGE_LEN*2)
 				inside_flavor = new_flavor
 				nif.notify("Updating VR environment...")
 				for(var/mob/living/carbon/brain/caught_soul/CS as anything in brainmobs)
@@ -228,7 +227,7 @@
 //Complex version for catching in-round characters
 /datum/nifsoft/soulcatcher/proc/catch_mob(var/mob/M)
 	if(!M.mind)	return
-	if(!(M.soulcatcher_pref_flags & SOULCATCHER_ALLOW_CAPTURE)) return
+	if(!(M.soulcatcher_pref_flags & SOULCATCHER_ALLOW_CAPTURE) && !isobserver(M)) return // Bypass pref check for observer join
 
 	//Create a new brain mob
 	var/mob/living/carbon/brain/caught_soul/brainmob = new(nif)
@@ -237,7 +236,7 @@
 	brainmob.container = src
 	brainmob.stat = 0
 	brainmob.silent = FALSE
-	dead_mob_list -= brainmob
+	GLOB.dead_mob_list -= brainmob
 	brainmob.add_language(LANGUAGE_GALCOM)
 	brainmobs |= brainmob
 
@@ -255,15 +254,13 @@
 	//If they have these values, apply them
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		qdel_swap(brainmob.dna, H.dna.Clone())
+		QDEL_SWAP(brainmob.dna, H.dna.Clone())
 		brainmob.ooc_notes = H.ooc_notes
 		brainmob.ooc_notes_likes = H.ooc_notes_likes
 		brainmob.ooc_notes_dislikes = H.ooc_notes_dislikes
-		//CHOMPEnable Start
 		brainmob.ooc_notes_favs = H.ooc_notes_favs
 		brainmob.ooc_notes_maybes = H.ooc_notes_maybes
 		brainmob.ooc_notes_style = H.ooc_notes_style
-		//CHOMPEnable End
 		brainmob.timeofhostdeath = H.timeofdeath
 		SStranscore.m_backup(brainmob.mind,0) //It does ONE, so medical will hear about it.
 
@@ -348,12 +345,12 @@
 	if(soulcatcher) // needs it's own handling to allow vore_fx
 		if(ext_blind)
 			eye_blind = 5
-			client.screen.Remove(global_hud.whitense)
+			client.screen.Remove(GLOB.global_hud.whitense)
 			overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
 		else
 			eye_blind = 0
 			clear_fullscreens()
-			client.screen.Add(global_hud.whitense)
+			client.screen.Add(GLOB.global_hud.whitense)
 
 	//If they're deaf
 	if(ext_deaf)
@@ -427,14 +424,17 @@
 ///////////////////
 //A projected AR soul thing
 /mob/observer/eye/ar_soul
+	invisibility = INVISIBILITY_NONE
 	plane = PLANE_AUGMENTED
 	icon = 'icons/obj/machines/ar_elements.dmi'
 	icon_state = "beacon"
 	var/mob/living/parent_human
 
-/mob/observer/eye/ar_soul/New(var/mob/brainmob, var/human)
-	ASSERT(brainmob && brainmob.client)
-	..()
+/mob/observer/eye/ar_soul/Initialize(mapload, var/human)
+	. = ..()
+	var/mob/brainmob = loc
+	if(!istype(brainmob) || !brainmob.client)
+		return INITIALIZE_HINT_QDEL
 
 	owner = brainmob				//Set eyeobj's owner
 	parent_human = human			//E-z reference to human
@@ -449,13 +449,12 @@
 
 	//Time to play dressup
 	if(brainmob.client.prefs)
-		var/mob/living/carbon/human/dummy/dummy = new ()
-		brainmob.client.prefs.dress_preview_mob(dummy)
-		sleep(1 SECOND) //Strange bug in preview code? Without this, certain things won't show up. Yay race conditions?
-		dummy.regenerate_icons()
+		var/mob/living/carbon/human/dummy/mannequin = get_mannequin(brainmob.client.ckey)
+		mannequin.delete_inventory(TRUE)
+		brainmob.client.prefs.dress_preview_mob(mannequin)
+		mannequin.regenerate_icons()
 
-		var/icon/new_icon = getHologramIcon(getCompoundIcon(dummy))
-		qdel(dummy)
+		var/icon/new_icon = getHologramIcon(getCompoundIcon(mannequin))
 		icon = new_icon
 
 /mob/observer/eye/ar_soul/Destroy()
@@ -486,6 +485,7 @@
 	return 1
 
 /mob/observer/eye/ar_soul/proc/human_moved()
+	SIGNAL_HANDLER
 	if(!can_see(parent_human,src))
 		forceMove(get_turf(parent_human))
 
@@ -552,7 +552,7 @@
 		to_chat(src,span_warning("You need a loaded mind to use NSay."))
 		return
 	if(!message)
-		message = tgui_input_text(src, "Type a message to say.","Speak into Soulcatcher")
+		message = tgui_input_text(src, "Type a message to say.","Speak into Soulcatcher", encode = FALSE)
 	if(message)
 		var/sane_message = sanitize(message)
 		SC.say_into(sane_message,src)
@@ -583,7 +583,7 @@
 		return
 
 	if(!message)
-		message = tgui_input_text(src, "Type an action to perform.","Emote into Soulcatcher")
+		message = tgui_input_text(src, "Type an action to perform.","Emote into Soulcatcher", encode = FALSE)
 	if(message)
 		var/sane_message = sanitize(message)
 		SC.emote_into(sane_message,src)
@@ -638,7 +638,7 @@
 	set category = "Soulcatcher"
 
 	if(!message)
-		message = tgui_input_text(src, "Type a message to say.","Speak into Soulcatcher")
+		message = tgui_input_text(src, "Type a message to say.","Speak into Soulcatcher", encode = FALSE)
 	if(message)
 		var/sane_message = sanitize(message)
 		soulcatcher.say_into(sane_message,src,null)
@@ -649,7 +649,7 @@
 	set category = "Soulcatcher"
 
 	if(!message)
-		message = tgui_input_text(src, "Type an action to perform.","Emote into Soulcatcher")
+		message = tgui_input_text(src, "Type an action to perform.","Emote into Soulcatcher", encode = FALSE)
 	if(message)
 		var/sane_message = sanitize(message)
 		soulcatcher.emote_into(sane_message,src,null)

@@ -32,7 +32,7 @@
 /obj/item/toy/mistletoe
 	name = "mistletoe"
 	desc = "You are supposed to kiss someone under these"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "mistletoe"
 
 /*
@@ -46,14 +46,14 @@
 /obj/item/toy/plushie/lizardplushie
 	name = "lizard plushie"
 	desc = "An adorable stuffed toy that resembles a lizardperson."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_lizard"
 	attack_verb = list("clawed", "hissed", "tail slapped")
 
 /obj/item/toy/plushie/lizardplushie/kobold
 	name = "kobold plushie"
 	desc = "An adorable stuffed toy that resembles a kobold."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "kobold"
 	pokephrase = "Wehhh!"
 	drop_sound = 'sound/voice/weh.ogg'
@@ -63,7 +63,7 @@
 /obj/item/toy/plushie/lizardplushie/resh
 	name = "security unathi plushie"
 	desc = "An adorable stuffed toy that resembles an unathi wearing a head of security uniform. Perfect example of a monitor lizard."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "marketable_resh"
 	pokephrase = "Halt! Sssecurity!"		//"Butts!" would be too obvious
 	attack_verb = list("valided", "justiced", "batoned")
@@ -72,7 +72,7 @@
 /obj/item/toy/plushie/slimeplushie
 	name = "slime plushie"
 	desc = "An adorable stuffed toy that resembles a slime. It is practically just a hacky sack."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_slime"
 	attack_verb = list("blorbled", "slimed", "absorbed", "glomped")
 	gender = FEMALE	//given all the jokes and drawings, I'm not sure the xenobiologists would make a slimeboy
@@ -80,14 +80,14 @@
 /obj/item/toy/plushie/box
 	name = "cardboard plushie"
 	desc = "A toy box plushie, it holds cotton. Only a baddie would place a bomb through the postal system..."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "box"
 	attack_verb = list("open", "closed", "packed", "hidden", "rigged", "bombed", "sent", "gave")
 
 /obj/item/toy/plushie/borgplushie
 	name = "robot plushie"
 	desc = "An adorable stuffed toy of a robot."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "securityk9"
 	bubble_icon = "security"
 	attack_verb = list("beeped", "booped", "pinged")
@@ -103,7 +103,7 @@
 	bubble_icon = "synthetic"
 
 /obj/item/toy/plushie/borgplushie/drake
-	icon = 'icons/obj/drakietoy_vr.dmi'
+	icon = 'icons/obj/drakietoy.dmi'
 	var/lights_glowing = FALSE
 
 /obj/item/toy/plushie/borgplushie/drake/AltClick(mob/living/user)
@@ -161,13 +161,13 @@
 /obj/item/toy/plushie/foxbear
 	name = "toy fox"
 	desc = "Issa fox!"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "fox"
 
 /obj/item/toy/plushie/nukeplushie
 	name = "operative plushie"
 	desc = "A stuffed toy that resembles a syndicate nuclear operative. The tag claims operatives to be purely fictitious."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_nuke"
 	pokephrase = "Hey, has anyone seen the nuke disk?"
 	bubble_icon = "synthetic_evil"
@@ -176,13 +176,13 @@
 /obj/item/toy/plushie/otter
 	name = "otter plush"
 	desc = "A perfectly sized snuggable river weasel! Keep away from Clams."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_otter"
 
 /obj/item/toy/plushie/vox
 	name = "vox plushie"
 	desc = "A stitched-together vox, fresh from the skipjack. Press its belly to hear it skree!"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_vox"
 	pokephrase = "Skreee!"
 	var/cooldown = FALSE
@@ -200,7 +200,7 @@
 /obj/item/toy/plushie/ipc
 	name = "IPC plushie"
 	desc = "A pleasing soft-toy of a monitor-headed robot. Toaster functionality included."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_ipc"
 	bubble_icon = "synthetic"
 	pokephrase = "Ping!"
@@ -215,7 +215,7 @@
 /obj/item/reagent_containers/food/snacks/slice/bread/afterattack(atom/A, mob/user as mob, proximity)
 	if(istype(A, /obj/item/toy/plushie/ipc) && !toasted)
 		toasted = TRUE
-		icon = 'icons/obj/toy_vr.dmi'
+		icon = 'icons/obj/toy.dmi'
 		icon_state = "toast"
 		to_chat(user, span_notice(" You insert bread into the toaster. "))
 		playsound(loc, 'sound/machines/ding.ogg', 50, 1)
@@ -223,7 +223,7 @@
 /obj/item/reagent_containers/food/snacks/tastybread/afterattack(atom/A, mob/user as mob, proximity)
 	if(istype(A, /obj/item/toy/plushie/ipc) && !toasted)
 		toasted = TRUE
-		icon = 'icons/obj/toy_vr.dmi'
+		icon = 'icons/obj/toy.dmi'
 		icon_state = "toast"
 		to_chat(user, span_notice(" You insert bread into the toaster. "))
 		playsound(loc, 'sound/machines/ding.ogg', 50, 1)
@@ -263,14 +263,14 @@
 /obj/item/toy/plushie/snakeplushie
 	name = "snake plushie"
 	desc = "An adorable stuffed toy that resembles a snake. Not to be mistaken for the real thing."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "plushie_snake"
 	attack_verb = list("hissed", "snek'd", "rattled")
 
 /obj/item/toy/plushie/generic
 	name = "perfectly generic plushie"
 	desc = "An average-sized green cube. It isn't notable in any way."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "generic"
 	attack_verb = list("existed near")
 	bubble_icon = "textbox"
@@ -279,7 +279,7 @@
 /obj/item/toy/plushie/marketable_pip
 	name = "mascot CRO plushie"
 	desc = "An adorable plushie of NanoTrasen's Best Girl(TM) mascot. It smells faintly of paperwork."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "marketable_pip"
 	var/cooldown = FALSE
 
@@ -308,7 +308,7 @@
 /obj/item/toy/plushie/moth
 	name = "moth plushie"
 	desc = "A cute plushie of cartoony moth. It's ultra fluffy but leaves dust everywhere."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "moth"
 	pokephrase = "Aaaaaaa."
 	var/cooldown = FALSE
@@ -326,14 +326,14 @@
 /obj/item/toy/plushie/crab
 	name = "crab plushie"
 	desc = "A soft crab plushie with hard shiny plastic on it's claws."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "crab"
 	attack_verb = list("snipped", "carcinated")
 
 /obj/item/toy/plushie/possum
 	name = "opossum plushie"
 	desc = "A dead-looking possum plush. It's okay, it's only playing dead."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "possum"
 
 /obj/item/toy/plushie/goose
@@ -341,19 +341,19 @@
 	desc = "An adorable likeness of a terrifying beast. \
 	It's simple existance chills you to the bone and \
 	compells you to hide any loose objects it might steal."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "goose"
 	attack_verb = list("honked")
 
 /obj/item/toy/plushie/mouse/white
 	name = "white mouse plush"
 	icon_state = "mouse"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 
 /obj/item/toy/plushie/sus
 	name = "red spaceman plushie"
 	desc = "A suspicious looking red spaceman plushie. Why does it smell like the vents?"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "sus_red"
 	pokephrase = "Stab!"
 	bubble_icon = "security"
@@ -380,19 +380,19 @@
 /obj/item/toy/plushie/bigcat
 	name = "big cat plushie"
 	desc = "A big, fluffy looking cat that just looks very huggable."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "big_cat"
 
 /obj/item/toy/plushie/basset
 	name = "basset plushie"
 	desc = "A sleepy looking basset hound plushie."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "basset"
 
 /obj/item/toy/plushie/shark
 	name = "shark plushie"
 	desc = "A plushie depicting a somewhat cartoonish shark. The tag calls it a 'hákarl', noting that it was made by an obscure furniture manufacturer in old Scandinavia."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "blahaj"
 	item_state = "blahaj"
 	item_icons = list(
@@ -409,7 +409,7 @@
 	The soft ones were made after kids kept throwing \
 	them at each other. It has a small piece of soft \
 	plastic that you can draw on if you wanted."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "rock"
 	attack_verb = list("grug'd", "unga'd")
 
@@ -435,7 +435,7 @@
 /obj/item/toy/chewtoy
 	name = "chew toy"
 	desc = "A red hard-rubber chew toy shaped like a bone. Perfect for your dog! You wouldn't want to chew on it, right?"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "dogbone"
 
 /obj/item/toy/chewtoy/tall
@@ -461,14 +461,14 @@
 /obj/item/toy/cat_toy
 	name = "toy mouse"
 	desc = "A colorful toy mouse!"
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "toy_mouse"
 	w_class = ITEMSIZE_TINY
 
 /obj/item/toy/cat_toy/rod
 	name = "kitty feather"
 	desc = "A fuzzy feathery fish on the end of a toy fishing-rod."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "cat_toy"
 	w_class = ITEMSIZE_SMALL
 	item_state = "fishing_rod"
@@ -511,7 +511,7 @@
 /obj/item/toy/redbutton
 	name = "big red button"
 	desc = "A big, plastic red button. Reads 'From HonkCo Pranks?' on the back."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "bigred"
 	w_class = ITEMSIZE_SMALL
 	var/cooldown = 0
@@ -533,7 +533,7 @@
 /obj/item/toy/gnome
 	name = "garden gnome"
 	desc = "It's a gnome, not a gnelf. Made of weak ceramic."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "gnome"
 
 /*
@@ -551,7 +551,7 @@
 /obj/item/toy/AI/attack_self(mob/user as mob)
 	var/list/players = list()
 
-	for(var/mob/living/carbon/human/player in player_list)
+	for(var/mob/living/carbon/human/player in GLOB.player_list)
 		if(!player.mind || player_is_antag(player.mind, only_offstation_roles = 1) || player.client.inactivity > MinutesToTicks(10))
 			continue
 		players += player.real_name
@@ -617,10 +617,8 @@
 		spawn(5) //gia said so
 			icon_state = "nuketoy"
 			playsound(src, 'sound/machines/alarm.ogg', 10, 0, 0)
-			sleep(135)
-			icon_state = "nuketoycool"
-			sleep(cooldown - world.time)
-			icon_state = "nuketoyidle"
+			VARSET_IN(src, icon_state, "nuketoycool", 135)
+			VARSET_IN(src, icon_state, "nuketoyidle", (135 + (cooldown - world.time)))
 	else
 		var/timeleft = (cooldown - world.time)
 		to_chat(user, span_warning("Nothing happens, and") + " '[round(timeleft/10)]' " + span_warning("appears on a small display."))
@@ -635,7 +633,7 @@
 /obj/item/toy/minigibber
 	name = "miniature gibber"
 	desc = "A miniature recreation of NanoTrasen's famous meat grinder. Equipped with a special interlock that prevents insertion of organic material."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "gibber"
 	attack_verb = list("grinded", "gibbed")
 	var/cooldown = 0
@@ -656,7 +654,7 @@
 /obj/item/toy/minigibber/attackby(obj/O, mob/user, params)
 	if(istype(O,/obj/item/toy/figure) || istype(O,/obj/item/toy/character) && O.loc == user)
 		to_chat(user, span_notice("You start feeding \the [O] [icon2html(O, user.client)] into \the [src]'s mini-input."))
-		if(do_after(user, 10, target = src))
+		if(do_after(user, 1 SECOND, target = src))
 			if(O.loc != user)
 				to_chat(user, span_warning("\The [O] is too far away to feed into \the [src]!"))
 			else
@@ -673,7 +671,7 @@
  * Toy xeno
  */
 /obj/item/toy/toy_xeno
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "xeno"
 	name = "xenomorph action figure"
 	desc = "MEGA presents the new Xenos Isolated action figure! Comes complete with realistic sounds! Pull back string to use."
@@ -718,8 +716,8 @@
 	var/bullets_left = 0
 	var/max_shots = 6
 
-/obj/item/toy/russian_revolver/New()
-	..()
+/obj/item/toy/russian_revolver/Initialize(mapload)
+	. = ..()
 	spin_cylinder()
 
 /obj/item/toy/russian_revolver/attack_self(mob/user)
@@ -756,7 +754,7 @@
 		return FALSE
 	if(bullets_left == 1)
 		bullets_left = 0
-		var/zone = "head"
+		var/zone = BP_HEAD
 		if(!(user.has_organ(zone))) // If they somehow don't have a head.
 			zone = "chest"
 		playsound(src, 'sound/effects/snap.ogg', 50, 1)
@@ -775,13 +773,13 @@
 /obj/item/toy/russian_revolver/trick_revolver
 	name = "\improper .357 revolver"
 	desc = "A suspicious revolver. Uses .357 ammo."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "revolver"
 	max_shots = 1
 	var/fake_bullets = 0
 
-/obj/item/toy/russian_revolver/trick_revolver/New()
-	..()
+/obj/item/toy/russian_revolver/trick_revolver/Initialize(mapload)
+	. = ..()
 	fake_bullets = rand(2, 7)
 
 /obj/item/toy/russian_revolver/trick_revolver/examine(mob/user)
@@ -796,8 +794,7 @@
 	s.set_up(5, 1, src)
 	s.start()
 	icon_state = "shoot"
-	sleep(5)
-	icon_state = "[initial(icon_state)]"
+	VARSET_IN(src, icon_state, "[initial(icon_state)]", 5)
 
 /*
  * Toy chainsaw
@@ -843,13 +840,13 @@
 	name = "bread tube"
 	desc = "Bread in a tube. Chewy...and surprisingly tasty."
 	description_fluff = "This is the product that brought Centauri Provisions into the limelight. A product of the earliest extrasolar colony of Heaven, the Bread Tube, while bland, contains all the nutrients a spacer needs to get through the day and is decidedly edible when compared to some of its competitors. Due to the high-fructose corn syrup content of NanoTrasen's own-brand bread tubes, many jurisdictions classify them as a confectionary."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "tastybread"
 	var/popped = 0
 	var/real = 0
 
-/obj/item/toy/snake_popper/New()
-	..()
+/obj/item/toy/snake_popper/Initialize(mapload)
+	. = ..()
 	if(prob(0.1))
 		real = 1
 
@@ -858,15 +855,15 @@
 		to_chat(user, span_warning("A snake popped out of [src]!"))
 		if(real == 0)
 			var/obj/item/toy/C = new /obj/item/toy/plushie/snakeplushie(get_turf(loc))
-			C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+			C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 		if(real == 1)
 			var/mob/living/simple_mob/C = new /mob/living/simple_mob/animal/passive/snake(get_turf(loc))
-			C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+			C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 		if(real == 2)
 			var/mob/living/simple_mob/C = new /mob/living/simple_mob/vore/aggressive/giant_snake(get_turf(loc))
-			C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+			C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 		playsound(src, 'sound/items/confetti.ogg', 50, 0)
 		icon_state = "tastybread_popped"
@@ -891,15 +888,15 @@
 			to_chat(user, span_warning("A snake popped out of [src]!"))
 			if(real == 0)
 				var/obj/item/toy/C = new /obj/item/toy/plushie/snakeplushie(get_turf(loc))
-				C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+				C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 			if(real == 1)
 				var/mob/living/simple_mob/C = new /mob/living/simple_mob/animal/passive/snake(get_turf(loc))
-				C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+				C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 			if(real == 2)
 				var/mob/living/simple_mob/C = new /mob/living/simple_mob/vore/aggressive/giant_snake(get_turf(loc))
-				C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+				C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 			playsound(src, 'sound/items/confetti.ogg', 50, 0)
 			icon_state = "tastybread_popped"
@@ -921,7 +918,7 @@
 /obj/item/clothing/under/universalid
 	name = "identification card"
 	desc = "A novelty identification card based on Professor Who's Universal ID."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "universal_id"
 	w_class = ITEMSIZE_TINY
 	slot_flags = SLOT_ID | SLOT_EARS
@@ -939,7 +936,7 @@
 /obj/item/tool/screwdriver/sdriver
 	name = "sonic driver"
 	desc = "A novelty screwdriver that uses tiny magnets to manipulate screws."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "sonic_driver"
 	item_state = "screwdriver_black"
 	usesound = 'sound/items/sonic_driver.ogg'
@@ -952,7 +949,7 @@
 /obj/item/storage/box/timecap
 	name = "action time capsule"
 	desc = "A toy recreation of the Time Capsule from Professor Who. Can hold up to two action figures."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "time_cap"
 	can_hold = list(/obj/item/toy/figure)
 	max_w_class = ITEMSIZE_TINY
@@ -967,49 +964,49 @@
 /obj/item/toy/figure/ranger
 	name = "Space Ranger action figure"
 	desc = "A \"Space Life\" brand Space Ranger action figure."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "ranger"
 	toysay = "To the Fontier and beyond!"
 
 /obj/item/toy/figure/leadbandit
 	name = "Bandit Leader action figure"
 	desc = "A \"Space Life\" brand Bandit Leader action figure."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "bandit_lead"
 	toysay = "Give us yer bluespace crystals!"
 
 /obj/item/toy/figure/bandit
 	name = "Bandit action figure"
 	desc = "A \"Space Life\" brand Bandit action figure."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "bandit"
 	toysay = "Stick em' up!"
 
 /obj/item/toy/figure/abe
 	name = "Action Abe action figure"
 	desc = "A \"Space Life\" brand Action Abe action figure."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "action_abe"
 	toysay = "Four score and seven decades ago..."
 
 /obj/item/toy/figure/profwho
 	name = "Professor Who action figure"
 	desc = "A \"Space Life\" brand Professor Who action figure."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "prof_who"
 	toysay = "Smells like... bad wolf..."
 
 /obj/item/toy/figure/prisoner
 	name = "prisoner action figure"
 	desc = "A \"Space Life\" brand prisoner action figure."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "prisoner"
 	toysay = "I did not hit her! I did not!"
 
 /obj/item/toy/figure/error
 	name = "completely glitched action figure"
 	desc = "A \"Space Life\" brand... wait, what the hell is this thing? It seems to be requesting the sweet release of death."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "glitched"
 	toysay = "AaAAaAAAaAaaaAAA!!!!!"
 
@@ -1017,7 +1014,7 @@
  * Desk toys
  */
 /obj/item/toy/desk
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	var/on = FALSE
 	var/activation_sound = 'sound/machines/click.ogg'
 
@@ -1044,10 +1041,10 @@
 		if(!isanimal(user))
 			if(!user.get_active_hand())		//if active hand is empty
 				var/mob/living/carbon/human/H = user
-				var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+				var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 
 				if (H.hand)
-					temp = H.organs_by_name["l_hand"]
+					temp = H.organs_by_name[BP_L_HAND]
 				if(temp && !temp.is_usable())
 					to_chat(user,span_notice("You try to move your [temp.name], but cannot!"))
 					return
@@ -1096,7 +1093,7 @@
 /obj/item/toy/partypopper
 	name = "party popper"
 	desc = "Instructions : Aim away from face. Wait for appropriate timing. Pull cord, enjoy confetti."
-	icon = 'icons/obj/toy_vr.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "partypopper"
 	w_class = ITEMSIZE_TINY
 	drop_sound = 'sound/items/drop/cardboardbox.ogg'
@@ -1164,3 +1161,36 @@
 		return
 	user.visible_message(span_danger("\The [user] waves \the [src] in front of the [M]!"))
 	M.PounceTarget(user,100)
+
+/// Fluff item for digitalsquirrel
+
+/obj/item/toy/acorn_branch
+	name = "oak staff"
+	desc = "A branch of oak wood bearing a collection of still living leaves, and many acorns hanging among them."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "acorn_branch"
+	w_class = ITEMSIZE_SMALL
+	var/next_use = 0
+	var/registered_mob //On request, only one person is able to use it at a time.
+
+/obj/item/toy/acorn_branch/attack_self(mob/user)
+	if(user.stat || !ishuman(user))
+		return
+	if(world.time < next_use)
+		to_chat(user, span_notice("You need to wait a bit longer before you can pull out another acorn!"))
+		return
+	var/mob/living/carbon/human/H = user
+	if(registered_mob)
+		if(registered_mob != H)
+			to_chat(user, span_notice("It's a lovely branch!"))
+			return
+	else
+		registered_mob = H
+	if(H.get_inactive_hand())
+		to_chat(user, span_notice("You need to have a free hand to pick an acorn out!"))
+		return
+	var/spawnloc = get_turf(H)
+	var/obj/item/I = new /obj/item/reagent_containers/food/snacks/acorn(spawnloc)
+	H.put_in_inactive_hand(I)
+	next_use = (world.time + 30 SECONDS)
+	H.visible_message(span_notice("\The [H] pulls an acorn from \the [src]!"))

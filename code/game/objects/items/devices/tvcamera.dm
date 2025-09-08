@@ -14,17 +14,17 @@
 	pickup_sound = 'sound/items/pickup/device.ogg'
 	drop_sound = 'sound/items/drop/device.ogg'
 
-/obj/item/tvcamera/New()
-	..()
-	listening_objects += src
+/obj/item/tvcamera/Initialize(mapload)
+	. = ..()
+	GLOB.listening_objects += src
 
 /obj/item/tvcamera/Destroy()
-	listening_objects -= src
+	GLOB.listening_objects -= src
 	qdel(camera)
 	qdel(radio)
 	camera = null
 	radio = null
-	..()
+	. = ..()
 
 /obj/item/tvcamera/examine()
 	. = ..()
@@ -69,7 +69,6 @@
 		return 1
 	if(href_list["channel"])
 		var/nc = tgui_input_text(usr, "Channel name", "Select new channel name", channel, MAX_NAME_LEN)
-		nc = sanitize(nc,MAX_NAME_LEN)
 		if(nc)
 			channel = nc
 			camera.c_tag = channel
@@ -178,12 +177,12 @@
 	var/datum/weakref/showing
 	var/showing_name
 
-/obj/item/clothing/accessory/bodycam/New()
-	..()
-	listening_objects += src
+/obj/item/clothing/accessory/bodycam/Initialize(mapload)
+	. = ..()
+	GLOB.listening_objects += src
 
 /obj/item/clothing/accessory/bodycam/Destroy()
-	listening_objects -= src
+	GLOB.listening_objects -= src
 	qdel(bcamera)
 	qdel(bradio)
 	bcamera = null

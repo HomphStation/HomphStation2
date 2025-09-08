@@ -10,7 +10,6 @@
 	anchored = FALSE
 	density = FALSE
 	pressure_resistance = 5*ONE_ATMOSPHERE
-	matter = list(MAT_STEEL = 1850)
 	level = 2
 	var/sortType = ""
 	var/ptype = 0
@@ -18,12 +17,12 @@
 	var/dpdir = 0	// directions as disposalpipe
 	var/base_state = "pipe-s"
 
-/obj/structure/disposalconstruct/New(var/newturf, var/newtype, var/newdir, var/flipped, var/newsubtype)
-	..(newturf)
+/obj/structure/disposalconstruct/Initialize(mapload, var/newtype, var/newdir, var/flipped, var/newsubtype)
+	. = ..()
 	ptype = newtype
 	dir = newdir
 	// Disposals handle "bent"/"corner" strangely, handle this specially.
-	if(ptype == DISPOSAL_PIPE_STRAIGHT && (dir in cornerdirs))
+	if(ptype == DISPOSAL_PIPE_STRAIGHT && (dir in GLOB.cornerdirs))
 		ptype = DISPOSAL_PIPE_CORNER
 	switch(dir)
 		if(NORTHWEST)
@@ -71,7 +70,7 @@
 		if(DISPOSAL_PIPE_TRUNK)
 			base_state = "pipe-t"
 			dpdir = dir
-		 // disposal bin has only one dir, thus we don't need to care about setting it
+		// disposal bin has only one dir, thus we don't need to care about setting it
 		if(DISPOSAL_PIPE_BIN)
 			if(anchored)
 				base_state = "disposal"
@@ -116,7 +115,7 @@
 // hide called by levelupdate if turf intact status changes
 // change visibility status and force update of icon
 /obj/structure/disposalconstruct/hide(var/intact)
-	invisibility = (intact && level==1) ? 101: 0	// hide if floor is intact
+	invisibility = (intact && level==1) ? INVISIBILITY_ABSTRACT: INVISIBILITY_NONE	// hide if floor is intact
 	update()
 
 
@@ -308,7 +307,7 @@
 			if(W.remove_fuel(0,user))
 				playsound(src, W.usesound, 100, 1)
 				to_chat(user, "Welding the [nicetype] in place.")
-				if(do_after(user, 20 * W.toolspeed))
+				if(do_after(user, 2 SECONDS * W.toolspeed, target = src))
 					if(!src || !W.isOn()) return
 					to_chat(user, "The [nicetype] has been welded in place!")
 					update() // TODO: Make this neat

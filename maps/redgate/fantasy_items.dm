@@ -86,7 +86,7 @@
 			to_chat(user, span_notice("\The [src] already has someone buckled to it."))
 			return
 		user.visible_message(span_notice("[user] attempts to buckle [affecting] into \the [src]!"))
-		if(do_after(user, 20, G.affecting))
+		if(do_after(user, 2 SECONDS, target = G.affecting))
 			affecting.loc = loc
 			spawn(0)
 				if(buckle_mob(affecting))
@@ -107,6 +107,7 @@
 	name = "oven"
 	desc = "Old fashioned cookies are ready, dear."
 	icon_state = "yeoldovenopen"
+	tgui_id = "CookingOvenOld"
 
 /obj/machinery/appliance/cooker/oven/yeoldoven/update_icon()
 	if(!open)
@@ -155,7 +156,7 @@
 				if(open && !swirlie)
 					user.visible_message(span_danger("[user] starts to give [GM.name] a swirlie!"), span_notice("You start to give [GM.name] a swirlie!"))
 					swirlie = GM
-					if(do_after(user, 30, GM))
+					if(do_after(user, 3 SECONDS, target = GM))
 						user.visible_message(span_danger("[user] gives [GM.name] a swirlie!"), span_notice("You give [GM.name] a swirlie!"), "You hear a toilet flushing.")
 						if(!GM.internal)
 							GM.adjustOxyLoss(5)
@@ -221,7 +222,7 @@
 				span_notice("You start to fix part of the cooking pot.") \
 			)
 			playsound(src, O.usesound, 50, 1)
-			if (do_after(user,20 * O.toolspeed))
+			if (do_after(user, 2 SECONDS * O.toolspeed, target = src))
 				user.visible_message( \
 					span_infoplain(span_bold("\The [user]") + " fixes part of the cooking pot."), \
 					span_notice("You have fixed part of the cooking pot.") \
@@ -232,7 +233,7 @@
 				span_infoplain(span_bold("\The [user]") + " starts to fix part of the cooking pot."), \
 				span_notice("You start to fix part of the cooking pot.") \
 			)
-			if (do_after(user,20 * O.toolspeed))
+			if (do_after(user, 2 SECONDS * O.toolspeed, target = src))
 				user.visible_message( \
 					span_infoplain(span_bold("\The [user]") + " fixes the cooking pot."), \
 					span_notice("You have fixed the cooking pot.") \
@@ -251,7 +252,7 @@
 				span_bold("\The [user]") + "starts to clean the cooking pot.", \
 				span_notice("You start to clean the cooking pot.") \
 			)
-			if (do_after(user,20))
+			if (do_after(user, 2 SECONDS, target = src))
 				user.visible_message( \
 					span_notice("\The [user] has cleaned the cooking pot."), \
 					span_notice("You have cleaned the cooking pot.") \
@@ -264,7 +265,7 @@
 		else //Otherwise bad luck!!
 			to_chat(user, span_warning("It's dirty!"))
 			return 1
-	else if(is_type_in_list(O,acceptable_items))
+	else if(is_type_in_list(O,GLOB.acceptable_items))
 		var/list/workingList = cookingContents()
 		if(workingList.len>=(max_n_of_items + circuit_item_capacity))	//Adds component_parts to the maximum number of items. changed 1 to actually just be the circuit item capacity var.
 			to_chat(user, span_warning("This [src] is full of ingredients, you cannot put more."))
@@ -320,7 +321,7 @@
 		if (!O.reagents)
 			return 1
 		for (var/datum/reagent/R in O.reagents.reagent_list)
-			if (!(R.id in acceptable_reagents))
+			if (!(R.id in GLOB.acceptable_reagents))
 				to_chat(user, span_warning("Your [O] contains components unsuitable for cookery."))
 				return 1
 		return
@@ -339,7 +340,7 @@
 				span_notice("\The [user] begins [src.anchored ? "unsecuring" : "securing"] the cooking pot."), \
 				span_notice("You attempt to [src.anchored ? "unsecure" : "secure"] the cooking pot.")
 				)
-			if (do_after(user,20/O.toolspeed))
+			if (do_after(user, (2 SECONDS)/O.toolspeed, target = src))
 				user.visible_message( \
 				span_notice("\The [user] [src.anchored ? "unsecures" : "secures"] the cooking pot."), \
 				span_notice("You [src.anchored ? "unsecure" : "secure"] the cooking pot.")
@@ -396,7 +397,7 @@
 /obj/item/clothing/gloves/bluespace/magic
 	name = "bracer of resilience"
 	desc = "A bracer that is said to make one resistent to size changing magic."
-	icon = 'icons/inventory/accessory/item_vr.dmi'
+	icon = 'icons/inventory/accessory/item.dmi'
 	icon_state = "bs_magic"
 
 //harpoon
@@ -479,7 +480,7 @@
 
 /obj/item/perfect_tele/magic/attack_self(mob/user, var/radial_menu_anchor = src)
 	if(loc_network)
-		for(var/obj/item/perfect_tele_beacon/stationary/nb in GLOB.premade_tele_beacons) //ChompEDIT - GLOB
+		for(var/obj/item/perfect_tele_beacon/stationary/nb in GLOB.premade_tele_beacons)
 			if(nb.tele_network == loc_network)
 				beacons[nb.tele_name] = nb
 		loc_network = null //Consumed
@@ -501,7 +502,7 @@ This device records all warnings given and teleport events for admin review in c
 			to_chat(user, span_warning("The tome can't support any more pages!"))
 			return
 
-		var/new_name = html_encode(tgui_input_text(user,"New pages's name (2-20 char):","[src]",null,20))
+		var/new_name = tgui_input_text(user,"New pages's name (2-20 char):","[src]",null,20)
 		if(!check_menu(user))
 			return
 

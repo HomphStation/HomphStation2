@@ -23,6 +23,11 @@
 
 //Should we be dead?
 /mob/living/simple_mob/updatehealth()
+	if(SEND_SIGNAL(src, COMSIG_UPDATE_HEALTH) & COMSIG_UPDATE_HEALTH_GOD_MODE)
+		health = getMaxHealth()
+		set_stat(CONSCIOUS)
+		return
+	get_injury_level()
 	health = getMaxHealth() - getFireLoss() - getBruteLoss() - getToxLoss() - getOxyLoss() - getCloneLoss()
 
 	//Alive, becoming dead
@@ -105,6 +110,8 @@
 
 	if(in_stasis)
 		return 1 // return early to skip atmos checks
+	if(is_incorporeal())
+		return 1
 
 	var/atom/A = src.loc
 
@@ -153,6 +160,15 @@
 				throw_alert("co2", /obj/screen/alert/too_much_co2)
 			else
 				clear_alert("co2")
+
+			if(min_ch4 && Environment.gas[GAS_CH4] < min_ch4)
+				atmos_unsuitable = 2
+				throw_alert("methane_in_air", /obj/screen/alert/not_enough_methane)
+			else if(max_tox && Environment.gas[GAS_CH4] > max_ch4)
+				atmos_unsuitable = 2
+				throw_alert("methane_in_air", /obj/screen/alert/methane_in_air)
+			else
+				clear_alert("methane_in_air")
 
 	//Atmos effect
 	if(bodytemperature < minbodytemp)

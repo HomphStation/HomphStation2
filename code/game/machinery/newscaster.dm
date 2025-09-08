@@ -103,7 +103,7 @@
 		NEWSCASTER.newsAlert(annoncement)
 		NEWSCASTER.update_icon()
 
-	// var/list/receiving_pdas = new
+	// var/list/receiving_pdas = list()
 	// for (var/obj/item/pda/P in PDAs)
 	// 	if(!P.owner)
 	// 		continue
@@ -276,12 +276,12 @@ GLOBAL_LIST_BOILERPLATE(allCasters, /obj/machinery/newscaster)
 	tgui_interact(user)
 
 /**
-  * Sets a temporary message to display to the user
-  *
-  * Arguments:
-  * * text - Text to display, null/empty to clear the message from the UI
-  * * style - The style of the message: (color name), info, success, warning, danger, virus
-  */
+ * Sets a temporary message to display to the user
+ *
+ * Arguments:
+ * * text - Text to display, null/empty to clear the message from the UI
+ * * style - The style of the message: (color name), info, success, warning, danger, virus
+ */
 /obj/machinery/newscaster/proc/set_temp(text = "", style = "info", update_now = FALSE)
 	temp = list(text = text, style = style)
 	if(update_now)
@@ -448,11 +448,11 @@ GLOBAL_LIST_BOILERPLATE(allCasters, /obj/machinery/newscaster)
 			return TRUE
 
 		if("set_new_message")
-			msg = sanitize(tgui_input_text(ui.user, "Write your Feed story", "Network Channel Handler", multiline = TRUE, prevent_enter = TRUE))
+			msg = sanitize(tgui_input_text(ui.user, "Write your Feed story", "Network Channel Handler","", MAX_MESSAGE_LEN, TRUE, encode = FALSE, prevent_enter = TRUE), MAX_MESSAGE_LEN, FALSE, FALSE, TRUE)
 			return TRUE
 
 		if("set_new_title")
-			title = sanitize(tgui_input_text(ui.user, "Enter your Feed title", "Network Channel Handler"))
+			title = tgui_input_text(ui.user, "Enter your Feed title", "Network Channel Handler", "", MAX_KEYPAD_INPUT_LEN)
 			return TRUE
 
 		if("set_attachment")

@@ -1,37 +1,5 @@
 /obj/item/communicator/proc/analyze_air()
-	var/list/results = list()
-	var/turf/T = get_turf(src.loc)
-	if(!isnull(T))
-		var/datum/gas_mixture/environment = T.return_air()
-		var/pressure = environment.return_pressure()
-		var/total_moles = environment.total_moles
-		if (total_moles)
-			var/o2_level = environment.gas[GAS_O2]/total_moles
-			var/n2_level = environment.gas[GAS_N2]/total_moles
-			var/co2_level = environment.gas[GAS_CO2]/total_moles
-			var/phoron_level = environment.gas[GAS_PHORON]/total_moles
-			var/unknown_level =  1-(o2_level+n2_level+co2_level+phoron_level)
-
-			// Label is what the entry is describing
-			// Type identifies which unit or other special characters to use
-			// Val is the information reported
-			// Bad_high/_low are the values outside of which the entry reports as dangerous
-			// Poor_high/_low are the values outside of which the entry reports as unideal
-			// Values were extracted from the template itself
-			results = list(
-						list("entry" = "Pressure", "units" = "kPa", "val" = "[round(pressure,0.1)]", "bad_high" = 120, "poor_high" = 110, "poor_low" = 95, "bad_low" = 80),
-						list("entry" = "Temperature", "units" = "\u00B0" + "C", "val" = "[round(environment.temperature-T0C,0.1)]", "bad_high" = 35, "poor_high" = 25, "poor_low" = 15, "bad_low" = 5),
-						list("entry" = "Oxygen", "units" = "kPa", "val" = "[round(o2_level*100,0.1)]", "bad_high" = 140, "poor_high" = 135, "poor_low" = 19, "bad_low" = 17),
-						list("entry" = "Nitrogen", "units" = "kPa", "val" = "[round(n2_level*100,0.1)]", "bad_high" = 105, "poor_high" = 85, "poor_low" = 50, "bad_low" = 40),
-						list("entry" = "Carbon Dioxide", "units" = "kPa", "val" = "[round(co2_level*100,0.1)]", "bad_high" = 10, "poor_high" = 5, "poor_low" = 0, "bad_low" = 0),
-						list("entry" = "Phoron", "units" = "kPa", "val" = "[round(phoron_level*100,0.01)]", "bad_high" = 0.5, "poor_high" = 0, "poor_low" = 0, "bad_low" = 0),
-						list("entry" = "Other", "units" = "kPa", "val" = "[round(unknown_level, 0.01)]", "bad_high" = 1, "poor_high" = 0.5, "poor_low" = 0, "bad_low" = 0)
-						)
-
-	if(isnull(results))
-		results = list(list("entry" = "pressure", "units" = "kPa", "val" = "0", "bad_high" = 120, "poor_high" = 110, "poor_low" = 95, "bad_low" = 80))
-	return results
-
+	return get_gas_mixture_default_scan_data(get_turf(src.loc))
 
 // Proc - compile_news()
 // Parameters - none
@@ -108,7 +76,7 @@
 // Medical records
 /obj/item/commcard/proc/get_med_records()
 	var/med_records[0]
-	for(var/datum/data/record/M in sortRecord(data_core.medical))
+	for(var/datum/data/record/M in sortRecord(GLOB.data_core.medical))
 		var/record[0]
 		record[++record.len] = list("tab" = "Name", "val" = M.fields["name"])
 		record[++record.len] = list("tab" = "ID", "val" = M.fields["id"])
@@ -129,7 +97,7 @@
 // Employment records
 /obj/item/commcard/proc/get_emp_records()
 	var/emp_records[0]
-	for(var/datum/data/record/G in sortRecord(data_core.general))
+	for(var/datum/data/record/G in sortRecord(GLOB.data_core.general))
 		var/record[0]
 		record[++record.len] = list("tab" = "Name", "val" = G.fields["name"])
 		record[++record.len] = list("tab" = "ID", "val" = G.fields["id"])
@@ -148,7 +116,7 @@
 // Security records
 /obj/item/commcard/proc/get_sec_records()
 	var/sec_records[0]
-	for(var/datum/data/record/G in sortRecord(data_core.general))
+	for(var/datum/data/record/G in sortRecord(GLOB.data_core.general))
 		var/record[0]
 		record[++record.len] = list("tab" = "Name", "val" = G.fields[""])
 		record[++record.len] = list("tab" = "Sex", "val" = G.fields[""])
@@ -171,7 +139,7 @@
 // Weaker than what PDAs appear to do, but as of 7/1/2018 PDA secbot access is nonfunctional
 /obj/item/commcard/proc/get_sec_bot_access()
 	var/sec_bots[0]
-	for(var/mob/living/bot/secbot/S in mob_list)
+	for(var/mob/living/bot/secbot/S in GLOB.mob_list)
 		// Get new bot
 		var/status[0]
 		status[++status.len] = list("tab" = "Name", "val" = sanitize(S.name))
@@ -226,7 +194,7 @@
 	var/turf/T = get_turf(src)
 	if(T)
 		var/list/levels = using_map.get_map_levels(T.z, FALSE)
-		for(var/obj/machinery/power/sensor/S in machines)
+		for(var/obj/machinery/power/sensor/S in GLOB.machines)
 			if((S.long_range) || (S.loc.z in levels) || (S.loc.z == T.z)) // Consoles have range on their Z-Level. Sensors with long_range var will work between Z levels.
 				if(S.name_tag == "#UNKN#") // Default name. Shouldn't happen!
 					warning("Powernet sensor with unset ID Tag! [S.x]X [S.y]Y [S.z]Z")
@@ -312,7 +280,7 @@
 				janidata[++janidata.len] = list("field" = apply_text_macros("\proper [C.name]"), "val" = span_yellow("[T.x], [T.y], [using_map.get_zlevel_name(T.z)]"))
 
 	// Cleanbots
-	for(var/mob/living/bot/cleanbot/B in living_mob_list)
+	for(var/mob/living/bot/cleanbot/B in GLOB.living_mob_list)
 		var/turf/T = get_turf(B)
 		if(isturf(T) )//&& T.z in using_map.get_map_levels(userloc, FALSE))
 			var/textout = ""
@@ -523,7 +491,7 @@
 			"shuttle_auth" = (internal_data["supply_controls"] & SUP_SEND_SHUTTLE),
 			"order_auth" = (internal_data["supply_controls"] & SUP_ACCEPT_ORDERS),
 			"supply_points" = SSsupply.points,
-			"supply_categories" = all_supply_groups
+			"supply_categories" = GLOB.all_supply_groups
 		)
 
 /obj/item/commcard/proc/get_status_display()
@@ -537,7 +505,7 @@
 
 /obj/item/commcard/proc/find_blast_doors()
 	var/target_doors[0]
-	for(var/obj/machinery/door/blast/B in machines)
+	for(var/obj/machinery/door/blast/B in GLOB.machines)
 		if(B.id == internal_data["shuttle_door_code"])
 			target_doors += B
 

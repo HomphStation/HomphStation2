@@ -19,6 +19,7 @@
 	force = 7	//base punch strength is 5
 	punch_force = 2	//added to base punch strength when added as a glove accessory
 	siemens_coefficient = 1
+	slowdown = 0
 
 /////////////////////////////////////////
 //Standard Rings
@@ -113,7 +114,7 @@
 /obj/item/clothing/accessory/ring/wedding
 	name = "golden wedding ring"
 	desc = "For showing your devotion to another person. It has a golden glimmer to it."
-	icon = 'icons/inventory/hands/item_vr.dmi'
+	icon = 'icons/inventory/hands/item.dmi'
 	icon_state = "wedring_g"
 	item_state = "wedring_g"
 	var/partnername = ""
@@ -122,7 +123,7 @@
 	var/input = tgui_input_text(user, "Would you like to change the holoengraving on the ring?", "Name your spouse", "Bae", MAX_NAME_LEN)
 	if(!input)
 		return
-	partnername = sanitize(input)
+	partnername = input
 	name = "[initial(name)] - [partnername]"
 
 /obj/item/clothing/accessory/ring/wedding/silver
@@ -136,6 +137,7 @@
 /obj/item/clothing/accessory/ring/material
 	icon = 'icons/inventory/hands/item.dmi'
 	icon_state = "material"
+	material_slowdown_multiplier = 0 //it's a ring, it's never gonna be heavy enough to matter
 
 /obj/item/clothing/accessory/ring/material/Initialize(mapload, var/new_material)
 	. = ..()

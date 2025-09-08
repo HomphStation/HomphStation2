@@ -119,11 +119,12 @@ GLOBAL_LIST_EMPTY(bodycamera_screens) // CHOMPEdit
 	power_change()
 
 /obj/machinery/computer/security/telescreen/entertainment/Destroy()
+	GLOB.entertainment_screens -= src
 	if(showing)
 		stop_showing()
 	vis_contents.Cut()
-	qdel_null(pinboard)
-	qdel_null(radio)
+	QDEL_NULL(pinboard)
+	QDEL_NULL(radio)
 	return ..()
 
 /obj/machinery/computer/security/telescreen/entertainment/proc/toggle()
@@ -232,8 +233,8 @@ GLOBAL_LIST_EMPTY(bodycamera_screens) // CHOMPEdit
 	if(showing)
 		stop_showing()
 	vis_contents.Cut()
-	qdel_null(bpinboard)
-	qdel_null(bradio)
+	QDEL_NULL(bpinboard)
+	QDEL_NULL(bradio)
 	return ..()
 
 /obj/machinery/computer/security/telescreen/bodycamera/proc/bodycam_toggle()
@@ -326,7 +327,7 @@ GLOBAL_LIST_EMPTY(bodycamera_screens) // CHOMPEdit
 	desc = "Used to watch over mining operations."
 	icon_keyboard = "mining_key"
 	icon_screen = "mining"
-	network = list("Mining Outpost")
+	network = list(NETWORK_MINE)
 	circuit = /obj/item/circuitboard/security/mining
 	light_color = "#F9BBFC"
 
@@ -339,7 +340,7 @@ GLOBAL_LIST_EMPTY(bodycamera_screens) // CHOMPEdit
 	light_color = "#FAC54B"
 
 /obj/machinery/computer/security/engineering/get_default_networks()
-	. = engineering_networks.Copy()
+	. = GLOB.engineering_networks.Copy()
 
 /obj/machinery/computer/security/nuclear
 	name = "head mounted camera monitor"

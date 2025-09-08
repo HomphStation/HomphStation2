@@ -61,7 +61,7 @@
 				user.visible_message("\The [user] begins unsecuring \the [src] from the floor.", "You start unsecuring \the [src] from the floor.")
 			else
 				user.visible_message("\The [user] begins securing \the [src] to the floor.", "You start securing \the [src] to the floor.")
-			if(do_after(user, 20 * W.toolspeed))
+			if(do_after(user, 2 SECONDS * W.toolspeed, target = src))
 				if(!src) return
 				to_chat(user, span_notice("You [anchored? "un" : ""]secured \the [src]!"))
 				anchored = !anchored
@@ -164,8 +164,8 @@
 	var/self_del = 1
 	anchored = 0
 
-/obj/structure/closet/secure_closet/mind/New(var/datum/mind/mind_target, var/del_self = 1)
-	.=..()
+/obj/structure/closet/secure_closet/mind/Initialize(mapload, var/datum/mind/mind_target, var/del_self = 1)
+	. = ..()
 	self_del = del_self
 	if(mind_target)
 		owner = mind_target

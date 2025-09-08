@@ -156,7 +156,7 @@
 /area/tether/surfacebase/outside/wilderness
 	name = "Outside - Wilderness"
 	icon_state = "invi"
-	forced_ambience = list('sound/music/Sacred_Grove.ogg')
+	forced_ambience = list('sound/music/sacred_grove.ogg')
 
 /area/tether/surfacebase/temple
 	name = "Outside - Wilderness" // ToDo: Make a way to hide spoiler areas off the list of areas ghosts can jump to.
@@ -1416,7 +1416,7 @@
 
 /area/syndicate_station/southwest/outside
 	base_turf = /turf/simulated/floor/outdoors/dirt/virgo3b
-	forced_ambience = list('sound/music/Sacred_Grove.ogg')
+	forced_ambience = list('sound/music/sacred_grove.ogg')
 
 //Merc shuttle
 /area/shuttle/mercenary
@@ -1577,13 +1577,3 @@
 	name = "\improper docked with Tether"
 	icon_state = "shuttle"
 	dynamic_lighting = 0
-
-// Exclude some more areas from the atmos leak event so people don't get trapped when spawning.
-/datum/event/atmos_leak/setup()
-	excluded |= /area/tether/surfacebase/tram
-	excluded |= /area/tether/surfacebase/surface_one_hall
-	excluded |= /area/tether/surfacebase/surface_two_hall
-	excluded |= /area/tether/surfacebase/surface_three_hall
-	excluded |= /area/teleporter/departing
-	excluded |= /area/hallway/station/upper
-	..()

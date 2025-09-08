@@ -23,7 +23,7 @@
 		if(0)
 			if(P.has_tool_quality(TOOL_WRENCH))
 				playsound(src, P.usesound, 50, 1)
-				if(do_after(user, 20 * P.toolspeed))
+				if(do_after(user, 2 SECONDS * P.toolspeed, target = src))
 					to_chat(user, span_notice("You wrench the frame into place."))
 					anchored = TRUE
 					state = 1
@@ -33,7 +33,7 @@
 					to_chat(user, "The welder must be on for this task.")
 					return
 				playsound(src, WT.usesound, 50, 1)
-				if(do_after(user, 20 * WT.toolspeed))
+				if(do_after(user, 2 SECONDS * WT.toolspeed, target = src))
 					if(!src || !WT.remove_fuel(0, user)) return
 					to_chat(user, span_notice("You deconstruct the frame."))
 					new /obj/item/stack/material/plasteel( loc, 4)
@@ -41,7 +41,7 @@
 		if(1)
 			if(P.has_tool_quality(TOOL_WRENCH))
 				playsound(src, P.usesound, 50, 1)
-				if(do_after(user, 20 * P.toolspeed))
+				if(do_after(user, 2 SECONDS * P.toolspeed, target = src))
 					to_chat(user, span_notice("You unfasten the frame."))
 					anchored = FALSE
 					state = 0
@@ -77,7 +77,7 @@
 					return
 				to_chat(user, span_notice("You start to add cables to the frame."))
 				playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
-				if (do_after(user, 20) && state == 2)
+				if (do_after(user, 2 SECONDS, target = src) && state == 2)
 					if (C.use(5))
 						state = 3
 						icon_state = "3"
@@ -101,7 +101,7 @@
 					return
 				to_chat(user, span_notice("You start to put in the glass panel."))
 				playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
-				if (do_after(user, 20) && state == 3)
+				if (do_after(user, 2 SECONDS, target = src) && state == 3)
 					if(RG.use(2))
 						to_chat(user, span_notice("You put in the glass panel."))
 						state = 4
@@ -177,9 +177,9 @@
 					var/open_for_latejoin = tgui_alert(user, "Would you like this core to be open for latejoining AIs?", "Latejoin", list("Yes", "No")) == "Yes"
 					var/obj/structure/AIcore/deactivated/D = new(loc)
 					if(open_for_latejoin)
-						empty_playable_ai_cores += D
+						GLOB.empty_playable_ai_cores += D
 				else
-					var/mob/living/silicon/ai/A = new /mob/living/silicon/ai ( loc, laws, brain )
+					var/mob/living/silicon/ai/A = new /mob/living/silicon/ai(loc, FALSE, laws, brain)
 					if(A) //if there's no brain, the mob is deleted and a structure/AIcore is created
 						A.rename_self("ai", 1)
 						for(var/datum/language/L in brain.brainmob.languages)
@@ -197,8 +197,8 @@ GLOBAL_LIST_BOILERPLATE(all_deactivated_AI_cores, /obj/structure/AIcore/deactiva
 	state = 20//So it doesn't interact based on the above. Not really necessary.
 
 /obj/structure/AIcore/deactivated/Destroy()
-	if(src in empty_playable_ai_cores)
-		empty_playable_ai_cores -= src
+	if(src in GLOB.empty_playable_ai_cores)
+		GLOB.empty_playable_ai_cores -= src
 	return ..()
 
 /obj/structure/AIcore/deactivated/proc/load_ai(var/mob/living/silicon/ai/transfer, var/obj/item/aicard/card, var/mob/user)
@@ -242,7 +242,7 @@ GLOBAL_LIST_BOILERPLATE(all_deactivated_AI_cores, /obj/structure/AIcore/deactiva
 		if(anchored)
 			user.visible_message(span_bold("\The [user]") + " starts to unbolt \the [src] from the plating...")
 			playsound(src, W.usesound, 50, 1)
-			if(!do_after(user,40 * W.toolspeed))
+			if(!do_after(user, 4 SECONDS * W.toolspeed, target = src))
 				user.visible_message(span_bold("\The [user]") + " decides not to unbolt \the [src].")
 				return
 			user.visible_message(span_bold("\The [user]") + " finishes unfastening \the [src]!")
@@ -251,7 +251,7 @@ GLOBAL_LIST_BOILERPLATE(all_deactivated_AI_cores, /obj/structure/AIcore/deactiva
 		else
 			user.visible_message(span_bold("\The [user]") + " starts to bolt \the [src] to the plating...")
 			playsound(src, W.usesound, 50, 1)
-			if(!do_after(user,40 * W.toolspeed))
+			if(!do_after(user, 4 SECONDS * W.toolspeed, target = src))
 				user.visible_message(span_bold("\The [user]") + " decides not to bolt \the [src].")
 				return
 			user.visible_message(span_bold("\The [user]") + " finishes fastening down \the [src]!")
@@ -274,9 +274,9 @@ GLOBAL_LIST_BOILERPLATE(all_deactivated_AI_cores, /obj/structure/AIcore/deactiva
 	var/obj/structure/AIcore/deactivated/D = cores[id]
 	if(!D) return
 
-	if(D in empty_playable_ai_cores)
-		empty_playable_ai_cores -= D
+	if(D in GLOB.empty_playable_ai_cores)
+		GLOB.empty_playable_ai_cores -= D
 		to_chat(src, "\The [id] is now [span_red("not available")] for latejoining AIs.")
 	else
-		empty_playable_ai_cores += D
+		GLOB.empty_playable_ai_cores += D
 		to_chat(src, "\The [id] is now [span_green("available")] for latejoining AIs.")

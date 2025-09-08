@@ -35,7 +35,7 @@
 			"You hear the slow creaking of a spring."
 			)
 
-		if (do_after(user, 60))
+		if (do_after(user, 6 SECONDS, target = src))
 			user.visible_message(
 				span_danger("[user] has deployed \the [src]."),
 				span_danger("You have deployed \the [src]!"),
@@ -55,7 +55,7 @@
 			span_notice("[user] begins freeing [victim] from \the [src]."),
 			span_notice("You carefully begin to free [victim] from \the [src]."),
 			)
-		if(do_after(user, 60))
+		if(do_after(user, 6 SECONDS, target = src))
 			user.visible_message(span_notice("[victim] has been freed from \the [src] by [user]."))
 			for(var/A in buckled_mobs)
 				unbuckle_mob(A)
@@ -68,7 +68,7 @@
 			)
 		playsound(src, 'sound/machines/click.ogg', 50, 1)
 
-		if(do_after(user, 60))
+		if(do_after(user, 6 SECONDS, target = src))
 			user.visible_message(
 				span_danger("[user] has disarmed \the [src]."),
 				span_notice("You have disarmed \the [src]!")
@@ -85,7 +85,7 @@
 	if(L.lying)
 		target_zone = ran_zone()
 	else
-		target_zone = pick("l_foot", "r_foot", "l_leg", "r_leg")
+		target_zone = pick(BP_L_FOOT, BP_R_FOOT, BP_L_LEG, BP_R_LEG)
 
 	//armour
 	var/blocked = L.run_armor_check(target_zone, "melee")
@@ -202,7 +202,7 @@
 			)
 		playsound(src, 'sound/machines/click.ogg', 50, 1)
 
-		if(do_after(user, health))
+		if(do_after(user, health, target = src))
 			user.visible_message(
 				span_danger("[user] has collected \the [src]."),
 				span_notice("You have collected \the [src]!")
@@ -221,7 +221,7 @@
 			"You hear the rustling of [material.name]."
 			)
 
-		if (do_after(user, 60))
+		if (do_after(user, 6 SECONDS, target = src))
 			user.visible_message(
 				span_danger("[user] has deployed \the [src]."),
 				span_danger("You have deployed \the [src]!"),
@@ -333,7 +333,7 @@
 	if(L.lying)
 		target_zone = ran_zone()
 	else
-		target_zone = pick("l_foot", "r_foot", "l_leg", "r_leg")
+		target_zone = pick(BP_L_FOOT, BP_R_FOOT, BP_L_LEG, BP_R_LEG)
 
 	//armour
 	var/blocked = L.run_armor_check(target_zone, "melee")
@@ -370,7 +370,7 @@
 
 		to_chat(H, span_danger("You step directly on \the [src]!"))
 
-		var/list/check = list("l_foot", "r_foot")
+		var/list/check = list(BP_L_FOOT, BP_R_FOOT)
 		while(check.len)
 			var/picked = pick(check)
 			var/obj/item/organ/external/affecting = H.get_organ(picked)

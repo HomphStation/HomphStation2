@@ -43,11 +43,11 @@
 	var/vore_sound = 'sound/effects/metalscrape2.ogg'
 
 /obj/structure/closet/Initialize(mapload)
+	ADD_TRAIT(src, TRAIT_ALT_CLICK_BLOCKER, ROUNDSTART_TRAIT)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/closet/LateInitialize()
-	. = ..()
 	if(starts_with)
 		create_objects_in_loc(src, starts_with)
 		starts_with = null
@@ -73,7 +73,7 @@
 	update_icon()
 
 /obj/structure/closet/Destroy()
-	qdel_null(door_obj)
+	QDEL_NULL(door_obj)
 	closet_appearance = null
 	return ..()
 
@@ -278,7 +278,7 @@
 				user.visible_message("\The [user] begins unsecuring \the [src] from the floor.", "You start unsecuring \the [src] from the floor.")
 			else
 				user.visible_message("\The [user] begins securing \the [src] to the floor.", "You start securing \the [src] to the floor.")
-			if(do_after(user, 20 * W.toolspeed))
+			if(do_after(user, 2 SECONDS * W.toolspeed, target = src))
 				if(!src) return
 				to_chat(user, span_notice("You [anchored? "un" : ""]secured \the [src]!"))
 				anchored = !anchored
@@ -312,8 +312,8 @@
 			for(var/obj/item/I in LB.contents)
 				LB.remove_from_storage(I, T)
 			user.visible_message(span_notice("[user] empties \the [LB] into \the [src]."), \
-								 span_notice("You empty \the [LB] into \the [src]."), \
-								 span_notice("You hear rustling of clothes."))
+									span_notice("You empty \the [LB] into \the [src]."), \
+									span_notice("You hear rustling of clothes."))
 			return
 		if(isrobot(user))
 			return
@@ -321,6 +321,7 @@
 			return
 		user.drop_item()
 		if(W)
+			W.do_drop_animation(user)
 			W.forceMove(loc)
 	else if(istype(W, /obj/item/packageWrap))
 		return
@@ -335,7 +336,7 @@
 					else
 						to_chat(user, span_notice("You need more welding fuel to complete this task."))
 						return
-			if(do_after(user, 20 * S.toolspeed))
+			if(do_after(user, 2 SECONDS * S.toolspeed, target = src))
 				if(opened) //ChompEDIT - cancel weld if opened mid-progress to prevent welder-traps
 					return //ChompEDIT
 				playsound(src, S.usesound, 50)
@@ -359,6 +360,9 @@
 	if(!isturf(user.loc)) // are you in a container/closet/pod/etc?
 		return
 	if(!opened)
+		// Attempt to climb if not opened!
+		if(O == user)
+			SEND_SIGNAL(src, COMSIG_CLIMBABLE_START_CLIMB, user)
 		return
 	if(istype(O, /obj/structure/closet))
 		return
@@ -445,7 +449,7 @@
 
 	breakout = 1 //can't think of a better way to do this right now.
 	for(var/i in 1 to (6*breakout_time * 2)) //minutes * 6 * 5seconds * 2
-		if(!do_after(escapee, 50)) //5 seconds
+		if(!do_after(escapee, 5 SECONDS, target = src)) //5 seconds
 			breakout = 0
 			return
 		if(!escapee || escapee.incapacitated() || escapee.loc != src)
@@ -585,4 +589,5 @@
 	playsound(src, vore_sound, 25)
 
 	var/mob/living/M = usr
-	M.perform_the_nom(usr,target,usr,usr.vore_selected,1)
+	if(isliving(M))
+		M.begin_instant_nom(M,target,M,M.vore_selected)

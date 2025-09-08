@@ -34,7 +34,7 @@
 		if(writing_space <= 0)
 			to_chat(user, span_warning("There is no room left on \the [src]."))
 			return
-		var/text = sanitizeSafe(tgui_input_text(user, "What would you like to write?", null, null, writing_space), writing_space)
+		var/text = sanitizeSafe(tgui_input_text(user, "What would you like to write?", null, null, writing_space, encode = FALSE), writing_space)
 		if(!text || thing.loc != user || (!Adjacent(user) && loc != user) || user.incapacitated())
 			return
 		user.visible_message(span_infoplain(span_bold("\The [user]") + " jots a note down on \the [src]."))
@@ -71,10 +71,10 @@
 		if(!isanimal(user))
 			if( !user.get_active_hand() )		//if active hand is empty
 				var/mob/living/carbon/human/H = user
-				var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+				var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 
 				if (H.hand)
-					temp = H.organs_by_name["l_hand"]
+					temp = H.organs_by_name[BP_L_HAND]
 				if(temp && !temp.is_usable())
 					to_chat(user, span_notice("You try to move your [temp.name], but cannot!"))
 					return
@@ -101,6 +101,7 @@
 	RegisterSignal(src, COMSIG_OBSERVER_MOVED, /obj/item/paper/sticky/proc/reset_persistence_tracking)
 
 /obj/item/paper/sticky/proc/reset_persistence_tracking()
+	SIGNAL_HANDLER
 	SSpersistence.forget_value(src, /datum/persistent/paper/sticky)
 	pixel_x = 0
 	pixel_y = 0

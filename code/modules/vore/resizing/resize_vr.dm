@@ -14,12 +14,16 @@
 /mob/living/carbon/human
 	holder_type = /obj/item/holder/micro
 
+// Let the robots have some fun too
+/mob/living/silicon/robot
+	holder_type = /obj/item/holder/micro
+
 // The reverse lookup of player_sizes_list, number to name.
 /proc/player_size_name(var/size_multiplier)
 	// (This assumes list is sorted big->small)
-	for(var/N in player_sizes_list)
+	for(var/N in GLOB.player_sizes_list)
 		. = N // So we return the smallest if we get to the end
-		if(size_multiplier >= player_sizes_list[N])
+		if(size_multiplier >= GLOB.player_sizes_list[N])
 			return N
 
 /**
@@ -88,7 +92,15 @@
  */
 /mob/living/proc/resize(var/new_size, var/animate = TRUE, var/uncapped = FALSE, var/ignore_prefs = FALSE, var/aura_animation = FALSE) //CHOMPEdit - Disable aura_animation. Too expensive for something you can't even see.
 	if(!uncapped)
-		new_size = clamp(new_size, RESIZE_MINIMUM, RESIZE_MAXIMUM)
+		if((z in using_map.station_levels) && CONFIG_GET(flag/pixel_size_limit))
+			var/size_diff = ((runechat_y_offset() / size_multiplier) * new_size) // This returns 32 multiplied with the new size
+			var/size_cap = world.icon_size * RESIZE_MAXIMUM //Grace for non-humanoids so they don't get forcibly shrunk.
+			if(size_diff - size_cap  > 0)
+				var/real_diff = size_cap / size_diff // Returns our diff based on the offset to world size
+				new_size *= real_diff // Applies our diff to the new size
+				new_size = clamp(new_size, RESIZE_MINIMUM, RESIZE_MAXIMUM) //If the sprite is below 32, we clamp it to only go to the resize max.
+		else
+			new_size = clamp(new_size, RESIZE_MINIMUM, RESIZE_MAXIMUM)
 		var/datum/component/resize_guard/guard = GetComponent(/datum/component/resize_guard)
 		if(guard)
 			qdel(guard)
@@ -116,12 +128,12 @@
 			var/datum/species/S = H.species
 			special_x = S.icon_scale_x
 			special_y = S.icon_scale_y
-			if(fuzzy || offset_override) //CHOMPEdit Start
+			if(fuzzy || offset_override)
 				center_offset = 0
 			else
 				center_offset = S.center_offset
 		resize.Scale(new_size * icon_scale_x * special_x, new_size * icon_scale_y * special_y) //Change the size of the matrix
-		resize.Translate(center_offset * size_multiplier * icon_scale_x * special_x, (vis_height/2) * (new_size - 1)) //Move the player up in the tile so their feet align with the bottom //CHOMPEdit End
+		resize.Translate(center_offset * size_multiplier * icon_scale_x * special_x, (vis_height/2) * (new_size - 1)) //Move the player up in the tile so their feet align with the bottom
 		animate(src, transform = resize, time = duration) //Animate the player resizing
 
 		if(aura_animation)
@@ -167,23 +179,18 @@
 	var/new_size = tgui_input_number(src, nagmessage, "Pick a Size", default, 600, 1)
 	if(size_range_check(new_size))
 		resize(new_size/100, uncapped = has_large_resize_bounds(), ignore_prefs = TRUE)
-		if(temporary_form)	//CHOMPEdit - resizing both our forms
+		if(temporary_form)
 			var/mob/living/L = temporary_form
 			L.resize(new_size/100, uncapped = has_large_resize_bounds(), ignore_prefs = TRUE)
-		//CHOMPEDIT - I don't need to be informed every time a prommie changes sizes
-
-/*
-//Add the set_size() proc to usable verbs. By commenting this out, we can leave the proc and hand it to species that need it.
-/hook/living_new/proc/resize_setup(mob/living/H)
-	add_verb(H, /mob/living/proc/set_size)
-	return 1
-*/
+		// log_admin("[key_name(src)] used the resize command in-game to be [new_size]% size. [src ? ADMIN_JMP(src) : "null"]") // CHOMPRemove
 
 /**
- * Attempt to scoop up this mob up into H's hands, if the size difference is large enough.
+ * Attempt to scoop up this mob up into M's hands, if the size difference is large enough.
  * @return false if normal code should continue, 1 to prevent normal code.
  */
 /mob/living/proc/attempt_to_scoop(mob/living/M, mob/living/G, ignore_size = FALSE) //second one is for the Grabber, only exists for animals to self-grab
+	if(src == M)
+		return 0
 	if(!(pickup_pref && M.pickup_pref && M.pickup_active))
 		return 0
 	if(!(M.a_intent == I_HELP))
@@ -196,6 +203,8 @@
 	if(isanimal(M))
 		var/mob/living/simple_mob/SA = M
 		if(!SA.has_hands)
+			return 0
+		if(mob_size < MOB_SMALL && src == M)
 			return 0
 	if(size_diff >= 0.50 || mob_size < MOB_SMALL || size_diff >= get_effective_size() || ignore_size)
 		if(buckled)

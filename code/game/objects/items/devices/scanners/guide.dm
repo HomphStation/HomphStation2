@@ -18,10 +18,10 @@
 	var/obj/item/card/id/ourid = user?.GetIdCard()
 	if(!ourid)
 		return
-	if(access_change_ids in ourid.GetAccess())
+	if(ACCESS_CHANGE_IDS in ourid.GetAccess())
 		playsound(src, 'sound/machines/defib_failed.ogg', 50, 0)
 		return
-	if(access_medical in ourid.GetAccess())
+	if(ACCESS_MEDICAL in ourid.GetAccess())
 		playsound(src, 'sound/effects/pop.ogg', 50, FALSE)
 	else
 		playsound(src, 'sound/machines/defib_failed.ogg', 50, 0)
@@ -73,7 +73,7 @@
 	if(blood_volume <= M.species.blood_volume*M.species.blood_level_safe)
 		bloodloss = TRUE
 
- //CHOMPedit start: Wording
+//CHOMPedit start: Wording
 	if(bleeding_external)
 		dat += span_bold("Surface Bleeding") + " - Apply bandages or administer Bicaridine.<br>"
 	if(bleeding_internal)
@@ -100,7 +100,7 @@
 		dat += span_bold("Genetic Damage") + " - Utilize cryogenic pod with appropriate chemicals (i.e. Cryoxadone) and below 70 K, or give Rezadone.<br>"
 	if(bone)
 		dat += span_bold("Bone fracture") + " - Splint damaged area. Treat with bone repair surgery or Osteodaxon after treating brute damage.<br>"
-	if(M.viruses && M.viruses.len)
+	if(M.IsInfected())
 		for(var/datum/disease/D in M.GetViruses())
 			if(D.visibility_flags & HIDDEN_SCANNER)
 				continue
@@ -116,5 +116,5 @@
 		peeb += dat
 		peeb += span_notice("For more detailed information on the patient's condition, utilize a body scanner at the closest medical bay.")
 
-	user.show_message(peeb, 1)
+		user.show_message(peeb, 1)
 //CHOMPedit end.

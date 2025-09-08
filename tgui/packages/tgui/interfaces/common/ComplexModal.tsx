@@ -1,17 +1,26 @@
-import { KeyboardEvent } from 'react';
+import { type KeyboardEvent, useEffect, useState } from 'react';
 import { useBackend } from 'tgui/backend';
-import { Modal } from 'tgui-core/components';
 import {
   Box,
   Button,
   Dropdown,
   Image,
   Input,
+  Modal,
   Stack,
 } from 'tgui-core/components';
 
-type Data = { modal: { id: string; args: {}; text: string; type: string } };
-let bodyOverrides = {};
+type ModalData<TArgs = Record<string, unknown>> = {
+  id: string;
+  args: TArgs;
+  text: string;
+  type: string;
+};
+
+type Data<TArgs = Record<string, unknown>> = {
+  modal: ModalData<TArgs> | null;
+};
+const bodyOverrides = {};
 
 /**
  * Sends a call to BYOND to open a modal
@@ -37,20 +46,32 @@ export const modalOpen = (id, args = {}) => {
  * @param {function} bodyOverride The override function that returns the
  *    modal contents
  */
+
+type ModalOverrideData<TArgs = Record<string, unknown>> = {
+  id: string;
+  text: string;
+  args: TArgs;
+  type: string;
+};
+
 export const modalRegisterBodyOverride = (
   id: string,
-  bodyOverride: Function,
+  bodyOverride: (modal: ModalOverrideData) => React.JSX.Element,
 ) => {
   bodyOverrides[id] = bodyOverride;
 };
 
-const modalAnswer = (id: string, answer: string, args: {}) => {
+const modalAnswer = (
+  id: string,
+  answer: string | undefined,
+  args: Record<string, unknown>,
+) => {
   const { act, data } = useBackend<Data>();
 
   const { modal } = data;
 
   if (!modal) {
-    return;
+    return null;
   }
 
   const newArgs = Object.assign(modal.args || {}, args || {});
@@ -68,15 +89,17 @@ const modalClose = (id: string | null) => {
   });
 };
 
-type complexData = Data &
+type ExtendedModalData<TArgs = Record<string, unknown>> = ModalData<TArgs> &
   Partial<{
-    modal: {
-      value: string;
-      choices: string[];
-      no_text: string;
-      yes_text: string;
-    };
+    value: string;
+    choices: string[];
+    no_text: string;
+    yes_text: string;
   }>;
+
+type ComplexData<TArgs = Record<string, unknown>> = {
+  modal: ExtendedModalData<TArgs> | null;
+};
 
 /**
  * Displays a modal and its actions. Passed data must have a valid modal field
@@ -94,19 +117,32 @@ type complexData = Data &
  * Defaults to `message` if not found
  * @param {object} props
  */
-export const ComplexModal = (props) => {
-  const { data } = useBackend<complexData>();
+export const ComplexModal = (props: {
+  maxWidth?: string;
+  maxHeight?: string;
+}) => {
+  const { data } = useBackend<ComplexData>();
 
   const { modal } = data;
 
+  const [curValue, setCurValue] = useState(modal?.value);
+
+  useEffect(() => {
+    if (modal?.type === 'input') {
+      setCurValue(modal.value);
+    }
+  }, [modal?.value, modal?.type]);
+
   if (!modal) {
-    return;
+    return null;
   }
 
   const { id, text, type } = modal;
 
+  const modalOnEscape:
+    | ((e: KeyboardEvent<HTMLDivElement>) => void)
+    | undefined = (e) => modalClose(id);
   let modalOnEnter: ((e: KeyboardEvent<HTMLDivElement>) => void) | undefined;
-  let modalOnEscape: ((e: KeyboardEvent<HTMLDivElement>) => void) | undefined;
   let modalBody: React.JSX.Element | undefined;
   let modalFooter: React.JSX.Element = (
     <Button icon="arrow-left" color="grey" onClick={() => modalClose(null)}>
@@ -114,24 +150,22 @@ export const ComplexModal = (props) => {
     </Button>
   );
 
-  modalOnEscape = (e) => modalClose(id);
   // Different contents depending on the type
   if (bodyOverrides[id]) {
     modalBody = bodyOverrides[id](modal);
   } else if (type === 'input') {
-    let curValue = modal.value;
     modalOnEnter = (e) => modalAnswer(id, curValue, {});
     modalBody = (
       <Input
         key={id}
-        value={modal.value}
+        value={curValue}
         placeholder="ENTER to submit"
         width="100%"
         my="0.5rem"
         autoFocus
         autoSelect
-        onChange={(_e, val) => {
-          curValue = val;
+        onChange={(val) => {
+          setCurValue(val);
         }}
       />
     );
@@ -159,10 +193,9 @@ export const ComplexModal = (props) => {
       </Box>
     );
   } else if (type === 'choice') {
+    const { choices = [] } = modal;
     const realChoices =
-      typeof modal.choices === 'object'
-        ? Object.values(modal.choices)
-        : modal.choices;
+      typeof modal.choices === 'object' ? Object.values(choices) : choices;
     modalBody = (
       <Dropdown
         autoScroll={false}
@@ -174,12 +207,13 @@ export const ComplexModal = (props) => {
       />
     );
   } else if (type === 'bento') {
+    const { choices = [], value = '' } = modal;
     modalBody = (
       <Stack wrap="wrap" my="0.5rem" maxHeight="1%">
-        {modal.choices.map((c, i) => (
+        {choices.map((c, i) => (
           <Stack.Item key={i}>
             <Button
-              selected={i + 1 === parseInt(modal.value, 10)}
+              selected={i + 1 === parseInt(value, 10)}
               onClick={() => modalAnswer(id, (i + 1).toString(), {})}
             >
               <Image src={c} />
@@ -189,12 +223,13 @@ export const ComplexModal = (props) => {
       </Stack>
     );
   } else if (type === 'bentospritesheet') {
+    const { choices = [], value = '' } = modal;
     modalBody = (
       <Stack wrap="wrap" my="0.5rem" maxHeight="1%">
-        {modal.choices.map((c, i) => (
+        {choices.map((c, i) => (
           <Stack.Item key={i}>
             <Button
-              selected={i + 1 === parseInt(modal.value, 10)}
+              selected={i + 1 === parseInt(value, 10)}
               onClick={() => modalAnswer(id, (i + 1).toString(), {})}
             >
               <Box className={c} />
@@ -239,8 +274,8 @@ export const ComplexModal = (props) => {
 
   return (
     <Modal
-      maxWidth={props.maxWidth || window.innerWidth / 2 + 'px'}
-      maxHeight={props.maxHeight || window.innerHeight / 2 + 'px'}
+      maxWidth={props.maxWidth || `${window.innerWidth / 2}px`}
+      maxHeight={props.maxHeight || `${window.innerHeight / 2}px`}
       onEnter={modalOnEnter}
       onEscape={modalOnEscape}
       mx="auto"

@@ -7,7 +7,7 @@
 	density = TRUE
 	anchored = TRUE
 	unacidable = TRUE
-	req_access = list(access_kitchen,access_morgue)
+	req_access = list(ACCESS_KITCHEN,ACCESS_MORGUE)
 
 	var/operating = 0 //Is it on?
 	var/dirty = 0 // Does it need cleaning?
@@ -25,7 +25,7 @@
 
 /obj/machinery/gibber/autogibber/Initialize(mapload)
 	. = ..()
-	for(var/i in cardinal)
+	for(var/i in GLOB.cardinal)
 		var/obj/machinery/mineral/input/input_obj = locate( /obj/machinery/mineral/input, get_step(src.loc, i) )
 		if(input_obj)
 			if(isturf(input_obj.loc))
@@ -151,7 +151,7 @@
 
 	user.visible_message(span_danger("[user] starts to put [victim] into the gibber!"))
 	src.add_fingerprint(user)
-	if(do_after(user, 30) && victim.Adjacent(src) && user.Adjacent(src) && victim.Adjacent(user) && !occupant)
+	if(do_after(user, 3 SECONDS, target = src) && victim.Adjacent(src) && user.Adjacent(src) && victim.Adjacent(user) && !occupant)
 		user.visible_message(span_danger("[user] stuffs [victim] into the gibber!"))
 		if(victim.client)
 			victim.client.perspective = EYE_PERSPECTIVE

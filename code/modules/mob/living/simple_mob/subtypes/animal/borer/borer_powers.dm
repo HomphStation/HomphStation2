@@ -77,7 +77,7 @@
 		if(!E || E.is_stump())
 			to_chat(src, span_warning("\The [H] does not have a head!"))
 
-		if(!H.should_have_organ("brain"))
+		if(!H.should_have_organ(O_BRAIN))
 			to_chat(src, span_warning("\The [H] does not seem to have an ear canal to breach."))
 			return
 
@@ -88,7 +88,7 @@
 	to_chat(M, "Something slimy begins probing at the opening of your ear canal...")
 	to_chat(src, span_warning("You slither up [M] and begin probing at their ear canal..."))
 
-	if(!do_after(src,30))
+	if(!do_after(src, 3 SECONDS, target = M))
 		to_chat(src, span_warning("As [M] moves away, you are dislodged and fall to the ground."))
 		return
 
@@ -112,7 +112,7 @@
 
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
-			var/obj/item/organ/I = H.internal_organs_by_name["brain"]
+			var/obj/item/organ/I = H.internal_organs_by_name[O_BRAIN]
 			if(!I) // No brain organ, so the borer moves in and replaces it permanently.
 				replace_brain()
 			else
@@ -182,7 +182,7 @@
 	H.ChangeToHusk()
 
 	var/obj/item/organ/internal/borer/B = new(H)
-	H.internal_organs_by_name["brain"] = B
+	H.internal_organs_by_name[O_BRAIN] = B
 	H.internal_organs |= B
 
 	var/obj/item/organ/external/affecting = H.get_organ(BP_HEAD)

@@ -1,7 +1,7 @@
 /obj/machinery/door/airlock/lift
 	name = "Elevator Door"
 	desc = "Ding."
-	req_access = list(access_maint_tunnels)
+	req_access = list(ACCESS_MAINT_TUNNELS)
 	unacidable = TRUE
 	opacity = 0
 	autoclose = 0
@@ -31,7 +31,7 @@
 		for(var/mob/living/LM in turf)
 			if(LM.mob_size <= MOB_TINY)
 				var/moved = 0
-				for(dir in shuffle(cardinal.Copy()))
+				for(dir in shuffle(GLOB.cardinal.Copy()))
 					var/dest = get_step(LM,dir)
 					if(!(locate(/obj/machinery/door/airlock/lift) in dest))
 						if(LM.Move(dest))

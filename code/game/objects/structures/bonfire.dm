@@ -13,26 +13,26 @@
 	var/set_temperature = T0C + 30	//K
 	var/heating_power = 80000
 
-/obj/structure/bonfire/New(newloc, material_name)
-	..(newloc)
+/obj/structure/bonfire/Initialize(mapload, material_name)
+	. = ..()
 	if(!material_name)
 		material_name = MAT_WOOD
 	material = get_material_by_name("[material_name]")
 	if(!material)
-		qdel(src)
-		return
+		stack_trace("Material of type: [material_name] does not exist.")
+		return INITIALIZE_HINT_QDEL
 	color = material.icon_colour
 
 // Blue wood.
-/obj/structure/bonfire/sifwood/New(newloc, material_name)
-	..(newloc, MAT_SIFWOOD)
+/obj/structure/bonfire/sifwood/Initialize(mapload, material_name)
+	. = ..(mapload, MAT_SIFWOOD)
 
-/obj/structure/bonfire/permanent/New(newloc, material_name)
-	..()
+/obj/structure/bonfire/permanent/Initialize(mapload, material_name)
+	. = ..()
 	ignite()
 
-/obj/structure/bonfire/permanent/sifwood/New(newloc, material_name)
-	..(newloc, MAT_SIFWOOD)
+/obj/structure/bonfire/permanent/sifwood/Initialize(mapload, material_name)
+	. = ..(mapload, MAT_SIFWOOD)
 
 //CHOMPStation Addition Start
 /obj/structure/bonfire/examine(mob/user)
@@ -88,7 +88,7 @@
 /obj/structure/bonfire/proc/dismantle(mob/user)
 	if(!burning)
 		user.visible_message("[user] starts dismantling \the [src].", "You start dismantling \the [src].")
-		if(do_after(user, 5 SECONDS))
+		if(do_after(user, 5 SECONDS, target = src))
 			for(var/i = 1 to 5)
 				material.place_dismantled_product(get_turf(src))
 			user.visible_message("[user] dismantles down \the [src].", "You dismantle \the [src].")

@@ -83,6 +83,8 @@
 
 	glass_name = REAGENT_SLIMEDRINK
 	glass_desc = "Slime thats safe to drink (relatively)"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_FOOD
 
 /datum/reagent/drink/soda
 	ingest_met = REM * 5 //Makes it so soda metabolizes faster, since without this increase, the nutrients it currently gives does nothing. Also, metabolises faster then normal nutrients due to being soda.
@@ -296,7 +298,7 @@
 	M.adjustToxLoss(-2 * removed) //Higher toxin removal than other tea to reflect difficulty in preparing, still worse than dylovene.
 
 /datum/reagent/drink/freshtea/green
-	name = REAGENT_FRESHTEA
+	name = REAGENT_FRESHGREENTEA
 	id = REAGENT_ID_FRESHTEAGREEN
 	description = "Floral green tea, it has antioxidants, it's good for you! Fresh means it's even healthier!"
 	taste_description = "floral with vegetal notes and a slightly bitter aftertaste"
@@ -387,20 +389,9 @@
 		return
 	M.adjustToxLoss(-3 * removed) //Almost on par with dylovene despite being harder to obtain in bulk. Nerf if this causes problems.
 
-/datum/reagent/drink/juice/gelatin
-	name = REAGENT_ID_GELATIN
-	id = REAGENT_GELATIN
-	description = "It doesnt taste like anything."
-	taste_description = REAGENT_ID_NOTHING
-	nutrition = 0
-	color = "#aaabcf"
-
-	glass_name = REAGENT_ID_GELATIN
-	glass_desc = "It's like flavourless slime."
-
 /datum/reagent/drink/bubbleteawatermelon
 	name = REAGENT_BUBBLETEAWATERMELON
-	id = REAGENT_BUBBLETEAWATERMELON
+	id = REAGENT_ID_BUBBLETEAWATERMELON
 	description = "A tea with milk and watermelon in it and gelatin balls as well."
 	taste_description = "creamy tea and watermelon"
 	color = "#b83333"
@@ -518,6 +509,8 @@
 
 	glass_name = "infused arachnid slammer"
 	glass_desc = "A pint of metabolized Arachnid Slammer. Even if its flat it still somehow foams and sparkles as well as bubbles more actively when spiders are nearby."
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_FOOD
 
 /datum/reagent/infusedarachnidslammer/enragedarachnidslammer
 	name = REAGENT_ENRAGEDARACHNIDSLAMMER
@@ -527,6 +520,8 @@
 
 	glass_name = "enraged arachnid slammer"
 	glass_desc = "A pint of Enraged Arachnid Slammer. It bubbles and sparkles fiercly as if it was in a berserking state!"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_DRUG
 
 /datum/reagent/infusedarachnidslammer/enragedarachnidslammer/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	var/chem_effective = 1 * M.species.chem_strength_heal
@@ -682,16 +677,6 @@
 //////////////////////////////////////////////
 
 //YW drinks
-/datum/reagent/drink/lovepotion_yw
-	name = REAGENT_STRAWBERRYLOVEPOTION
-	id = REAGENT_ID_STRAWBERRYLOVEPOTION
-	description = "Creamy strawberries and sugar, simple and sweet."
-	taste_description = "strawberries and cream"
-	color = "#fc8a8a" // rgb(252, 138, 138)
-
-	glass_name = "Love Potion"
-	glass_desc = "Love me tender, love me sweet."
-
 /datum/reagent/ethanol/wormblood
 	name = REAGENT_WORMBLOOD
 	id = REAGENT_ID_WORMBLOOD
@@ -714,3 +699,5 @@
 	description = "A dry mix for making delicious blondies."
 	reagent_state = SOLID
 	color = "#f3b44e"
+	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
+	industrial_use = REFINERYEXPORT_REASON_FOOD
