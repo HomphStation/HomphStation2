@@ -22,9 +22,6 @@
 
 	can_pull_size = ITEMSIZE_NO_CONTAINER
 	can_pull_mobs = MOB_PULL_SMALLER
-	can_enter_vent_with = list(
-		/obj,
-		/atom/movable/emissive_blocker)
 
 	mob_always_swap = 1
 
@@ -63,7 +60,7 @@
 	add_language(LANGUAGE_SWARMBOT, 1)
 
 	for(var/spell in spell_setup)
-		src.add_spell(new spell, "nano_spell_ready", /obj/screen/movable/spell_master/swarm)
+		src.add_spell(new spell, "nano_spell_ready", /atom/movable/screen/movable/spell_master/swarm)
 
 /mob/living/silicon/robot/drone/swarm/init()
 	..()

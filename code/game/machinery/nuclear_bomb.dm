@@ -51,7 +51,7 @@ GLOBAL_VAR(bomb_set)
 		if(timeleft <= 0)
 			explode()
 		for(var/mob/M in viewers(1, src))
-			if((M.client && M.machine == src))
+			if((M.client && M.check_current_machine(src)))
 				attack_hand(M)
 	return ..()
 
@@ -354,7 +354,7 @@ GLOBAL_VAR(bomb_set)
 
 		add_fingerprint(usr)
 		for(var/mob/M in viewers(1, src))
-			if((M.client && M.machine == src))
+			if((M.client && M.check_current_machine(src)))
 				attack_hand(M)
 	else
 		usr << browse(null, "window=nuclearbomb")
@@ -424,13 +424,13 @@ GLOBAL_VAR(bomb_set)
 
 		if(SSticker.mode)
 			SSticker.mode.explosion_in_progress = 0
-			to_world(span_boldannounce("The station was destoyed by the nuclear blast!"))
+			to_chat(world, span_boldannounce("The station was destoyed by the nuclear blast!"))
 
 			SSticker.mode.station_was_nuked = (off_station<2)	//offstation==1 is a draw. the station becomes irradiated and needs to be evacuated.
 															//kinda shit but I couldn't  get permission to do what I wanted to do.
 
 			if(!SSticker.mode.check_finished())//If the mode does not deal with the nuke going off so just reboot because everyone is stuck as is
-				to_world(span_boldannounce("Resetting in 30 seconds!"))
+				to_chat(world, span_boldannounce("Resetting in 30 seconds!"))
 
 				feedback_set_details("end_error","nuke - unhandled ending")
 

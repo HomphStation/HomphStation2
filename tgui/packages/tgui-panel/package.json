@@ -1,15 +1,17 @@
 {
-  "name": "tgui-panel",
-  "version": "6.0.0",
-  "dependencies": {
-    "common": "workspace:*",
-    "dompurify": "^3.2.6",
-    "es-toolkit": "^1.39.10",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "tgui": "workspace:*",
-    "tgui-core": "^5.2.0",
-    "tgui-dev-server": "workspace:*"
-  },
-  "private": true
+	"name": "tgui-panel",
+	"version": "6.0.0",
+	"dependencies": {
+		"common": "workspace:*",
+		"dompurify": "^3.3.1",
+		"es-toolkit": "^1.43.0",
+		"jotai": "^2.16.1",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3",
+		"tgui": "workspace:*",
+		"tgui-core": "^5.8.0",
+		"tgui-dev-server": "workspace:*",
+		"zod": "^4.3.5"
+	},
+	"private": true
 }

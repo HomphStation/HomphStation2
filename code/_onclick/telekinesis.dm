@@ -38,7 +38,7 @@
 		O.host = user
 		O.focus_object(src)
 	else
-		warning("Strange attack_tk(): TK([user.has_telegrip()]) empty hand([!user.get_active_hand()])")
+		WARNING("Strange attack_tk(): TK([user.has_telegrip()]) empty hand([!user.get_active_hand()])")
 	return
 
 
@@ -66,16 +66,13 @@
 	var/last_throw = 0
 	var/atom/movable/focus = null
 	var/mob/living/host = null
+	item_flags = DROPDEL | NOSTRIP
 
 /obj/item/tk_grab/dropped(mob/user)
 	..()
 	if(focus && user && loc != user && loc != user.loc) // drop_item() gets called when you tk-attack a table/closet with an item
 		if(focus.Adjacent(loc))
 			focus.loc = loc
-	loc = null
-	spawn(1)
-		qdel(src)
-	return
 
 //stops TK grabs being equipped anywhere but into hands
 /obj/item/tk_grab/equipped(var/mob/user, var/slot)
@@ -84,7 +81,10 @@
 	qdel(src)
 	return
 
-/obj/item/tk_grab/attack_self(mob/user as mob)
+/obj/item/tk_grab/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if(focus)
 		focus.attack_self_tk(user)
 
@@ -100,7 +100,7 @@
 	if(isobj(target) && !isturf(target.loc))
 		return
 
-	if(user.client.eye != user) // Extremely bad exploits if allowed to TK while remote viewing
+	if(user.is_remote_viewing()) // Extremely bad exploits if allowed to TK while remote viewing
 		to_chat(user, TK_DENIED_MESSAGE)
 		return
 

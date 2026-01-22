@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   ColorBox,
-  Divider,
   Floating,
   LabeledList,
   Stack,
@@ -17,40 +16,8 @@ import {
   type GeneralDataConstant,
   type GeneralDataStatic,
 } from './data';
-
-export const gender2icon = (gender: Gender) => {
-  switch (gender) {
-    case Gender.Female: {
-      return 'venus';
-    }
-    case Gender.Male: {
-      return 'mars';
-    }
-    case Gender.Plural: {
-      return 'transgender';
-    }
-    case Gender.Neuter: {
-      return 'neuter';
-    }
-  }
-};
-
-export const gender2pronouns = (gender: Gender) => {
-  switch (gender) {
-    case Gender.Female: {
-      return 'She/Her';
-    }
-    case Gender.Male: {
-      return 'He/Him';
-    }
-    case Gender.Plural: {
-      return 'They/Them';
-    }
-    case Gender.Neuter: {
-      return 'It/Its';
-    }
-  }
-};
+import { gender2icon, gender2pronouns } from './functions';
+import { SpeciesBaseStats } from './stats/SpeciesSpaceStats';
 
 export const GenderButton = (props: {
   gender: Gender;
@@ -63,18 +30,18 @@ export const GenderButton = (props: {
         placement="right-end"
         content={
           <Stack backgroundColor="black" ml={0.5} pl={0.5} pr={0.5}>
-            {Object.keys(Gender).map((x) => (
+            {Object.values(Gender).map((x) => (
               <Button
                 selected={props.gender === x}
                 key={x}
-                icon={gender2icon(x as Gender)}
-                tooltip={props.usePronouns ? gender2pronouns(x as Gender) : x}
+                icon={gender2icon(x)}
+                tooltip={props.usePronouns ? gender2pronouns(x) : x}
                 fontSize="22px"
                 width={4}
                 height={4}
                 verticalAlignContent="middle"
                 textAlign="center"
-                onClick={() => props.setGender(x as Gender)}
+                onClick={() => props.setGender(x)}
               />
             ))}
           </Stack>
@@ -115,6 +82,7 @@ export const SubtabInfo = (props: {
     custom_species,
     selects_bodytype,
     custom_base,
+    species_stats,
   } = data;
 
   return (
@@ -251,9 +219,7 @@ export const SubtabInfo = (props: {
               </Box>
             ) : null}
           </Stack.Item>
-          <Stack.Item>
-            <Divider vertical />
-          </Stack.Item>
+          <Stack.Divider />
           <Stack.Item>
             <Box bold>Language Keys</Box>
             {language_keys.map((key) => `${key} `)}
@@ -264,9 +230,7 @@ export const SubtabInfo = (props: {
               {preferred_language}
             </Button>
           </Stack.Item>
-          <Stack.Item>
-            <Divider vertical />
-          </Stack.Item>
+          <Stack.Divider />
           <Stack.Item textAlign="center">
             <Box bold>Runechat Color</Box>
             <Tooltip content={runechat_color}>
@@ -277,6 +241,15 @@ export const SubtabInfo = (props: {
             </Button>
           </Stack.Item>
         </Stack>
+      </Stack.Item>
+      <Stack.Divider />
+      <Stack.Item>
+        {!!staticData.basehuman_stats && (
+          <SpeciesBaseStats
+            speciesStats={species_stats}
+            baseStats={staticData.basehuman_stats}
+          />
+        )}
       </Stack.Item>
     </Stack>
   );

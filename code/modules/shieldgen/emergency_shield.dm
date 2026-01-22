@@ -76,7 +76,7 @@
 				qdel(src)
 	return
 
-/obj/machinery/shield/emp_act(severity)
+/obj/machinery/shield/emp_act(severity, recursive)
 	switch(severity)
 		if(1)
 			qdel(src)
@@ -91,16 +91,21 @@
 				qdel(src)
 
 
-/obj/machinery/shield/hitby(AM as mob|obj)
+/obj/machinery/shield/hitby(atom/movable/source, datum/thrownthing/throwingdatum)
 	//Let everyone know we've been hit!
-	visible_message(span_danger("\The [src] was hit by [AM]."))
+	visible_message(span_danger("\The [src] was hit by [source]."))
 
 	//Super realistic, resource-intensive, real-time damage calculations.
 	var/tforce = 0
-	if(ismob(AM))
+	if(ismob(source))
 		tforce = 40
-	else
-		tforce = AM:throwforce
+	if(isobj(source))
+		var/obj/object = source
+		if(isitem(object))
+			var/obj/item/our_item = object
+			tforce = our_item.throwforce
+		else
+			tforce = object.w_class
 
 	src.health -= tforce
 
@@ -238,7 +243,7 @@
 			src.checkhp()
 	return
 
-/obj/machinery/shieldgen/emp_act(severity)
+/obj/machinery/shieldgen/emp_act(severity, recursive)
 	switch(severity)
 		if(1)
 			src.health /= 2 //cut health in half

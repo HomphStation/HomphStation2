@@ -117,7 +117,7 @@ SUBSYSTEM_DEF(garbage)
 		if(LAZYLEN(I.extra_details))
 			entry["Deleted Metadata"] = I.extra_details
 
-	log_debug("", del_log)
+	log_qdel("", del_log)
 
 /datum/controller/subsystem/garbage/fire()
 	//the fact that this resets its processing each fire (rather then resume where it left off) is intentional.
@@ -369,7 +369,7 @@ SUBSYSTEM_DEF(garbage)
 			CRASH("[to_delete.type] destroy proc was called multiple times, likely due to a qdel loop in the Destroy logic")
 		return
 
-	if (SEND_SIGNAL(to_delete, COMSIG_PARENT_PREQDELETED, force)) // Give the components a chance to prevent their parent from being deleted
+	if (SEND_SIGNAL(to_delete, COMSIG_PREQDELETED, force)) // Give the components a chance to prevent their parent from being deleted
 		return
 
 	to_delete.gc_destroyed = GC_CURRENTLY_BEING_QDELETED

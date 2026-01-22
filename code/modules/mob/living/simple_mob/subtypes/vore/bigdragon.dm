@@ -570,7 +570,7 @@ I think I covered everything.
 	autotransferchance = 50
 	autotransferwait = 150
 	autotransfer_enabled = TRUE
-	escapable = TRUE
+	escapable = B_ESCAPABLE_DEFAULT
 	escapechance = 100
 	escapetime = 15
 	fancy_vore = TRUE
@@ -660,7 +660,7 @@ I think I covered everything.
 	mode_flags = DM_FLAG_NUMBING
 	struggle_messages_inside = list(
 		"Deciding that you've stayed long enough, you wriggle and writhe, stretching yourself out in the chamber, trying to thrust your hands and face up the way you entered. The beast stirs, and this churny pocket of flesh providing you safety clenches hard, aiding your entry back up into the lowermost depths of it's gullet. rhythmic clenches continue to invite you back down, however, should you reconsider.")
-	belly_fullscreen = "anim_belly"
+	belly_fullscreen = "VBOanim_belly1"
 
 ///
 ///		AI handling stuff
@@ -887,7 +887,7 @@ I think I covered everything.
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
 		M.adjust_fire_stacks(fire_stacks)
-		M.IgniteMob()
+		M.ignite_mob()
 	else
 		. = ..()
 
@@ -1010,7 +1010,7 @@ I think I covered everything.
 					for(var/RG in to_inject)
 						if(!P.reagents.has_reagent(RG))
 							P.reagents.add_reagent(RG, 10)
-				L.ExtinguishMob()
+				L.extinguish_mob()
 			return //Don't attack people if we're on help intent
 	return .=..()
 

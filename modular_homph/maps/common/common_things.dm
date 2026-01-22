@@ -31,7 +31,7 @@
 	. = ..()
 
 	if(!LAZYLEN(mobs_to_pick_from))
-		error("Mob spawner at [x],[y],[z] ([get_area(src)]) had no mobs_to_pick_from set on it!")
+		log_mapping("Mob spawner at [x],[y],[z] ([get_area(src)]) had no mobs_to_pick_from set on it!")
 		flags |= ATOM_INITIALIZED
 		return INITIALIZE_HINT_QDEL
 	START_PROCESSING(SSobj, src)
@@ -78,3 +78,22 @@
 		STOP_PROCESSING(SSobj, src)
 		depleted = TRUE
 		return
+
+/obj/effect/map_effect/portal/master/side_a/retreat_west
+	portal_id = "retreat_west"
+
+/obj/effect/map_effect/portal/master/side_b/retreat_west
+	portal_id = "retreat_west"
+
+/obj/effect/map_effect/portal/master/side_a/retreat_east
+	portal_id = "retreat_east"
+
+/obj/effect/map_effect/portal/master/side_b/retreat_east
+	portal_id = "retreat_east"
+
+/obj/machinery/smartfridge/survival_pod/casino
+	icon = 'icons/obj/vending.dmi'
+	icon_base = "smartfridge"
+	icon_contents = "boxes"
+	icon_state = "smartfridge"
+	name = "Advanced storage"

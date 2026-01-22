@@ -363,7 +363,7 @@
 	// req_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 5, TECH_MAGNET = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_STEEL = 6000, MAT_GLASS = 3000)
-	build_path = /obj/item/gun/energy/netgun/shrink
+	build_path = /obj/item/gun/energy/netgun
 	category = list(
 		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_RANGED
 	)
@@ -375,7 +375,7 @@
 	id = "sizenetgun"
 	build_type = PROTOLATHE
 	materials = list(MAT_STEEL = 6000, MAT_GLASS = 4000)
-	build_path = /obj/item/gun/energy/netgun
+	build_path = /obj/item/gun/energy/netgun/shrink
 	category = list(
 		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_RANGED
 	)
@@ -867,6 +867,17 @@
 	build_path = /obj/item/ammo_casing/microbattery/medical/normalsize
 	category = list(
 		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design_techweb/medigun_constant
+	name = "Prototype Bluespace Medigun Backpack"
+	id = "medigun_constant"
+	build_type = PROTOLATHE
+	materials = list(MAT_STEEL = 8000, MAT_PLASTIC = 8000, MAT_GLASS = 5000, MAT_SILVER = 1000, MAT_GOLD = 1000, MAT_URANIUM = 1000)
+	build_path = /obj/item/medigun_backpack
+	category = list(
+		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_RANGED
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SCIENCE
 

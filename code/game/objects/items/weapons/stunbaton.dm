@@ -24,6 +24,9 @@
 	var/grip_safety = TRUE
 	var/taped_safety = FALSE
 
+	///Var for attack_self chain
+	var/special_handling = FALSE
+
 /obj/item/melee/baton/Initialize(mapload)
 	. = ..()
 	update_icon()
@@ -40,7 +43,7 @@
 		if (istype(usr.loc,/obj/mecha)) // stops inventory actions in a mech. why?
 			return
 
-		if (!( istype(over_object, /obj/screen) ))
+		if (!( istype(over_object, /atom/movable/screen) ))
 			return ..()
 
 		//makes sure that the thing is equipped, so that we can't drag it into our hand from miles away.
@@ -51,7 +54,7 @@
 		if (( usr.restrained() ) || ( usr.stat ))
 			return
 
-		if ((src.loc == usr) && !(istype(over_object, /obj/screen)) && !usr.unEquip(src))
+		if ((src.loc == usr) && !(istype(over_object, /atom/movable/screen)) && !usr.unEquip(src))
 			return
 
 		switch(over_object.name)
@@ -153,6 +156,11 @@
 		return ..()
 
 /obj/item/melee/baton/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
+	if(special_handling)
+		return FALSE
 	if(bcell && bcell.charge >= hitcost)
 		status = !status
 		to_chat(user, span_notice("[src] is now [status ? "on" : "off"]."))
@@ -205,18 +213,13 @@
 
 	//stun effects
 	if(status)
-		target.stun_effect_act(stun, agony, hit_zone, src)
+		target.stun_effect_act(stun, agony, hit_zone, src, electric = TRUE)
 		msg_admin_attack("[key_name(user)] stunned [key_name(target)] with the [src].")
 
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
 			H.forcesay(GLOB.hit_appends)
 	powercheck()
-
-/obj/item/melee/baton/emp_act(severity)
-	if(bcell)
-		bcell.emp_act(severity)	//let's not duplicate code everywhere if we don't have to please.
-	..()
 
 //Makeshift stun baton. Replacement for stun gloves.
 /obj/item/melee/baton/cattleprod

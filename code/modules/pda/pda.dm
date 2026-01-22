@@ -55,18 +55,21 @@
 	var/list/notifying_programs = list()
 	var/retro_mode = 0
 
+	///Var for attack_self chain
+	var/special_handling = FALSE
+
 /obj/item/pda/examine(mob/user)
 	. = ..()
 	if(Adjacent(user))
 		. += "The time [stationtime2text()] is displayed in the corner of the screen."
 
-/obj/item/pda/CtrlClick(mob/user)
+/obj/item/pda/item_ctrl_click(mob/user)
 	if(can_use(user) && !issilicon(user))
 		remove_pen()
 		return
 	..()
 
-/obj/item/pda/AltClick(mob/user)
+/obj/item/pda/click_alt(mob/user)
 	if(issilicon(user))
 		return
 
@@ -158,15 +161,9 @@
 
 		else
 			icon = 'icons/obj/pda_old.dmi'
-			log_debug("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
-	//add_overlay("pda-pen") //ChompEDIT no icon ops on New
-	start_program(find_program(/datum/data/pda/app/main_menu))
-
-//ChompEDIT START - move icon ops to initialize
-/obj/item/pda/Initialize(mapload)
-	. = ..()
+			log_runtime("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
 	add_overlay("pda-pen")
-//ChompEDIT END
+	start_program(find_program(/datum/data/pda/app/main_menu))
 
 /obj/item/pda/proc/can_use(mob/user)
 	return (tgui_status(user, GLOB.tgui_inventory_state) == STATUS_INTERACTIVE)
@@ -182,16 +179,19 @@
 
 /obj/item/pda/MouseDrop(obj/over_object as obj, src_location, over_location)
 	var/mob/M = usr
-	if((!istype(over_object, /obj/screen)) && can_use(usr))
+	if((!istype(over_object, /atom/movable/screen)) && can_use(usr))
 		return attack_self(M)
 	return
 
 /obj/item/pda/proc/close(mob/user)
 	SStgui.close_uis(src)
 
-/obj/item/pda/attack_self(mob/user as mob)
-	user.set_machine(src)
-
+/obj/item/pda/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
+	if(special_handling)
+		return FALSE
 	if(active_uplink_check(user))
 		return
 
@@ -440,12 +440,9 @@
 				if(id_check(user, 2))
 					to_chat(user, span_notice("You put the ID into \the [src]'s slot."))
 					add_overlay("pda-id")
-					updateSelfDialog()//Update self dialog on success.
 			return	//Return in case of failed check or when successful.
-		updateSelfDialog()//For the non-input related code.
 	else if(istype(C, /obj/item/paicard) && !src.pai)
-		user.drop_item()
-		C.loc = src
+		user.drop_item(src)
 		pai = C
 		to_chat(user, span_notice("You slot \the [C] into \the [src]."))
 		SStgui.update_uis(src) // update all UIs attached to src
@@ -454,8 +451,7 @@
 		if(O)
 			to_chat(user, span_notice("There is already a pen in \the [src]."))
 		else
-			user.drop_item()
-			C.loc = src
+			user.drop_item(src)
 			to_chat(user, span_notice("You slot \the [C] into \the [src]."))
 			add_overlay("pda-pen")
 	return
@@ -511,8 +507,3 @@
 						/obj/item/cartridge/signal/science,
 						/obj/item/cartridge/quartermaster)
 	new newcart(src)
-
-// Pass along the pulse to atoms in contents, largely added so pAIs are vulnerable to EMP
-/obj/item/pda/emp_act(severity)
-	for(var/atom/A in src)
-		A.emp_act(severity)

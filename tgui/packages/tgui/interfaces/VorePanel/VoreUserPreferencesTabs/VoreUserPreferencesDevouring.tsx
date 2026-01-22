@@ -3,14 +3,14 @@ import { Button, Section, Stack } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 import { capitalize } from 'tgui-core/string';
 
-import type { localPrefs } from '../types';
+import type { LocalPrefs } from '../types';
 import { VoreUserPreferenceItem } from '../VorePanelElements/VoreUserPreferenceItem';
 
 export const VoreUserPreferencesDevouring = (props: {
   devourable: BooleanLike;
   digestModeToColor: Record<string, string | undefined>;
   selective_active: string;
-  preferences: localPrefs;
+  preferences: LocalPrefs;
 }) => {
   const { act } = useBackend();
   const { devourable, digestModeToColor, selective_active, preferences } =
@@ -77,26 +77,38 @@ export const VoreUserPreferencesDevouring = (props: {
           </Stack.Item>
           <Stack.Item basis="32%" grow>
             <VoreUserPreferenceItem
-              spec={preferences.liquid_apply}
+              spec={preferences.contaminatepref}
               tooltipPosition="top"
             />
           </Stack.Item>
           <Stack.Item basis="32%">
             <VoreUserPreferenceItem
-              spec={preferences.remains}
+              spec={preferences.liquid_apply}
               tooltipPosition="left"
             />
           </Stack.Item>
           <Stack.Item basis="32%">
             <VoreUserPreferenceItem
-              spec={preferences.toggle_digest_pain}
+              spec={preferences.remains}
               tooltipPosition="right"
+            />
+          </Stack.Item>
+          <Stack.Item basis="32%" grow>
+            <VoreUserPreferenceItem
+              spec={preferences.toggle_digest_pain}
+              tooltipPosition="top"
             />
           </Stack.Item>
           <Stack.Item basis="32%">
             <VoreUserPreferenceItem
               spec={preferences.temperature}
-              tooltipPosition="top"
+              tooltipPosition="left"
+            />
+          </Stack.Item>
+          <Stack.Item basis="35%">
+            <VoreUserPreferenceItem
+              spec={preferences.afk_prey}
+              tooltipPosition="right"
             />
           </Stack.Item>
         </Stack>

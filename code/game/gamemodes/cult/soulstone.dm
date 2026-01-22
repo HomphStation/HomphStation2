@@ -40,6 +40,9 @@
 ///////////////////Options for using captured souls///////////////////////////////////////
 
 /obj/item/soulstone/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if (!in_range(src, user))
 		return
 	user.set_machine(src)
@@ -58,7 +61,7 @@
 
 /obj/item/soulstone/Topic(href, href_list)
 	var/mob/U = usr
-	if (!in_range(src, U)||U.machine!=src)
+	if (!in_range(src, U) || !U.check_current_machine(src))
 		U << browse(null, "window=aicard")
 		U.unset_machine()
 		return

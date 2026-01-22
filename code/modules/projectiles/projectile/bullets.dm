@@ -351,10 +351,8 @@
 
 /obj/item/projectile/bullet/incendiary/flamethrower/tiny
 	damage = 2
-	incendiary = 0
+	incendiary = 10
 	flammability = 2
-	modifier_type_to_apply = /datum/modifier/fire/stack_managed/weak
-	modifier_duration = 20 SECONDS
 	range = 6
 	agony = 0
 	hud_state = "flame"
@@ -453,6 +451,10 @@
 	if(istype(T))
 		new /obj/item/ammo_casing/afoam_dart(get_turf(loc))
 
+///Doesn't give a damn about what faction you're on, hits you anyway.
+/obj/item/projectile/bullet/foam_dart/on_hit(var/atom/target, var/blocked = 0)
+	handle_lasertag_attack(target, firer, tag_damage = 1, vest_override = TRUE)
+
 /obj/item/projectile/bullet/foam_dart/on_range(var/atom/A)
 	. = ..()
 	var/turf/T = get_turf(loc)
@@ -487,3 +489,6 @@
 	var/turf/T = get_turf(loc)
 	if(istype(T))
 		new /obj/item/ammo_casing/afoam_dart/riot(get_turf(loc))
+
+/obj/item/projectile/bullet/foam_dart_riot/on_hit(var/atom/target, var/blocked = 0)
+	handle_lasertag_attack(target, firer, 5, vest_override = TRUE) //Insult to injury.

@@ -21,6 +21,9 @@
 	var/genesource = "unknown"
 
 /obj/item/disk/xenobio/attack_self(var/mob/user as mob)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if(genes.len)
 		var/choice = tgui_alert(user, "Are you sure you want to wipe the disk?", "Xenobiological Data", list("No", "Yes"))
 		if(src && user && genes && choice && choice == "Yes" && user.Adjacent(get_turf(src)))
@@ -375,9 +378,6 @@
 	src.add_fingerprint(user)
 	if(do_after(user, 3 SECONDS, target = src) && victim.Adjacent(src) && user.Adjacent(src) && victim.Adjacent(user) && !occupant)
 		user.visible_message(span_danger("[user] stuffs [victim] into the [src]!"))
-		if(victim.client)
-			victim.client.perspective = EYE_PERSPECTIVE
-			victim.client.eye = src
 		victim.forceMove(src)
 		occupant = victim
 

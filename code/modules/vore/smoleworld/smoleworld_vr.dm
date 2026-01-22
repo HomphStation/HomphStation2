@@ -113,6 +113,10 @@
 	color = "#ffffff"
 	density = FALSE
 
+/obj/structure/smoletrack/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/rotatable)
+
 /obj/structure/smoletrack/attack_hand(mob/user)
 	if(user.a_intent == I_DISARM)
 		if(ismouse(user) || (isobserver(user) && !CONFIG_GET(flag/ghost_interaction)))
@@ -124,22 +128,8 @@
 			new /obj/item/stack/material/smolebricks(F)
 		qdel(src)
 
-//rotates piece
-/obj/structure/smoletrack/verb/rotate_clockwise()
-	set name = "Rotate Road Clockwise"
-	set category = "Object"
-	set src in oview(1)
-	if(ismouse(usr) || (isobserver(usr) && !CONFIG_GET(flag/ghost_interaction)))
-		return
-	src.set_dir(turn(src.dir, 270))
-
-/obj/structure/smoletrack/verb/rotate_counterclockwise()
-	set name = "Rotate Road Counter-Clockwise"
-	set category = "Object"
-	set src in oview(1)
-	if(ismouse(usr) || (isobserver(usr) && !CONFIG_GET(flag/ghost_interaction)))
-		return
-	src.set_dir(turn(src.dir, 90))
+/obj/structure/smoletrack/ghosts_can_use_rotate_verbs()
+	return CONFIG_GET(flag/ghost_interaction)
 
 //color roads
 /obj/structure/smoletrack/verb/colorpieces()
@@ -407,15 +397,7 @@
 	icon_state = "tether_trash"
 	name = "tether"
 	desc = "Its a tiny bit of plastic in the shape of the tether. There seems to be a small button on top."
-
-/obj/item/bikehorn/tinytether/attack_self(mob/user as mob)
-	if(spam_flag == 0)
-		spam_flag = 1
-		playsound(src, 'sound/items/tinytether.ogg', 30, 1, volume_channel = VOLUME_CHANNEL_MASTER)
-		src.add_fingerprint(user)
-		spawn(20)
-			spam_flag = 0
-	return
+	honk_sound = 'sound/items/tinytether.ogg'
 
 /obj/item/reagent_containers/food/snacks/snackplanet/moon
 	name = "moon"

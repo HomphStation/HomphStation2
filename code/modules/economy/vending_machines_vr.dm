@@ -1275,9 +1275,11 @@
 					/obj/item/deck/cah/black = 5,
 					/obj/item/deck/tarot = 5,
 					/obj/item/deck/cards = 5,
+					/obj/item/deck/cards/triple =5,
 					/obj/item/pack/spaceball = 10,
 					/obj/item/storage/pill_bottle/dice = 5,
 					/obj/item/storage/pill_bottle/dice_nerd = 5,
+					/obj/item/spacecasinocash_fake/c1000 = 50,
 					/obj/item/melee/umbrella/random = 10,
 					/obj/item/picnic_blankets_carried = 10,
 					/obj/item/deck/schnapsen = 5,
@@ -1289,9 +1291,11 @@
 					/obj/item/deck/cah/black = 100,
 					/obj/item/deck/tarot = 100,
 					/obj/item/deck/cards = 100,
+					/obj/item/deck/cards/triple = 150,
 					/obj/item/pack/spaceball = 100,
 					/obj/item/storage/pill_bottle/dice = 100,
 					/obj/item/storage/pill_bottle/dice_nerd = 100,
+					/obj/item/spacecasinocash_fake/c1000 = 100,
 					/obj/item/melee/umbrella/random = 100,
 					/obj/item/picnic_blankets_carried = 100,
 					/obj/item/deck/schnapsen = 100,
@@ -1408,7 +1412,8 @@
 					/obj/item/clothing/suit/storage/teshari/cloak/standard/white_grey = 5,
 					/obj/item/clothing/suit/storage/puffyred = 5,
 					/obj/item/clothing/suit/storage/puffypurple = 5,
-					/obj/item/clothing/suit/storage/puffyblue = 5)
+					/obj/item/clothing/suit/storage/puffyblue = 5,
+					/obj/item/clothing/accessory/poncho/roles/cloak/neo_pcloak = 5)
 	prices = list(/obj/item/clothing/suit/storage/apron = 100,
 					/obj/item/clothing/suit/storage/flannel/aqua = 100,
 					/obj/item/clothing/suit/storage/toggle/bomber = 100,
@@ -1510,7 +1515,8 @@
 					/obj/item/clothing/suit/storage/teshari/cloak/standard/white_grey = 100,
 					/obj/item/clothing/suit/storage/puffyred = 100,
 					/obj/item/clothing/suit/storage/puffypurple = 100,
-					/obj/item/clothing/suit/storage/puffyblue = 100)
+					/obj/item/clothing/suit/storage/puffyblue = 100,
+					/obj/item/clothing/accessory/poncho/roles/cloak/neo_pcloak = 100)
 	premium = list(/obj/item/clothing/suit/imperium_monk = 3,
 					/obj/item/clothing/suit/storage/hooded/wintercoat/cosmic = 1)
 	contraband = list(/obj/item/toy/katana = 1)
@@ -1554,6 +1560,10 @@
 					/obj/item/clothing/mask/gas/plaguedoctor/fluff = 3,
 					/obj/item/clothing/under/owl = 3,
 					/obj/item/clothing/mask/gas/owl_mask = 3,
+					/obj/item/clothing/mask/masquerade = 3,
+					/obj/item/clothing/mask/masquerade/feathered = 3,
+					/obj/item/clothing/mask/masquerade/two_colors = 3,
+					/obj/item/clothing/mask/masquerade/two_colors/feathered = 3,
 					/obj/item/clothing/under/waiter = 3,
 					/obj/item/clothing/suit/storage/apron = 3,
 					/obj/item/clothing/under/pirate = 3,
@@ -1605,7 +1615,8 @@
 					/obj/item/clothing/under/reverse_bunnytop_maid = 3,
 					/obj/item/clothing/head/rabbitears = 3,
 					/obj/item/clothing/accessory/bunny_tail = 3,
-					/obj/item/clothing/suit/shrine_maiden = 3)
+					/obj/item/clothing/suit/shrine_maiden = 3,
+					/obj/item/clothing/suit/shibari = 5)
 	prices = list(/obj/item/clothing/suit/storage/hooded/costume/carp = 200,
 					/obj/item/clothing/suit/storage/hooded/costume/carp = 200,
 					/obj/item/clothing/suit/chickensuit = 200,
@@ -1639,6 +1650,10 @@
 					/obj/item/clothing/mask/gas/plaguedoctor/fluff = 600,
 					/obj/item/clothing/under/owl = 400,
 					/obj/item/clothing/mask/gas/owl_mask = 400,
+					/obj/item/clothing/mask/masquerade = 100,
+					/obj/item/clothing/mask/masquerade/feathered = 100,
+					/obj/item/clothing/mask/masquerade/two_colors = 100,
+					/obj/item/clothing/mask/masquerade/two_colors/feathered = 100,
 					/obj/item/clothing/under/waiter = 100,
 					/obj/item/clothing/suit/storage/apron = 200,
 					/obj/item/clothing/under/pirate = 300,
@@ -1690,7 +1705,8 @@
 					/obj/item/clothing/under/reverse_bunnytop_maid = 50,
 					/obj/item/clothing/head/rabbitears = 25,
 					/obj/item/clothing/accessory/bunny_tail = 25,
-					/obj/item/clothing/suit/shrine_maiden = 200)
+					/obj/item/clothing/suit/shrine_maiden = 200,
+					/obj/item/clothing/suit/shibari = 50)
 	premium = list(/obj/item/clothing/suit/imperium_monk = 3,
 					/obj/item/clothing/suit/barding/agatha = 2,
 					/obj/item/clothing/suit/barding/alt_agatha = 2,

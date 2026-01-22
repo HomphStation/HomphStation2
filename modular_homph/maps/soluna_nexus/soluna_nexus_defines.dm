@@ -1,7 +1,7 @@
 // To be filled out when more progress on the new map occurs.
 /datum/map/soluna_nexus
-	name = "Soluna Nexus"
-	full_name = "Soluna Nexus"
+	name = "Solaris Junction"
+	full_name = "Solaris Junction"
 	path = "soluna_nexus"
 
 	lobby_screens = list('modular_chomp/html/lobby/chompstation.webp')
@@ -15,14 +15,15 @@
 
 	zlevel_datum_type = /datum/map_z_level/soluna_nexus
 
-	station_name  = "NLS Soluna Nexus"
-	station_short = "Soluna Nexus"
-	dock_name     = "NCS Northern Star" // Now we're the centcom!
-	boss_name     = "Central Command"
-	boss_short    = "Centcom"
-	company_name  = "NanoTrasen"
-	company_short = "NT"
-	starsys_name  = "Vir"
+	station_name  = "SR Solaris Junction"
+	station_short = "Solaris Junction"
+	facility_type = "station"
+	dock_name     = "SL Transfer Outpost" // Now we're the centcom!
+	boss_name     = "Control Center"
+	boss_short    = "Control"
+	company_name  = "SilTech"
+	company_short = "ST"
+	starsys_name  = "Mizar"
 	use_overmap = TRUE
 	overmap_size = 50
 	overmap_event_areas = 44
@@ -130,7 +131,7 @@
 
 /datum/map/soluna_nexus/get_map_info()
 	. = list()
-	. +=  "The NLS [full_name] is a small waystation in orbit of the frozen garden world of Sif, jewel of the Vir system.<br>"
+	. +=  "The SR [full_name] is a small waystation in orbit of the frozen garden world of Sif, jewel of the Vir system.<br>"
 	. +=  "Though Vir is typically peaceful, the system has seen its fair share of conflict in the face of technological extremists, rogue drone intelligence, and worse.<br>"
 	. +=  "As an employee of NanoTrasen, operators of the Southern Cross and one of the galaxy's largest research corporations, you're probably just here to do a job."
 	return jointext(., "<br>")
@@ -210,7 +211,7 @@
 /datum/map_template/soluna_nexus_lateload/surface
 	name = Z_NAME_SC_SURFACE
 	name_alias = Z_NAME_ALIAS_SURFACE
-	mappath = "modular_chomp/maps/southern_cross/southern_cross-5.dmm"
+	mappath = "modular_homph/maps/southern_cross/southern_cross-5.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/surface
 
 // Surface Mine Z-Level (overlaps with /datum/map_z_level/southern_cross_lateload/surface_mine so could instead be a common map)
@@ -222,7 +223,7 @@
 /datum/map_template/soluna_nexus_lateload/surface_mine
 	name = Z_NAME_SC_SURFACE_MINE
 	name_alias = Z_NAME_ALIAS_SURFACE_MINES
-	mappath = "modular_chomp/maps/southern_cross/southern_cross-6.dmm"
+	mappath = "modular_homph/maps/southern_cross/southern_cross-6.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/surface_mine
 
 // Surface Wild Z-Level (overlaps with /datum/map_z_level/southern_cross_lateload/surface_wild so could instead be a common map)
@@ -234,7 +235,7 @@
 /datum/map_template/soluna_nexus_lateload/surface_wild
 	name = Z_NAME_SC_SURFACE_WILD
 	name_alias = Z_NAME_ALIAS_SURFACE_WILDS
-	mappath = "modular_chomp/maps/southern_cross/southern_cross-10.dmm"
+	mappath = "modular_homph/maps/southern_cross/southern_cross-10.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/surface_wild
 
 // Misc Z-Level
@@ -246,7 +247,7 @@
 /datum/map_template/soluna_nexus_lateload/misc
 	name = Z_NAME_SN_MISC
 	name_alias = Z_NAME_ALIAS_MISC
-	mappath = "modular_chomp/maps/soluna_nexus/soluna_nexus-6.dmm"
+	mappath = "modular_homph/maps/soluna_nexus/soluna_nexus-6.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/misc
 
 // Centcom Z-Level
@@ -257,7 +258,7 @@
 /datum/map_template/soluna_nexus_lateload/centcom
 	name = Z_NAME_SN_CENTCOM
 	name_alias = Z_NAME_ALIAS_CENTCOM
-	mappath = "modular_chomp/maps/soluna_nexus/soluna_nexus-7.dmm"
+	mappath = "modular_homph/maps/soluna_nexus/soluna_nexus-7.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/centcom
 
 // Transit Z-Level
@@ -267,7 +268,7 @@
 
 /datum/map_template/soluna_nexus_lateload/transit
 	name = Z_NAME_SN_TRANSIT
-	mappath = "modular_chomp/maps/soluna_nexus/soluna_nexus-8.dmm"
+	mappath = "modular_homph/maps/soluna_nexus/soluna_nexus-8.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/transit
 
 //Thor Z-Level

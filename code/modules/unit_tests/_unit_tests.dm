@@ -88,8 +88,10 @@
 
 // BEGIN_INCLUDE
 #include "asset_smart_cache.dm"
+#include "autowiki.dm"
 //#include "clothing_tests.dm" // FIXME
 #include "component_tests.dm"
+#include "construction_tests.dm"
 #include "cosmetic_tests.dm"
 #include "dcs_check_list_arguments.dm"
 #include "dcs_get_id_from_elements.dm"
@@ -101,6 +103,7 @@
 #include "language_tests.dm"
 #include "loadout_tests.dm"
 #include "map_tests.dm"
+#include "mapping.dm"
 #include "material_tests.dm"
 // #include "nuke_cinematic.dm" // TODO: This is probably fixed later on
 #include "poster_tests.dm"
@@ -112,11 +115,13 @@
 #include "spritesheets.dm"
 #include "sqlite_tests.dm"
 #include "subsystem_init.dm"
+#include "techwebs.dm"
 #include "tgui_create_message.dm"
 #include "timer_sanity.dm"
 #include "trait_tests.dm"
 #include "unit_test.dm"
-// #include "vore_tests.dm" // FIXME: REWRITE OR FIX THIS
+#include "vbo_tests.dm"
+#include "vore_tests.dm"
 // END_INCLUDE
 #ifdef REFERENCE_TRACKING_DEBUG //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"

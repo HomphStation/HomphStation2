@@ -193,7 +193,6 @@ GLOBAL_LIST_EMPTY(mannequins)
 		if (isnull(GLOB.all_languages[L.name]))
 			GLOB.all_languages[L.name] = L
 		else
-			log_debug("Language name conflict! [T] is named [L.name], but that is taken by [GLOB.all_languages[L.name].type]")
 			if(isnull(GLOB.language_name_conflicts[L.name]))
 				GLOB.language_name_conflicts[L.name] = list(GLOB.all_languages[L.name])
 			GLOB.language_name_conflicts[L.name] += L
@@ -204,7 +203,6 @@ GLOBAL_LIST_EMPTY(mannequins)
 			if(isnull(GLOB.language_keys[L.key]))
 				GLOB.language_keys[L.key] = L
 			else
-				log_debug("Language key conflict! [L] has key [L.key], but that is taken by [(GLOB.language_keys[L.key])]")
 				if(isnull(GLOB.language_key_conflicts[L.key]))
 					GLOB.language_key_conflicts[L.key] = list(GLOB.language_keys[L.key])
 				GLOB.language_key_conflicts[L.key] += L
@@ -399,6 +397,20 @@ GLOBAL_LIST_INIT(item_digestion_blacklist, list(
 		/obj/item/mmi/digital/posibrain,
 		/obj/item/mmi/digital/robot,
 		/obj/item/rig/protean))
+
+///A list of stuff we do NOT want being deconstructed. Either due to how critical it is (ID/nuke disk) or buggy (holders and paicards)
+GLOBAL_LIST_INIT(item_deconstruction_blacklist, list(
+		/obj/item/card/id,
+		/obj/item/areaeditor/blueprints,
+		/obj/item/disk/nuclear,
+		/obj/item/perfect_tele_beacon,
+		/obj/item/organ/internal/brain,
+		/obj/item/mmi,
+		/obj/item/rig/protean,
+		/obj/item/holder,
+		/obj/item/paicard,
+		/obj/item/stack/material/cyborg,
+		/obj/item/storage))
 
 ///A list of chemicals that are banned from being obtainable through means that generate chemicals. These chemicals are either lame, annoying, pref-breaking, or OP (This list does NOT include reactions)
 GLOBAL_LIST_INIT(obtainable_chemical_blacklist, list(
@@ -1231,10 +1243,10 @@ var/global/datum/emergency_shuttle_controller/emergency_shuttle = new
 
 GLOBAL_LIST_EMPTY(gun_choices)
 
-GLOBAL_LIST_INIT(severity_to_string, list(
-	EVENT_LEVEL_MUNDANE = "Mundane",
-	EVENT_LEVEL_MODERATE = "Moderate",
-	EVENT_LEVEL_MAJOR = "Major"
+GLOBAL_ALIST_INIT(severity_to_string, list(
+	/* EVENT_LEVEL_MUNDANE = */ "Mundane",
+	/* EVENT_LEVEL_MODERATE = */ "Moderate",
+	/* EVENT_LEVEL_MAJOR = */ "Major"
 	))
 
 //Some global icons for the examine tab to use to display some item properties.
@@ -1486,6 +1498,7 @@ GLOBAL_LIST_INIT(sheet_reagents, list( //have a number of reagents divisible by 
 	/obj/item/stack/material/sandstone = list(REAGENT_ID_SILICON, REAGENT_ID_OXYGEN),
 	/obj/item/stack/material/marble = list(REAGENT_ID_CALCIUM),
 	/obj/item/stack/material/titanium = list(REAGENT_ID_ALUMINIUM),
+	/obj/item/stack/material/lead = list(REAGENT_ID_LEAD),
 	// Nuclear
 	/obj/item/stack/material/mhydrogen = list(REAGENT_ID_HYDROGEN),
 	/obj/item/stack/material/deuterium = list(REAGENT_ID_HYDROGEN),
@@ -1641,6 +1654,7 @@ GLOBAL_LIST_INIT(suitable_fish_turf_types,  list(
 	/turf/simulated/floor/water
 ))
 
+GLOBAL_LIST_BOILERPLATE(papers_dockingcode, /obj/item/paper/dockingcodes)
 
 //Chamelion clothing was all stupid so it's done here instead.
 //Jumpsuit

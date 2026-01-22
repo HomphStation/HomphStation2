@@ -209,7 +209,7 @@
 	if(traffic > 0)
 		traffic -= netspeed
 
-/obj/machinery/telecomms/emp_act(severity)
+/obj/machinery/telecomms/emp_act(severity, recursive)
 	if(prob(100/severity))
 		if(!(stat & EMPED))
 			stat |= EMPED
@@ -701,7 +701,7 @@
 //Generic telecomm connectivity test proc
 /proc/can_telecomm(var/atom/A, var/atom/B, var/ad_hoc = FALSE)
 	if(!A || !B)
-		log_debug("can_telecomm(): Undefined endpoints!")
+		log_mapping("can_telecomm(): Undefined endpoints!")
 		return FALSE
 
 	//Can't in this case, obviously!

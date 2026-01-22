@@ -84,7 +84,9 @@
 			grid[x][y] = canvas_color
 
 /obj/item/canvas/attack_self(mob/user)
-	. = ..()
+	. = ..(user)
+	if(.)
+		return TRUE
 	tgui_interact(user)
 
 /obj/item/canvas/dropped(mob/user)
@@ -350,6 +352,18 @@
 	desc_with_canvas = "A piece of art (or \"art\"). Anyone could've hung it."
 	persistence_id = "public"
 
+/obj/structure/sign/painting/public/north
+	pixel_y = 30
+
+/obj/structure/sign/painting/public/south
+	pixel_y = -30
+
+/obj/structure/sign/painting/public/east
+	pixel_x = 30
+
+/obj/structure/sign/painting/public/west
+	pixel_x = -30
+
 /obj/structure/sign/painting/library_secure
 	name = "\improper Curated Painting Exhibit mounting"
 	desc = "For masterpieces hand-picked by the librarian."
@@ -517,7 +531,7 @@
 			break
 
 	if(!new_canvas)
-		warning("Couldn't find a canvas to match [w]x[h] of painting")
+		WARNING("Couldn't find a canvas to match [w]x[h] of painting")
 		return
 
 	new_canvas.fill_grid_from_icon(I)
@@ -559,7 +573,7 @@
 			return 0
 		if(!fexists("data/persistent/paintings/[persistence_id]/[painting["md5"]].png"))
 			to_chat(usr, span_warning("Chosen painting could not be loaded! Incident was logged, but no action taken at this time"))
-			log_debug("[usr] tried to spawn painting of list id [which_painting] in all_paintings list and associated file could not be found. \n \
+			log_runtime("[usr] tried to spawn painting of list id [which_painting] in all_paintings list and associated file could not be found. \n \
 			Painting was titled [title] by [author_ckey] of [persistence_id]")
 			return 0
 
@@ -574,7 +588,7 @@
 				break
 
 		if(!new_canvas)
-			warning("Couldn't find a canvas to match [w]x[h] of painting")
+			WARNING("Couldn't find a canvas to match [w]x[h] of painting")
 			return 0
 
 		new_canvas.fill_grid_from_icon(I)
@@ -597,7 +611,7 @@
 		Proceed? It will likely have over 500 entries", "Generate list?", list("Proceed!", "Cancel")) != "Proceed!")
 			return
 
-		log_debug("[usr] generated list of paintings from SSPersistence")
+		// to_chat(world, "[usr] generated list of paintings from SSPersistence")
 		var/list/paintings = list()
 		var/current = 1
 		for(var/entry in SSpersistence.all_paintings)
