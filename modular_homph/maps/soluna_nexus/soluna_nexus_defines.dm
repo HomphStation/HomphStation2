@@ -211,7 +211,7 @@
 /datum/map_template/soluna_nexus_lateload/surface
 	name = Z_NAME_SC_SURFACE
 	name_alias = Z_NAME_ALIAS_SURFACE
-	mappath = "modular_chomp/maps/southern_cross/southern_cross-5.dmm"
+	mappath = "modular_homph/maps/southern_cross/southern_cross-5.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/surface
 
 // Surface Mine Z-Level (overlaps with /datum/map_z_level/southern_cross_lateload/surface_mine so could instead be a common map)
@@ -223,7 +223,7 @@
 /datum/map_template/soluna_nexus_lateload/surface_mine
 	name = Z_NAME_SC_SURFACE_MINE
 	name_alias = Z_NAME_ALIAS_SURFACE_MINES
-	mappath = "modular_chomp/maps/southern_cross/southern_cross-6.dmm"
+	mappath = "modular_homph/maps/southern_cross/southern_cross-6.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/surface_mine
 
 // Surface Wild Z-Level (overlaps with /datum/map_z_level/southern_cross_lateload/surface_wild so could instead be a common map)
@@ -235,7 +235,7 @@
 /datum/map_template/soluna_nexus_lateload/surface_wild
 	name = Z_NAME_SC_SURFACE_WILD
 	name_alias = Z_NAME_ALIAS_SURFACE_WILDS
-	mappath = "modular_chomp/maps/southern_cross/southern_cross-10.dmm"
+	mappath = "modular_homph/maps/southern_cross/southern_cross-10.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/surface_wild
 
 // Misc Z-Level
@@ -247,7 +247,7 @@
 /datum/map_template/soluna_nexus_lateload/misc
 	name = Z_NAME_SN_MISC
 	name_alias = Z_NAME_ALIAS_MISC
-	mappath = "modular_chomp/maps/soluna_nexus/soluna_nexus-6.dmm"
+	mappath = "modular_homph/maps/soluna_nexus/soluna_nexus-6.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/misc
 
 // Centcom Z-Level
@@ -258,7 +258,7 @@
 /datum/map_template/soluna_nexus_lateload/centcom
 	name = Z_NAME_SN_CENTCOM
 	name_alias = Z_NAME_ALIAS_CENTCOM
-	mappath = "modular_chomp/maps/soluna_nexus/soluna_nexus-7.dmm"
+	mappath = "modular_homph/maps/soluna_nexus/soluna_nexus-7.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/centcom
 
 // Transit Z-Level
@@ -268,7 +268,7 @@
 
 /datum/map_template/soluna_nexus_lateload/transit
 	name = Z_NAME_SN_TRANSIT
-	mappath = "modular_chomp/maps/soluna_nexus/soluna_nexus-8.dmm"
+	mappath = "modular_homph/maps/soluna_nexus/soluna_nexus-8.dmm"
 	associated_map_datum = /datum/map_z_level/soluna_nexus_lateload/transit
 
 //Thor Z-Level
