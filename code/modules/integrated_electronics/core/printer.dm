@@ -124,7 +124,10 @@
 		dirty_items = TRUE
 	return ..()
 
-/obj/item/integrated_circuit_printer/attack_self(var/mob/user)
+/obj/item/integrated_circuit_printer/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	tgui_interact(user)
 
 /obj/item/integrated_circuit_printer/tgui_state(mob/user)
@@ -348,6 +351,13 @@
 	if(!islist(assembly_data) || !assembly_data["components"])
 		to_chat(user, span_warning("Invalid circuit format!"))
 		return
+
+	if(assembly_data["t"])
+		var/restored_path = src.restore_assembly_prefix(assembly_data["t"])
+		var/assembly_path = text2path(restored_path)
+		if(assembly_path && ispath(assembly_path, /obj/item/electronic_assembly/clothing))
+			to_chat(user, span_warning("Cannot import wearable electronic assemblies!"))
+			return
 
 	// Check if we have enough metal to build all components
 	var/total_cost = 0

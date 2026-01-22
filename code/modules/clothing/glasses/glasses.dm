@@ -25,7 +25,7 @@ BLIND     // can't see anything
 	var/off_state = "degoggles"
 	var/active = 1
 	var/activation_sound = 'sound/items/goggles_charge.ogg'
-	var/obj/screen/overlay = null
+	var/atom/movable/screen/overlay = null
 	var/list/away_planes //Holder for disabled planes
 	drop_sound = 'sound/items/drop/accessory.ogg'
 	pickup_sound = 'sound/items/pickup/accessory.ogg'
@@ -45,6 +45,8 @@ BLIND     // can't see anything
 		SPECIES_XENOCHIMERA	= 'icons/inventory/eyes/mob_tajaran.dmi'
 		)
 	var/glasses_layer_above = FALSE
+	///Var for attack_self chain
+	var/specialty_goggles = FALSE
 
 /obj/item/clothing/glasses/update_clothing_icon()
 	if (ismob(src.loc))
@@ -85,6 +87,11 @@ BLIND     // can't see anything
 	user.recalculate_vis()
 
 /obj/item/clothing/glasses/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
+	if(specialty_goggles)
+		return FALSE
 	if(toggleable)
 		if(!can_toggle(user))
 			to_chat(user, span_warning("You don't seem to be able to toggle \the [src] here."))
@@ -94,7 +101,6 @@ BLIND     // can't see anything
 				to_chat(user, span_notice("You activate the optical matrix on the [src]."))
 			else
 				to_chat(user, span_notice("You deactivate the optical matrix on the [src]."))
-	..()
 
 /obj/item/clothing/glasses/meson
 	name = "optical meson scanner"
@@ -365,7 +371,7 @@ BLIND     // can't see anything
 	. = ..()
 	. += to_chat(user, span_notice("Alt-click to toggle modes."))
 
-/obj/item/clothing/glasses/sunglasses/bigshot/AltClick(mob/user)
+/obj/item/clothing/glasses/sunglasses/bigshot/click_alt(mob/user)
 	set src in usr
 	if(user.canmove && !user.stat && !user.restrained())
 		if(src.ar)
@@ -389,8 +395,12 @@ BLIND     // can't see anything
 	var/up = 0
 	flash_protection = FLASH_PROTECTION_MAJOR
 	tint = TINT_HEAVY
+	specialty_goggles = TRUE
 
-/obj/item/clothing/glasses/welding/attack_self()
+/obj/item/clothing/glasses/welding/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	toggle()
 
 /obj/item/clothing/glasses/welding/verb/toggle()
@@ -496,8 +506,12 @@ BLIND     // can't see anything
 	var/on = 1
 	toggleable = 1
 	activation_sound = 'sound/effects/pop.ogg'
+	specialty_goggles = TRUE
 
 /obj/item/clothing/glasses/sunglasses/sechud/aviator/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if(toggleable && !user.incapacitated())
 		on = !on
 		if(on)
@@ -545,7 +559,7 @@ BLIND     // can't see anything
 	enables_planes = list(VIS_FULLBRIGHT, VIS_CLOAKED)
 	flash_protection = FLASH_PROTECTION_REDUCED
 
-/obj/item/clothing/glasses/thermal/emp_act(severity)
+/obj/item/clothing/glasses/thermal/emp_act(severity, recursive)
 	if(ishuman(src.loc))
 		var/mob/living/carbon/human/M = src.loc
 		to_chat(M, span_red("The Optical Thermal Scanner overloads and blinds you!"))
@@ -582,7 +596,7 @@ BLIND     // can't see anything
 	item_state_slots = list(slot_r_hand_str = "sunglasses", slot_l_hand_str = "sunglasses")
 	toggleable = 1
 	actions_types = list(/datum/action/item_action/toggle_monocle)
-	flags = null //doesn't protect eyes because it's a monocle, duh
+	flags = NONE //doesn't protect eyes because it's a monocle, duh
 
 	body_parts_covered = 0
 
@@ -611,8 +625,12 @@ BLIND     // can't see anything
 	item_flags = AIRTIGHT
 	body_parts_covered = EYES
 	species_restricted = list(SPECIES_TESHARI)
+	specialty_goggles = TRUE
 
-/obj/item/clothing/glasses/aerogelgoggles/attack_self()
+/obj/item/clothing/glasses/aerogelgoggles/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	toggle()
 
 /obj/item/clothing/glasses/aerogelgoggles/verb/toggle()

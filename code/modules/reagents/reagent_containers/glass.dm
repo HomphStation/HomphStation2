@@ -11,6 +11,7 @@
 	icon_state = "null"
 	item_state = "null"
 	amount_per_transfer_from_this = 10
+	min_transfer_amount = 1
 	max_transfer_amount = 60
 	volume = 60
 	w_class = ITEMSIZE_SMALL
@@ -55,6 +56,9 @@
 		)
 //CHOMP Addition for feeder in the above list. I am paranoid about comments within lists so this is outside.
 
+	///Var for attack_self chain
+	var/special_handling = FALSE
+
 /obj/item/reagent_containers/glass/Initialize(mapload)
 	. = ..()
 	if(LAZYLEN(prefill))
@@ -76,7 +80,11 @@
 			. += span_notice("Airtight lid seals it completely.")
 
 /obj/item/reagent_containers/glass/attack_self(mob/user)
-	..()
+	. = ..(user)
+	if(.)
+		return TRUE
+	if(special_handling)
+		return FALSE
 	if(is_open_container())
 		balloon_alert(user, "lid put on \the [src]")
 		flags ^= OPENCONTAINER
@@ -436,3 +444,16 @@
 /obj/item/reagent_containers/glass/beaker/vial/sustenance
 	name = "vial (artificial sustenance)"
 	prefill = list(REAGENT_ID_ASUSTENANCE = 30)
+
+/obj/item/reagent_containers/glass/kettle
+	name = "kettle"
+	desc = "A simple kettle for brewing drinks."
+	icon_state = "kettle"
+	amount_per_transfer_from_this = 10
+	max_transfer_amount = 20
+	volume = 60
+	w_class = ITEMSIZE_SMALL
+	flags = OPENCONTAINER
+	matter = list(MAT_STEEL = 50)
+	drop_sound = 'sound/items/drop/crowbar.ogg'
+	pickup_sound = 'sound/items/pickup/drinkglass.ogg'

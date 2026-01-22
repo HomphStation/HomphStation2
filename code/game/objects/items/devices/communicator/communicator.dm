@@ -108,7 +108,7 @@
 // Description: Checks if the user is made of silicon and returns if they are. If the user is not made of silicon and can use the communicator,
 //              removes the ID from the communicator if it has one, or sends a chat message indicating that the communicator does not have an ID.
 
-/obj/item/communicator/AltClick()
+/obj/item/communicator/click_alt()
 	if(issilicon(usr))
 		return
 
@@ -232,10 +232,10 @@
 		else
 			. += span_notice("The device doesn't appear to be transmitting any data.")
 
-// Proc: emp_act()
+// Proc: emp_act(severity, recursive)
 // Parameters: None
 // Description: Drops all calls when EMPed, so the holder can then get murdered by the antagonist.
-/obj/item/communicator/emp_act()
+/obj/item/communicator/emp_act(severity, recursive)
 	close_connection(reason = "Hardware error de%#_^@%-BZZZZZZZT")
 
 // Proc: add_to_EPv2()
@@ -317,6 +317,9 @@
 // Description: Makes an exonet datum if one does not exist, allocates an address for it, maintains the lists of all devies, clears the alert icon, and
 //				finally makes NanoUI appear.
 /obj/item/communicator/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	initialize_exonet(user)
 	alert_called = 0
 	update_icon()
@@ -328,7 +331,7 @@
 	var/mob/M = usr
 	if (!(src.loc == usr) || (src.loc && src.loc.loc == usr))
 		return
-	if(!istype(over_object, /obj/screen))
+	if(!istype(over_object, /atom/movable/screen))
 		return attack_self(M)
 	return
 

@@ -44,6 +44,11 @@
 	var/datum/radio_frequency/radio_connection
 	var/list/datum/radio_frequency/secure_radio_connections
 
+	///If we're a syndicate beacon or not.
+	var/beacon = FALSE
+	var/electric_pack = FALSE
+	var/uplink = FALSE
+
 /obj/item/radio/proc/set_frequency(new_frequency)
 	SSradio.remove_object(src, frequency)
 	frequency = new_frequency
@@ -82,7 +87,7 @@
 					AIO.link_radio(src)
 					break
 		if(!bs_tx_weakref)
-			testing("A radio [src] at [x],[y],[z] specified bluespace prelink IDs, but the machines with corresponding IDs ([bs_tx_preload_id], [bs_rx_preload_id]) couldn't be found.")
+			log_mapping("A radio [src] at [x],[y],[z] specified bluespace prelink IDs, but the machines with corresponding IDs ([bs_tx_preload_id], [bs_rx_preload_id]) couldn't be found.")
 
 	if(bs_rx_preload_id)
 		var/found = 0
@@ -100,7 +105,7 @@
 					found = 1
 					break
 		if(!found)
-			testing("A radio [src] at [x],[y],[z] specified bluespace prelink IDs, but the machines with corresponding IDs ([bs_tx_preload_id], [bs_rx_preload_id]) couldn't be found.")
+			log_mapping("A radio [src] at [x],[y],[z] specified bluespace prelink IDs, but the machines with corresponding IDs ([bs_tx_preload_id], [bs_rx_preload_id]) couldn't be found.")
 
 /obj/item/radio/Destroy()
 	qdel(wires)
@@ -115,8 +120,12 @@
 /obj/item/radio/proc/recalculateChannels()
 	return
 
-/obj/item/radio/attack_self(mob/user as mob)
-	user.set_machine(src)
+/obj/item/radio/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
+	if(beacon || electric_pack || uplink)
+		return
 	interact(user)
 
 /obj/item/radio/interact(mob/user)
@@ -135,7 +144,7 @@
 		ui.open()
 
 /obj/item/radio/tgui_data(mob/user)
-	var/data[0]
+	var/data = list()
 
 	data["rawfreq"] = frequency
 	data["listening"] = listening
@@ -155,6 +164,9 @@
 
 	if(syndie)
 		data["useSyndMode"] = 1
+	else
+		data["useSyndMode"] = 0
+
 
 	data["minFrequency"] = PUBLIC_LOW_FREQ
 	data["maxFrequency"] = PUBLIC_HIGH_FREQ
@@ -588,7 +600,6 @@ GLOBAL_DATUM(autospeaker, /mob/living/silicon/ai/announcer)
 
 /obj/item/radio/attackby(obj/item/W as obj, mob/user as mob)
 	..()
-	user.set_machine(src)
 	if (!W.has_tool_quality(TOOL_SCREWDRIVER))
 		return
 	b_stat = !( b_stat )
@@ -603,12 +614,15 @@ GLOBAL_DATUM(autospeaker, /mob/living/silicon/ai/announcer)
 		return
 	else return
 
-/obj/item/radio/emp_act(severity)
-	broadcasting = 0
-	listening = 0
+/obj/item/radio/emp_act(severity, recursive)
+	broadcasting = FALSE
+	listening = FALSE
 	for (var/ch_name in channels)
 		channels[ch_name] = 0
 	..()
+
+/obj/item/radio/start_off
+	listening = FALSE
 
 ///////////////////////////////
 //////////Borg Radios//////////
@@ -640,7 +654,6 @@ GLOBAL_DATUM(autospeaker, /mob/living/silicon/ai/announcer)
 
 /obj/item/radio/borg/attackby(obj/item/W as obj, mob/user as mob)
 //	..()
-	user.set_machine(src)
 	if (!(W.has_tool_quality(TOOL_SCREWDRIVER) || istype(W, /obj/item/encryptionkey)))
 		return
 
@@ -811,10 +824,42 @@ GLOBAL_DATUM(autospeaker, /mob/living/silicon/ai/announcer)
 //* Bluespace Radio *//
 /obj/item/bluespaceradio/southerncross_prelinked
 	name = "bluespace radio (southerncross)"
-	handset = /obj/item/radio/bluespacehandset/linked/southerncross_prelinked
+	handset_path = /obj/item/radio/bluespacehandset/linked/southerncross_prelinked
 
 /obj/item/radio/bluespacehandset/linked/southerncross_prelinked
 	bs_tx_preload_id = "Receiver A" //Transmit to a receiver
 	bs_rx_preload_id = "Broadcaster A" //Recveive from a transmitter
 
 #undef CANBROADCAST_INNERBOX
+
+/obj/item/radio/phone
+	subspace_transmission = TRUE
+	canhear_range = 0
+	adhoc_fallback = TRUE
+
+/obj/item/radio/emergency
+	name = "Medbay Emergency Radio Link"
+	icon_state = "med_walkietalkie"
+	frequency = MED_I_FREQ
+	subspace_transmission = TRUE
+	adhoc_fallback = TRUE
+
+/obj/item/radio/emergency/Initialize(mapload)
+	. = ..()
+	internal_channels = GLOB.default_medbay_channels.Copy()
+
+/obj/item/bluespaceradio/tether_prelinked
+	name = "bluespace radio (tether)"
+	handset_path = /obj/item/radio/bluespacehandset/linked/tether_prelinked
+
+/obj/item/radio/bluespacehandset/linked/tether_prelinked
+	bs_tx_preload_id = "tether_rx" //Transmit to a receiver
+	bs_rx_preload_id = "tether_tx" //Recveive from a transmitter
+
+/obj/item/bluespaceradio/talon_prelinked
+	name = "bluespace radio (talon)"
+	handset_path = /obj/item/radio/bluespacehandset/linked/talon_prelinked
+
+/obj/item/radio/bluespacehandset/linked/talon_prelinked
+	bs_tx_preload_id = "talon_aio" //Transmit to a receiver
+	bs_rx_preload_id = "talon_aio" //Recveive from a transmitter

@@ -45,16 +45,15 @@
 		..(over_object)
 
 /obj/item/cartridge/storage/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	to_chat(user, span_notice("You empty [src]."))
 	var/turf/T = get_turf(src)
 	hold.hide_from(user)
 	for(var/obj/item/I in hold.contents)
 		hold.remove_from_storage(I, T)
 	add_fingerprint(user)
-
-/obj/item/cartridge/storage/emp_act(severity)
-	hold.emp_act(severity)
-	..()
 
 /obj/item/cartridge/storage/deluxe
 	name = "\improper BLU-PAK DELUXE cartridge"

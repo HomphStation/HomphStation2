@@ -41,6 +41,8 @@
 	var/feeding = TRUE
 	var/can_be_drop_prey = FALSE
 	var/can_be_drop_pred = FALSE
+	var/can_be_afk_prey = FALSE
+	var/can_be_afk_pred = FALSE
 	var/allow_spontaneous_tf = FALSE
 	var/digest_leave_remains = FALSE
 	var/allowmobvore = TRUE
@@ -57,6 +59,10 @@
 	var/slip_vore = TRUE
 	var/throw_vore = TRUE
 	var/food_vore = TRUE
+	var/spont_belly_rear = null
+	var/spont_belly_left = null
+	var/spont_belly_right = null
+	var/spont_belly_front = null
 	var/consume_liquid_belly = FALSE //starting off because if someone is into that, they'll toggle it first time they get the error. Otherway around would be more pref breaky.
 
 	var/digest_pain = TRUE
@@ -78,6 +84,7 @@
 	var/latejoin_prey = FALSE
 	var/autotransferable = TRUE
 	var/strip_pref = FALSE
+	var/contaminate_pref = TRUE
 	var/no_latejoin_vore_warning = FALSE // Only load, when... no_latejoin_vore_warning_persists
 	var/no_latejoin_prey_warning = FALSE // Only load, when... no_latejoin_vore_warning_persists
 	var/no_latejoin_vore_warning_time = 15 // Only load, when... no_latejoin_vore_warning_persists
@@ -85,7 +92,7 @@
 	var/no_latejoin_vore_warning_persists = FALSE
 	var/no_latejoin_prey_warning_persists = FALSE
 	var/belly_rub_target = null
-	var/soulcatcher_pref_flags = 0
+	var/soulcatcher_pref_flags = NONE
 	var/list/soulcatcher_prefs = list()
 	var/max_voreoverlay_alpha = 255
 	var/persistend_edit_mode = FALSE
@@ -203,6 +210,8 @@
 	show_vore_fx = json_from_file["show_vore_fx"]
 	can_be_drop_prey = json_from_file["can_be_drop_prey"]
 	can_be_drop_pred = json_from_file["can_be_drop_pred"]
+	can_be_afk_prey = json_from_file["can_be_afk_prey"]
+	can_be_afk_pred = json_from_file["can_be_afk_pred"]
 	allow_spontaneous_tf = json_from_file["allow_spontaneous_tf"]
 	step_mechanics_pref = json_from_file["step_mechanics_pref"]
 	pickup_pref = json_from_file["pickup_pref"]
@@ -211,6 +220,10 @@
 	slip_vore = json_from_file["slip_vore"]
 	food_vore = json_from_file["food_vore"]
 	throw_vore = json_from_file["throw_vore"]
+	spont_belly_rear = json_from_file["spont_belly_rear"]
+	spont_belly_left = json_from_file["spont_belly_left"]
+	spont_belly_front = json_from_file["spont_belly_front"]
+	spont_belly_right = json_from_file["spont_belly_right"]
 	consume_liquid_belly = json_from_file["consume_liquid_belly"]
 	stumble_vore = json_from_file["stumble_vore"]
 	digest_pain = json_from_file["digest_pain"]
@@ -234,6 +247,7 @@
 	autotransferable = json_from_file["autotransferable"]
 	vore_sprite_multiply = json_from_file["vore_sprite_multiply"]
 	strip_pref = json_from_file["strip_pref"]
+	contaminate_pref = json_from_file["contaminate_pref"]
 
 	no_latejoin_vore_warning_persists = json_from_file["no_latejoin_vore_warning_persists"]
 	if(no_latejoin_vore_warning_persists)
@@ -278,6 +292,10 @@
 		can_be_drop_prey = FALSE
 	if(isnull(can_be_drop_pred))
 		can_be_drop_pred = FALSE
+	if(isnull(can_be_afk_prey))
+		can_be_afk_prey = FALSE
+	if(isnull(can_be_afk_pred))
+		can_be_afk_pred = FALSE
 	if(isnull(allow_spontaneous_tf))
 		allow_spontaneous_tf = FALSE
 	if(isnull(step_mechanics_pref))
@@ -363,6 +381,8 @@
 		vore_sprite_multiply = list("stomach" = FALSE, "taur belly" = FALSE)
 	if(isnull(strip_pref))
 		strip_pref = TRUE
+	if(isnull(contaminate_pref))
+		contaminate_pref = TRUE
 	if(isnull(no_latejoin_vore_warning))
 		no_latejoin_vore_warning = FALSE
 	if(isnull(no_latejoin_prey_warning))
@@ -376,7 +396,7 @@
 	if(isnull(no_latejoin_prey_warning_persists))
 		no_latejoin_prey_warning_persists = FALSE
 	if(isnull(soulcatcher_pref_flags))
-		soulcatcher_pref_flags = 0
+		soulcatcher_pref_flags = NONE
 	if(isnull(soulcatcher_prefs))
 		soulcatcher_prefs = list()
 	if(isnull(persistend_edit_mode))
@@ -410,6 +430,8 @@
 			"show_vore_fx"			= show_vore_fx,
 			"can_be_drop_prey"		= can_be_drop_prey,
 			"can_be_drop_pred"		= can_be_drop_pred,
+			"can_be_afk_prey"		= can_be_afk_prey,
+			"can_be_afk_pred"		= can_be_afk_pred,
 			"latejoin_vore"			= latejoin_vore,
 			"latejoin_prey"			= latejoin_prey,
 			"allow_spontaneous_tf"	= allow_spontaneous_tf,
@@ -424,6 +446,10 @@
 			"slip_vore"				= slip_vore,
 			"stumble_vore"			= stumble_vore,
 			"throw_vore" 			= throw_vore,
+			"spont_belly_rear"		= spont_belly_rear,
+			"spont_belly_left"		= spont_belly_left,
+			"spont_belly_front"		= spont_belly_front,
+			"spont_belly_right"		= spont_belly_right,
 			"allow_mind_transfer"	= allow_mind_transfer,
 			"phase_vore" 			= phase_vore,
 			"consume_liquid_belly" 	= consume_liquid_belly,
@@ -437,6 +463,7 @@
 			"allow_mimicry"				= allow_mimicry,
 			"vore_sprite_multiply"		= vore_sprite_multiply,
 			"strip_pref" 			= strip_pref,
+			"contaminate_pref"		= contaminate_pref,
 			"no_latejoin_vore_warning"		= no_latejoin_vore_warning,
 			"no_latejoin_prey_warning"		= no_latejoin_prey_warning,
 			"no_latejoin_vore_warning_time"		= no_latejoin_vore_warning_time,
@@ -453,14 +480,14 @@
 	//List to JSON
 	var/json_to_file = json_encode(settings_list)
 	if(!json_to_file)
-		log_debug("Saving: [path] failed jsonencode")
+		log_runtime("Saving: [path] failed jsonencode")
 		return FALSE
 
 	//Write it out
 	rustg_file_write(json_to_file, path)
 
 	if(!fexists(path))
-		log_debug("Saving: [path] failed file write")
+		log_runtime("Saving: [path] failed file write")
 		return FALSE
 
 	return TRUE

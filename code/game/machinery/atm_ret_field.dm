@@ -109,7 +109,7 @@
 		disable_field()
 		update_icon()
 
-/obj/machinery/atmospheric_field_generator/emp_act()
+/obj/machinery/atmospheric_field_generator/emp_act(severity, recursive)
 	if(!(stat & EMPED))
 		stat |= EMPED
 		disable_field() //shutting dowwwwwwn
@@ -164,7 +164,7 @@
 	//Delete ourselves if we find extra mapped in arfgs
 	for(var/obj/machinery/atmospheric_field_generator/F in loc)
 		if(F != src)
-			log_debug("Duplicate ARFGS at [x],[y],[z]")
+			log_mapping("Duplicate ARFGS at [x],[y],[z]")
 			return INITIALIZE_HINT_QDEL
 
 	var/area/A = get_area(src)

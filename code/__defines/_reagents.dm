@@ -174,7 +174,7 @@
 #define REAGENT_ID_NUMBENZYME "numbenzyme"
 #define REAGENT_VERMICETOL "Vermicetol"
 #define REAGENT_ID_VERMICETOL "vermicetol"
-#define REAGENT_SLEEVINGCURE "Kitsuhanan Cure"
+#define REAGENT_SLEEVINGCURE "Resleeving Sickness Cure"
 #define REAGENT_ID_SLEEVINGCURE "sleevingcure"
 #define REAGENT_PRUSSIANBLUE "Prussian Blue"
 #define REAGENT_ID_PRUSSIANBLUE "prussian_blue"
@@ -186,6 +186,12 @@
 #define REAGENT_ID_POLYMORPH "polymorph"
 #define REAGENT_GLAMOUR "Glamour"
 #define REAGENT_ID_GLAMOUR "glamour"
+#define REAGENT_GLAMOUR_INVIS "Clear Glamour"
+#define REAGENT_ID_GLAMOUR_INVIS "transparent_glamour"
+#define REAGENT_GLAMOUR_SCALE "Scaling Glamour"
+#define REAGENT_ID_GLAMOUR_SCALE "scaling_glamour"
+#define REAGENT_GLAMOUR_TWINKLING "Twinkling Glamour"
+#define REAGENT_ID_GLAMOUR_TWINKLING "twinkling_glamour"
 #define REAGENT_INAPROVALINE "Inaprovaline"
 #define REAGENT_ID_INAPROVALINE "inaprovaline"
 #define REAGENT_INAPROVALAZE "Inaprovalaze"
@@ -282,7 +288,8 @@
 #define REAGENT_ID_EARTHSBLOOD "earthsblood"
 #define REAGENT_ASUSTENANCE	"Artificial Sustenance"
 #define REAGENT_ID_ASUSTENANCE "a_sustenance"
-
+#define REAGENT_TERCOZOLAM	"Tercozolam"
+#define REAGENT_ID_TERCOZOLAM "tercozolam"
 
 // Virology
 #define REAGENT_VACCINE "Vaccine"
@@ -1396,3 +1403,10 @@
 #define REAGENT_ID_SLIMEBONEFIXER "slime_bone_fixer"
 #define REAGENT_SLIMEORGANFIXER "Agent C"
 #define REAGENT_ID_SLIMEORGANFIXER "slime_organ_fixer"
+
+//Scanning difficulty. The higher the # the higher it is to find.
+#define SCANNABLE_BENEFICIAL 0
+#define SCANNABLE_ADVANCED 1
+#define SCANNABLE_DIFFICULT 2
+#define SCANNABLE_SECRETIVE 3
+#define SCANNABLE_UNSCANNABLE 99

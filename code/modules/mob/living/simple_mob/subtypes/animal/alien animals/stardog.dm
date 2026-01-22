@@ -48,16 +48,6 @@
 		"bio" = 1000,
 		"rad" = 1000)
 
-	armor_soak = list(
-		"melee" = 1000,
-		"bullet" = 1000,
-		"laser" = 1000,
-		"energy" = 1000,
-		"bomb" = 1000,
-		"bio" = 1000,
-		"rad" = 1000
-		)
-
 	movement_cooldown = 5
 	copy_prefs_to_mob = FALSE
 	player_msg = "The dog accepts you into itself, allowing you to dictate what will happen. The dog occasionally thinks unknowable thoughts, though you can understand some of its needs and desires. The dog shares its experience with you. You can navigate space, 'transition' to certain locations, and you can dine upon some of the space weather. The dog doesn't seem to know how any of this works exactly, this is just how things are for the dog, they come as naturally to the dog as blinking."
@@ -491,7 +481,7 @@
 
 	var/mob/living/simple_mob/vore/overmap/stardog/m = s.parent
 
-	log_subtle(message,L)
+	L.log_message("(SUBTLE) [message]", LOG_EMOTE)
 	message = span_emote_subtle(span_bold("[L]") + " " + span_italics("[message]"))
 	message = span_bold("(From the back of \the [m]) ") + message
 	message = encode_html_emphasis(message)
@@ -707,7 +697,7 @@
 	if(!spawnstuff)
 		return
 	if(!valid_flora.len)
-		to_world_log("[src] does not have a set valid flora list!")
+		log_mapping("[src] does not have a set valid flora list!")
 		return TRUE
 
 	var/obj/F
@@ -723,7 +713,7 @@
 	if(!spawnstuff)
 		return
 	if(!valid_mobs.len)
-		to_world_log("[src] does not have a set valid mobs list!")
+		log_mapping("[src] does not have a set valid mobs list!")
 		return TRUE
 
 	var/mob/M
@@ -750,7 +740,7 @@
 	if(!spawnstuff)
 		return
 	if(!valid_mobs.len)
-		to_world_log("[src] does not have a set valid mobs list!")
+		log_mapping("[src] does not have a set valid mobs list!")
 		return
 
 	if(!prob(mob_chance))
@@ -769,7 +759,7 @@
 	if(!spawnstuff)
 		return
 	if(!valid_flora.len)
-		to_world_log("[src] does not have a set valid flora list!")
+		log_mapping("[src] does not have a set valid flora list!")
 		return
 
 	var/obj/F
@@ -787,7 +777,7 @@
 	if(treasure_chance <= 0)
 		return
 	if(!valid_treasure.len)
-		to_world_log("[src] does not have a set valid treasure list!")
+		log_mapping("[src] does not have a set valid treasure list!")
 		return
 
 	var/obj/F
@@ -1156,7 +1146,7 @@
 		to_chat(L, span_warning("You can't do that here."))
 		return
 
-	log_subtle(message,L)
+	L.log_message("(SUBTLE) [message]", LOG_EMOTE)
 	message = span_emote_subtle(span_bold("[L]") + " " + span_italics("[message]"))
 	message = span_bold("(From within \the [s]) ") + message
 	message = encode_html_emphasis(message)
@@ -1315,6 +1305,7 @@
 			return
 		L.stop_pulling()
 		L.Weaken(3)
+		L.reset_perspective() // Needed for food items that get gobbled with micros in them
 		GLOB.prey_eaten_roundstat++
 	if(target.reciever)		//We don't have to worry
 		AM.unbuckle_all_mobs(TRUE)
@@ -1373,7 +1364,8 @@
 		playsound(src, teleport_sound, vol = 100, vary = 1, preference = /datum/preference/toggle/eating_noises, volume_channel = VOLUME_CHANNEL_VORE)
 		visible_message(span_warning("The dog gobbles up \the [I]!"))
 		if(dog.client)
-			to_chat(dog, span_notice("[I.thrower ? "\The [I.thrower]" : "Someone"] feeds \the [I] to you!"))
+			var/mob/thrower = I.throwing?.get_thrower()
+			to_chat(dog, span_notice("[thrower ? "\The [thrower]" : "Someone"] feeds \the [I] to you!"))
 		qdel(I)
 		GLOB.items_digested_roundstat++
 
@@ -1432,6 +1424,7 @@
 	water_icon = 'icons/turf/stomach_vr.dmi'
 	water_state = "enzyme_shallow"
 	under_state = "flesh_floor"
+	watercolor = "green"
 
 	reagent_type = REAGENT_ID_SACID //why not
 	outdoors = FALSE
@@ -1439,13 +1432,13 @@
 	var/mobstuff = TRUE		//if false, we don't care about dogs, and that's terrible
 	var/we_process = FALSE	//don't start another process while you're processing, idiot
 
-/turf/simulated/floor/water/digestive_enzymes/Entered(atom/movable/AM)
-	if(digest_stuff(AM) && !we_process)
+/turf/simulated/floor/water/digestive_enzymes/Entered(atom/movable/source)
+	if(digest_stuff(source) && !we_process)
 		START_PROCESSING(SSturfs, src)
 		we_process = TRUE
 
-/turf/simulated/floor/water/digestive_enzymes/hitby(atom/movable/AM)
-	if(digest_stuff(AM) && !we_process)
+/turf/simulated/floor/water/digestive_enzymes/hitby(atom/movable/source, datum/thrownthing/throwingdatum)
+	if(digest_stuff(source) && !we_process)
 		START_PROCESSING(SSturfs, src)
 		we_process = TRUE
 
@@ -1454,12 +1447,17 @@
 		we_process = FALSE
 		return PROCESS_KILL
 
-/turf/simulated/floor/water/digestive_enzymes/proc/can_digest(atom/movable/AM as mob|obj)
+/turf/simulated/floor/water/digestive_enzymes/Destroy()
+	if(we_process)
+		STOP_PROCESSING(SSturfs, src)
+	. = ..()
+
+/turf/simulated/floor/water/digestive_enzymes/proc/can_digest(atom/movable/digest_target)
 	. = FALSE
-	if(AM.loc != src)
+	if(digest_target.loc != src)
 		return FALSE
-	if(isitem(AM))
-		var/obj/item/I = AM
+	if(isitem(digest_target))
+		var/obj/item/I = digest_target
 		if(I.unacidable || I.throwing || I.is_incorporeal())
 			return FALSE
 		var/food = FALSE
@@ -1476,8 +1474,8 @@
 				yum += 50
 			linked_mob.adjust_nutrition(yum)
 		return TRUE
-	if(isliving(AM))
-		var/mob/living/L = AM
+	if(isliving(digest_target))
+		var/mob/living/L = digest_target
 		if(L.unacidable || !L.digestable || L.buckled || L.hovering || L.throwing || L.is_incorporeal())
 			return FALSE
 		if(ishuman(L))
@@ -1488,7 +1486,7 @@
 				return TRUE
 		else return TRUE
 
-/turf/simulated/floor/water/digestive_enzymes/proc/digest_stuff(atom/movable/AM)	//I'm so sorry
+/turf/simulated/floor/water/digestive_enzymes/proc/digest_stuff(atom/movable/digest_target)	//I'm so sorry
 	. = FALSE
 
 	var/damage = 1
@@ -1511,7 +1509,7 @@
 		var/mob/living/carbon/human/H = thing
 		if(!H)
 			return
-		visible_message(runemessage = "blub...")
+		balloon_alert_visible("*blub...*")
 		if(H.stat == DEAD)
 			H.unacidable = TRUE	//Don't touch this one again, we're gonna delete it in a second
 			H.release_vore_contents()
@@ -1541,7 +1539,7 @@
 		var/mob/living/L = thing
 		if(!L)
 			return
-		visible_message(runemessage = "blub...")
+		balloon_alert_visible("*blub...*")
 		if(L.stat == DEAD)
 			L.unacidable = TRUE	//Don't touch this one again, we're gonna delete it in a second
 			L.release_vore_contents()
@@ -1574,7 +1572,7 @@
 	if(!we_process)
 		START_PROCESSING(SSturfs, src)
 
-/turf/simulated/floor/flesh/mover/hitby(atom/movable/AM)
+/turf/simulated/floor/flesh/mover/hitby(atom/movable/source, datum/thrownthing/throwingdatum)
 	if(!we_process)
 		START_PROCESSING(SSturfs, src)
 

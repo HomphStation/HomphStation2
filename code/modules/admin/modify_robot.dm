@@ -57,6 +57,9 @@
 	var/datum/asset/spritesheet_batched/robot_icons/spritesheet = GLOB.robot_sprite_sheets[target.modtype]
 
 	if(target)
+		var/ui_theme = target.get_ui_theme()
+		if(ui_theme)
+			.["theme"] = ui_theme
 		.["target"] = list()
 		.["target"]["name"] = target.name
 		.["target"]["ckey"] = target.ckey
@@ -225,7 +228,7 @@
 			target.module.modules.Add(add_item)
 			target.module.contents.Add(add_item)
 			spawn(0)
-				SEND_SIGNAL(add_item, COMSIG_OBSERVER_MOVED)
+				SEND_SIGNAL(add_item, COMSIG_MOVABLE_ATTEMPTED_MOVE)
 			target.hud_used?.update_robot_modules_display()
 			if(istype(add_item, /obj/item/stack/))
 				var/obj/item/stack/item_with_synth = add_item
@@ -277,6 +280,7 @@
 			target.module.emag.Remove(rem_item)
 			target.module.modules.Remove(rem_item)
 			target.module.contents.Remove(rem_item)
+			target.hud_used?.update_robot_modules_display()
 			qdel(rem_item)
 			return TRUE
 		if("swap_module")
@@ -577,13 +581,11 @@
 				target.lawsync()
 			return TRUE
 		if("notify_laws")
-			to_chat(target, span_danger("Law Notice"))
-			target.laws.show_laws(target)
+			to_chat(target, span_danger("Law Notice\n") + target.laws.get_formatted_laws())
 			if(isAI(target))
 				var/mob/living/silicon/ai/our_ai = target
 				for(var/mob/living/silicon/robot/R in our_ai.connected_robots)
-					to_chat(R, span_danger("Law Notice"))
-					R.laws.show_laws(R)
+					to_chat(R, span_danger("Law Notice\n") + R.laws.get_formatted_laws())
 			if(ui.user != target)
 				to_chat(ui.user, span_notice("Laws displayed."))
 			return TRUE
@@ -613,7 +615,7 @@
 				target.clear_supplied_laws()
 				target.clear_inherent_laws()
 				target.laws = new global.using_map.default_law_type
-				target.laws.show_laws(target)
+				to_chat(target, span_danger("Laws updated!\n") + target.laws.get_formatted_laws())
 				target.hud_used?.update_robot_modules_display()
 			else
 				target.emagged = 1
@@ -625,7 +627,7 @@
 				if(target.bolt)
 					if(!target.bolt.malfunction)
 						target.bolt.malfunction = MALFUNCTION_PERMANENT
-				target.laws.show_laws(target)
+				to_chat(target, span_danger("Laws updated!\n") + target.laws.get_formatted_laws())
 				target.hud_used?.update_robot_modules_display()
 			return TRUE
 

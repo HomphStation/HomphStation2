@@ -8,6 +8,7 @@
 	w_class = ITEMSIZE_HUGE
 	layer = UNDER_JUNK_LAYER
 	blocks_emissive = EMISSIVE_BLOCK_GENERIC
+	flags = REMOTEVIEW_ON_ENTER
 
 	var/opened = 0
 	var/sealed = 0
@@ -128,9 +129,6 @@
 
 	for(var/mob/M in src)
 		M.forceMove(loc)
-		if(M.client)
-			M.client.eye = M.client.mob
-			M.client.perspective = MOB_PERSPECTIVE
 
 /obj/structure/closet/proc/open()
 	if(opened)
@@ -171,6 +169,7 @@
 	if(initial(density))
 		density = !density
 	animate_door(TRUE)
+	SEND_SIGNAL(src, COMSIG_CLOSET_CLOSED, contents)
 	return 1
 
 //Cham Projector Exception
@@ -201,9 +200,6 @@
 			continue
 		if(stored_units + added_units + M.mob_size > storage_capacity)
 			break
-		if(M.client)
-			M.client.perspective = EYE_PERSPECTIVE
-			M.client.eye = src
 		M.forceMove(src)
 		added_units += M.mob_size
 	return added_units
@@ -349,7 +345,7 @@
 	return
 
 /obj/structure/closet/MouseDrop_T(atom/movable/O as mob|obj, mob/user as mob)
-	if(istype(O, /obj/screen))	//fix for HUD elements making their way into the world	-Pete
+	if(istype(O, /atom/movable/screen))	//fix for HUD elements making their way into the world	-Pete
 		return
 	if(O.loc == user)
 		return
@@ -591,3 +587,7 @@
 	var/mob/living/M = usr
 	if(isliving(M))
 		M.begin_instant_nom(M,target,M,M.vore_selected)
+
+/obj/structure/closet/bluespace/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/bluespace_connection/permanent_network, GLOB.bslockers)

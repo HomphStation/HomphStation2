@@ -247,6 +247,11 @@ GLOBAL_LIST(construction_frame_floor)
 	icon_override = 'icons/obj/stock_parts_refinery.dmi'
 	frame_class = FRAME_CLASS_MACHINE
 
+/datum/frame/frame_types/industrial_reagent_splitter
+	name = "Industrial Chemical Splitter"
+	icon_override = 'icons/obj/stock_parts_refinery.dmi'
+	frame_class = FRAME_CLASS_MACHINE
+
 /datum/frame/frame_types/industrial_reagent_waste_processor
 	name = "Industrial Chemical Waste Processor"
 	icon_override = 'icons/obj/stock_parts_refinery.dmi'
@@ -348,6 +353,7 @@ GLOBAL_LIST(construction_frame_floor)
 	update_icon()
 
 	AddElement(/datum/element/climbable)
+	AddElement(/datum/element/rotatable)
 
 /obj/structure/frame/attackby(obj/item/P as obj, mob/user as mob)
 	if(P.has_tool_quality(TOOL_WRENCH))
@@ -688,40 +694,3 @@ GLOBAL_LIST(construction_frame_floor)
 	update_desc()
 	to_chat(user, desc)
 	return TRUE
-
-/obj/structure/frame/verb/rotate_counterclockwise()
-	set name = "Rotate Frame Counter-Clockwise"
-	set category = "Object"
-	set src in oview(1)
-
-	if(usr.incapacitated())
-		return FALSE
-
-	if(anchored)
-		to_chat(usr, "It is fastened to the floor therefore you can't rotate it!")
-		return FALSE
-
-	src.set_dir(turn(src.dir, 90))
-
-	to_chat(usr, span_notice("You rotate the [src] to face [dir2text(dir)]!"))
-
-	return
-
-
-/obj/structure/frame/verb/rotate_clockwise()
-	set name = "Rotate Frame Clockwise"
-	set category = "Object"
-	set src in oview(1)
-
-	if(usr.incapacitated())
-		return FALSE
-
-	if(anchored)
-		to_chat(usr, "It is fastened to the floor therefore you can't rotate it!")
-		return FALSE
-
-	src.set_dir(turn(src.dir, 270))
-
-	to_chat(usr, span_notice("You rotate the [src] to face [dir2text(dir)]!"))
-
-	return

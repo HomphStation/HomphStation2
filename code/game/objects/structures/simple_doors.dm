@@ -4,6 +4,7 @@
 	density = TRUE
 	anchored = TRUE
 	can_atmos_pass = ATMOS_PASS_DENSITY
+	breakable = TRUE
 
 	icon = 'icons/obj/doors/material_doors.dmi'
 	icon_state = "metal"
@@ -79,7 +80,7 @@
 	return TryToSwitchState(user)
 
 /* // CHOMPEDIT: disabling becaue alt-clicking to view a turf is pretty important.
-/obj/structure/simple_door/AltClick(mob/user as mob)
+/obj/structure/simple_door/click_alt(mob/user as mob)
 	. = ..()
 	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 	if(!Adjacent(user))
@@ -270,9 +271,31 @@
 
 /obj/structure/simple_door/hardwood/Initialize(mapload,var/material_name)
 	. = ..(mapload, material_name || MAT_HARDWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
 
 /obj/structure/simple_door/sifwood/Initialize(mapload,var/material_name)
 	. = ..(mapload, material_name || MAT_SIFWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
+
+/obj/structure/simple_door/birchwood/Initialize(mapload,var/material_name)
+	. = ..(mapload, material_name || MAT_BIRCHWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
+
+/obj/structure/simple_door/pinewood/Initialize(mapload,var/material_name)
+	. = ..(mapload, material_name || MAT_PINEWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
+
+/obj/structure/simple_door/oakwood/Initialize(mapload,var/material_name)
+	. = ..(mapload, material_name || MAT_OAKWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
+
+/obj/structure/simple_door/acaciawood/Initialize(mapload,var/material_name)
+	. = ..(mapload, material_name || MAT_ACACIAWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
+
+/obj/structure/simple_door/redwood/Initialize(mapload,var/material_name)
+	. = ..(mapload, material_name || MAT_REDWOOD)
+	knock_sound = 'sound/machines/door/knock_wood.wav'
 
 /obj/structure/simple_door/resin/Initialize(mapload,var/material_name)
 	. = ..(mapload, material_name || MAT_RESIN)
@@ -282,6 +305,10 @@
 
 /obj/structure/simple_door/glamour/Initialize(mapload,var/material_name)
 	. = ..(mapload, material_name || MAT_GLAMOUR)
+
+/obj/structure/simple_door/snowbrick/Initialize(mapload, var/material_name)
+	. = ..(mapload, material_name || MAT_SNOWBRICK)
+
 
 /obj/structure/simple_door/cult/TryToSwitchState(atom/user)
 	if(isliving(user))

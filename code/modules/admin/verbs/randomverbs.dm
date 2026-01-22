@@ -32,6 +32,7 @@ ADMIN_VERB(drop_everything, R_ADMIN, "Drop Everything", ADMIN_VERB_NO_DESCRIPTIO
 			M.drop_from_inventory(W)
 		//teleport person to cell
 		M.Paralyse(5)
+		M.Sleeping(5)
 		sleep(5)	//so they black out before warping
 		M.loc = pick(GLOB.prisonwarp)
 		if(ishuman(M))
@@ -89,7 +90,7 @@ ADMIN_VERB(drop_everything, R_ADMIN, "Drop Everything", ADMIN_VERB_NO_DESCRIPTIO
 	if (!check_rights_for(src, R_HOLDER))
 		return
 
-	var/msg = tgui_input_text(usr, "Message:", text("Subtle PM to [M.key]"))
+	var/msg = tgui_input_text(usr, "Message:", text("Subtle PM to [M.key]"), encode = FALSE)
 
 	if (!msg)
 		return
@@ -115,7 +116,7 @@ ADMIN_VERB(drop_everything, R_ADMIN, "Drop Everything", ADMIN_VERB_NO_DESCRIPTIO
 	if (!check_rights_for(src, R_HOLDER))
 		return
 
-	var/msg = tgui_input_text(usr, "Message:", text("Enter the text you wish to appear to everyone:"))
+	var/msg = tgui_input_text(usr, "Message:", text("Enter the text you wish to appear to everyone:"), encode = FALSE)
 
 	if (!msg)
 		return
@@ -124,7 +125,7 @@ ADMIN_VERB(drop_everything, R_ADMIN, "Drop Everything", ADMIN_VERB_NO_DESCRIPTIO
 	if (!msg)		// We check both before and after, just in case sanitization ended us up with empty message.
 		return
 
-	to_world("[msg]")
+	to_chat(world, "[msg]")
 	log_admin("GlobalNarrate: [key_name(usr)] : [msg]")
 	message_admins(span_blue(span_bold(" GlobalNarrate: [key_name_admin(usr)] : [msg]<BR>")), 1)
 	feedback_add_details("admin_verb","GLN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -525,18 +526,18 @@ ADMIN_VERB(respawn_character, (R_ADMIN|R_REJUVINATE), "Spawn Character", "(Re)Sp
 		return
 
 	// Respect admin spawn record choice. There's really not a nice way to do this without butchering copy_to() code for an admin proc
-	var/old_mind_scan = picked_client.prefs.resleeve_scan
-	var/old_body_scan = picked_client.prefs.mind_scan
+	var/old_mind_scan = picked_client.prefs.mind_scan
+	var/old_body_scan = picked_client.prefs.resleeve_scan
 	if(!records) // Make em false for the copy_to()
-		picked_client.prefs.resleeve_scan = FALSE
 		picked_client.prefs.mind_scan = FALSE
+		picked_client.prefs.resleeve_scan = FALSE
 
 	//Write the appearance and whatnot out to the character
 	picked_client.prefs.copy_to(new_character)
 
 	// Restore pref state
-	picked_client.prefs.resleeve_scan = old_mind_scan
-	picked_client.prefs.mind_scan = old_body_scan
+	picked_client.prefs.mind_scan = old_mind_scan
+	picked_client.prefs.resleeve_scan = old_body_scan
 
 	//Write the appearance and whatnot out to the character
 	if(new_character.dna)
@@ -710,7 +711,7 @@ ADMIN_VERB(respawn_character, (R_ADMIN|R_REJUVINATE), "Spawn Character", "(Re)Sp
 	if(confirm == "Yes")
 		command_announcement.Announce(input, customname, new_sound = 'sound/AI/commandreport.ogg', msg_sanitized = 1);
 	else
-		to_world(span_red("New [using_map.company_name] Update available at all communication consoles."))
+		to_chat(world, span_red("New [using_map.company_name] Update available at all communication consoles."))
 		world << sound('sound/AI/commandreport.ogg')
 
 	log_admin("[key_name(src)] has created a command report: [input]")
@@ -964,7 +965,7 @@ ADMIN_VERB(respawn_character, (R_ADMIN|R_REJUVINATE), "Spawn Character", "(Re)Sp
 	message_admins("Admin [key_name_admin(usr)] has forced the players to have random appearances.", 1)
 
 	if(notifyplayers == "Yes")
-		to_world(span_boldannounce(span_blue("Admin [usr.key] has forced the players to have completely random identities!")))
+		to_chat(world, span_boldannounce(span_blue("Admin [usr.key] has forced the players to have completely random identities!")))
 
 	to_chat(usr, "<i>Remember: you can always disable the randomness by using the verb again, assuming the round hasn't started yet</i>.")
 

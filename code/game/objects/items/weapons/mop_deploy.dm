@@ -3,6 +3,7 @@
 	desc = "Deployable mop."
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "mop"
+	item_flags = DROPDEL | NOSTRIP
 	force = 3
 	anchored = TRUE    // Never spawned outside of inventory, should be fine.
 	throwforce = 1  //Throwing or dropping the item deletes it.
@@ -53,12 +54,11 @@
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
 
-/obj/item/mop_deploy/attack_self(mob/user as mob)
+/obj/item/mop_deploy/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	user.drop_from_inventory(src)
-	spawn(1) if(!QDELETED(src)) qdel(src)
-
-/obj/item/mop_deploy/dropped(mob/user)
-	..()
 	spawn(1) if(!QDELETED(src)) qdel(src)
 
 /obj/item/mop_deploy/process()

@@ -5,7 +5,7 @@
 	taste_description = "milk"
 	reagent_state = LIQUID
 	color = "#d5e2e5"
-	scannable = 1
+	scannable = SCANNABLE_BENEFICIAL
 	supply_conversion_value = REFINERYEXPORT_VALUE_PROCESSED
 	industrial_use = REFINERYEXPORT_REASON_DRUG
 
@@ -28,7 +28,7 @@
 	metabolism = 0.1 //Lasts up to 200 seconds if you give 20u which is OD.
 	mrate_static = TRUE
 	overdose = 20 //High OD. This is to make numbing bites have somewhat of a downside if you get bit too much. Have to go to medical for dialysis.
-	scannable = 0 //Let's not have medical mechs able to make an extremely strong organic painkiller
+	scannable = SCANNABLE_ADVANCED //Let's not have medical mechs able to make an extremely strong organic painkiller
 	wiki_flag = WIKI_SPOILER
 	supply_conversion_value = REFINERYEXPORT_VALUE_RARE
 	industrial_use = REFINERYEXPORT_REASON_DRUG
@@ -73,7 +73,7 @@
 	reagent_state = LIQUID
 	color = "#750404"
 	overdose = REAGENTS_OVERDOSE * 0.5
-	scannable = 1
+	scannable = SCANNABLE_BENEFICIAL
 	supply_conversion_value = REFINERYEXPORT_VALUE_HIGHREFINED
 	industrial_use = REFINERYEXPORT_REASON_DRUG
 
@@ -94,7 +94,7 @@
 	reagent_state = LIQUID
 	color = "#b4dcdc"
 	overdose = 5
-	scannable = 0
+	scannable = SCANNABLE_BENEFICIAL
 
 	supply_conversion_value = REFINERYEXPORT_VALUE_RARE
 	industrial_use = REFINERYEXPORT_REASON_DRUG
@@ -115,7 +115,7 @@
 	color = "#003153" //Blue!
 	metabolism = REM * 0.25//20 ticks to do things per unit injected. This means injecting 30u will give you 10 minutes to do what you need.
 	overdose = REAGENTS_OVERDOSE
-	scannable = 1
+	scannable = SCANNABLE_BENEFICIAL
 	supply_conversion_value = REFINERYEXPORT_VALUE_COMMON
 	industrial_use = REFINERYEXPORT_REASON_DRUG
 
@@ -131,6 +131,7 @@
 	description = "A chemical compound that causes a dangerously powerful fat-burning reaction."
 	taste_description = "blandness"
 	reagent_state = LIQUID
+	scannable = SCANNABLE_BENEFICIAL
 	color = "#47AD6D"
 	overdose = REAGENTS_OVERDOSE
 	supply_conversion_value = REFINERYEXPORT_VALUE_HIGHREFINED
@@ -148,6 +149,7 @@
 	taste_description = "blubber"
 	reagent_state = LIQUID
 	color = "#61731C"
+	scannable = SCANNABLE_BENEFICIAL
 	overdose = REAGENTS_OVERDOSE
 	supply_conversion_value = REFINERYEXPORT_VALUE_HIGHREFINED
 	industrial_use = REFINERYEXPORT_REASON_DIET
@@ -163,6 +165,7 @@
 	description = "A chemical that instantly transforms the consumer into another creature."
 	taste_description = "luck"
 	reagent_state = LIQUID
+	scannable = SCANNABLE_SECRETIVE
 	color = "#a754de"
 	scannable = 1
 	var/tf_type = /mob/living/simple_mob/animal/passive/mouse
@@ -222,62 +225,28 @@
 
 /datum/reagent/polymorph/affect_blood(var/mob/living/carbon/target, var/removed)
 	var/mob/living/M = target
-	log_debug("polymorph start")
 	if(!istype(M))
-		log_debug("polymorph istype")
 		return
 	if(!M.allow_spontaneous_tf)
 		return
 	if(M.tf_mob_holder)
-		log_debug("polymorph tf_holder")
-		var/mob/living/ourmob = M.tf_mob_holder
-		if(ourmob.ai_holder)
-			log_debug("polymorph ai")
-			var/datum/ai_holder/our_AI = ourmob.ai_holder
-			our_AI.set_stance(STANCE_IDLE)
-		M.tf_mob_holder = null
-		ourmob.ckey = M.ckey
-		var/turf/get_dat_turf = get_turf(target)
-		ourmob.loc = get_dat_turf
-		ourmob.forceMove(get_dat_turf)
-		ourmob.vore_selected = M.vore_selected
-		M.vore_selected = null
-		ourmob.mob_belly_transfer(M)
-
-		M.soulgem.transfer_self(ourmob) // Soulcatcher
-
-		ourmob.Life(1)
-		if(ishuman(M))
-			for(var/obj/item/W in M)
-				if(istype(W, /obj/item/implant/backup) || istype(W, /obj/item/nif))
-					continue
-				M.drop_from_inventory(W)
-
-		qdel(target)
+		M.revert_mob_tf()
 		return
 	else
-		log_debug("polymorph else")
 		if(M.stat == DEAD)	//We can let it undo the TF, because the person will be dead, but otherwise things get weird.
-			log_debug("polymorph dead")
 			return
-		log_debug("polymorph not dead")
 		var/mob/living/new_mob = spawn_mob(M)
-		new_mob.faction = M.faction
 
-		new_mob.mob_tf(M)
+		M.tf_into(new_mob)
 	target.bloodstr.clear_reagents() //Got to clear all reagents to make sure mobs don't keep spawning.
 	target.ingested.clear_reagents()
 	target.touching.clear_reagents()
 
 /datum/reagent/polymorph/proc/spawn_mob(var/mob/living/target)
-	log_debug("polymorph proc spawn mob")
 	var/choice = pick(tf_possible_types)
 	tf_type = tf_possible_types[choice]
-	log_debug("polymorph [tf_type]")
 	if(!ispath(tf_type))
-		log_debug("polymorph tf_type fail")
 		return
-	log_debug("polymorph tf_type pass")
 	var/new_mob = new tf_type(get_turf(target))
 	return new_mob
 
@@ -288,7 +257,7 @@
 	taste_description = "change"
 	reagent_state = LIQUID
 	color = "#ffffff"
-	scannable = 1
+	scannable = SCANNABLE_SECRETIVE
 	supply_conversion_value = REFINERYEXPORT_VALUE_HIGHREFINED
 	industrial_use = REFINERYEXPORT_REASON_COSMETIC
 

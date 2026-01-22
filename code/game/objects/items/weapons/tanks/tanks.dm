@@ -209,7 +209,10 @@ var/list/global/tank_gauge_cache = list()
 
 
 
-/obj/item/tank/attack_self(mob/user as mob)
+/obj/item/tank/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return
 	add_fingerprint(user)
 	if (!(src.air_contents))
 		return
@@ -444,7 +447,7 @@ var/list/global/tank_gauge_cache = list()
 
 	else if(pressure > TANK_RUPTURE_PRESSURE)
 		#ifdef FIREDBG
-		log_debug(span_warning("[x],[y] tank is rupturing: [pressure] kPa, integrity [integrity]"))
+		log_world(span_warning("[x],[y] tank is rupturing: [pressure] kPa, integrity [integrity]"))
 		#endif
 
 		air_contents.react()
@@ -504,7 +507,7 @@ var/list/global/tank_gauge_cache = list()
 				playsound(src, 'sound/effects/spray.ogg', 10, 1, -3)
 				leaking = 1
 				#ifdef FIREDBG
-				log_debug(span_warning("[x],[y] tank is leaking: [pressure] kPa, integrity [integrity]"))
+				log_world(span_warning("[x],[y] tank is leaking: [pressure] kPa, integrity [integrity]"))
 				#endif
 
 
@@ -662,7 +665,7 @@ var/list/global/tank_gauge_cache = list()
 		return
 	var/atom/movable/AM = WF.resolve()
 	if(isnull(AM))
-		log_debug("DEBUG: HasProximity called without reference on [src].")
+		log_runtime("DEBUG: HasProximity called without reference on [src].")
 		return
 	assembly?.HasProximity(T, WF, old_loc)
 

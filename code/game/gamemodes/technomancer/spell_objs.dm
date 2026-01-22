@@ -7,6 +7,7 @@
 		slot_l_hand_str = 'icons/mob/items/lefthand_spells.dmi',
 		slot_r_hand_str = 'icons/mob/items/righthand_spells.dmi',
 		)
+	item_flags = DROPDEL | NOSTRIP
 	throwforce = 0
 	force = 0
 	show_examine = FALSE
@@ -195,9 +196,11 @@
 // Parameters: 1 (user - the Technomancer that invoked this proc)
 // Description: Tries to call on_use_cast() if it is allowed to do so.  Don't override this, override on_use_cast() instead.
 /obj/item/spell/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if(run_checks() && (cast_methods & CAST_USE))
 		on_use_cast(user)
-	..()
 
 // Proc: attackby()
 // Parameters: 2 (W - the item this spell object is hitting, user - the technomancer who clicked the other object)
@@ -277,15 +280,6 @@
 	else
 		qdel(S)
 		return 0
-
-// Proc: dropped()
-// Parameters: 0
-// Description: Deletes the spell object immediately.
-/obj/item/spell/dropped(mob/user)
-	..()
-	spawn(1)
-		if(src)
-			qdel(src)
 
 // Proc: throw_impact()
 // Parameters: 1 (hit_atom - the atom that got hit by the spell as it was thrown)

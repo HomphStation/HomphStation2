@@ -85,6 +85,7 @@
 #define TECHWEB_NODE_MEDBAY_EQUIP_ADV "medbay_equip_adv"
 #define TECHWEB_NODE_MEDBAY_EQUIP_HIGH_TECH "medbay_equip_high_tech"
 #define TECHWEB_NODE_MEDIGUN "medbay_medigun"
+#define TECHWEB_NODE_MEDIGUN_CONSTANT "medbay_medigun_constant"
 #define TECHWEB_NODE_MINING "mining"
 #define TECHWEB_NODE_MINING_ADV "mining_adv"
 #define TECHWEB_NODE_MOD_ANOMALY "mod_anomaly"
@@ -152,4 +153,6 @@
 #define TECHWEB_NODE_METAMORPHOSIS_RAY "metamorphosis_ray" //CHOMPEDIT Add - Adds Caseless Rifle
 #define TECHWEB_NODE_MOD_ANOMALY_SUIT "mod_anomaly_suit" //CHOMPEDIT Add - Adds Anomaly RIGs
 #define TECHWEB_NODE_MECH_SHIELDS "mech_shields" //CHOMPEDIT Add - Adds Mech Shields
+#define TECHWEB_NODE_TYRGOODS "tyrian tech" //CHOMPEDIT Add - Adds Craftable Tyr Loot
+#define TECHWEB_NODE_PRECUSORTOOLS "precursor tools" //CHOMPEDIT Add - Adds craftable precursor items
 //CHOMPEDIT End - Chomp Specific techwebs.

@@ -17,11 +17,11 @@
 	last_dam = damage_this_tick
 
 // Takes care of organ related updates, such as broken and missing limbs
-/mob/living/carbon/human/proc/handle_organs()
+/mob/living/carbon/human/proc/handle_organs(force = FALSE)
 
 	var/force_process = recheck_bad_external_organs()
 
-	if(force_process)
+	if(force_process || force)
 		bad_external_organs.Cut()
 		for(var/obj/item/organ/external/Ex in organs)
 			bad_external_organs += Ex //VOREStation Edit - Silly and slow to |= this
@@ -104,6 +104,11 @@
 		stance_damage -= 2
 	if (r_hand && istype(r_hand, /obj/item/cane))
 		stance_damage -= 2
+
+	// Jetpacks in zeroG count for holding you up
+	var/obj/item/tank/jetpack/thrust = get_jetpack()
+	if (lastarea?.get_gravity() == FALSE && thrust?.stabilization_on)
+		stance_damage -= 4
 
 	// standing is poor
 	if(stance_damage >= 4 || (stance_damage >= 2 && prob(5)))

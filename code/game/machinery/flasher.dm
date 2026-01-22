@@ -99,13 +99,13 @@
 				L.flash_eyes()
 		O.Weaken(flash_time)
 
-/obj/machinery/flasher/emp_act(severity)
+/obj/machinery/flasher/emp_act(severity, recursive)
 	if(stat & (BROKEN|NOPOWER))
-		..(severity)
+		..(severity, recursive)
 		return
 	if(prob(75/severity))
 		flash()
-	..(severity)
+	..(severity, recursive)
 
 /obj/machinery/flasher/portable/HasProximity(turf/T, datum/weakref/WF, oldloc)
 	if(isnull(WF))
@@ -113,7 +113,7 @@
 
 	var/atom/movable/AM = WF.resolve()
 	if(isnull(AM))
-		log_debug("DEBUG: HasProximity called without reference on [src].")
+		log_runtime("DEBUG: HasProximity called without reference on [src].")
 		return
 	if(disable || !anchored || (last_flash && world.time < last_flash + 150))
 		return

@@ -116,6 +116,9 @@
 		..()
 
 /obj/item/areaeditor/attack_self(mob/user) //Convert this to TGUI some time.
+	. = ..(user)
+	if(.)
+		return TRUE
 	add_fingerprint(user)
 	. = "<BODY><HTML><head><title>[src]</title></head> \
 				<h2>[station_name()] [src.name]</h2>"
@@ -177,6 +180,9 @@
 	var/legend = 1
 
 /obj/item/wire_reader/attack_self(mob/user) //Convert this to TGUI some time.
+	. = ..(user)
+	if(.)
+		return TRUE
 	add_fingerprint(user)
 	. = "<BODY><HTML><head><title>[src]</title></head> \
 				<h2>[station_name()] [src.name]</h2>"
@@ -247,7 +253,9 @@
 
 
 /obj/item/areaeditor/blueprints/attack_self(mob/user)
-	. = ..()
+	. = ..(user)
+	if(. == 1) //I hate this so much.
+		return TRUE
 	var/area/A = get_area(user)
 	if(!legend)
 		if(get_area_type() == AREA_STATION)
@@ -452,7 +460,7 @@
 			//I personally think adding walls to an area is a big deal, so this is commented out.
 
 			//BEGIN ESOTERIC BULLSHIT
-			//log_debug("Origin: [origin.c_airblock(checkT)] SourceT: [sourceT.c_airblock(checkT)] 0=NB 1=AB 2=ZB, 3=B")
+			//to_chat(world, "Origin: [origin.c_airblock(checkT)] SourceT: [sourceT.c_airblock(checkT)] 0=NB 1=AB 2=ZB, 3=B")
 			/*
 			if(origin.c_airblock(checkT)) //If everything breaks and it doesn't want to work, turn on the above debug and check this line. C.L. 0 = not blocked.
 				continue

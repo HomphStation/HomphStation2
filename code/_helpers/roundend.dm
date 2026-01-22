@@ -5,7 +5,12 @@
 		roundend_callbacks.InvokeAsync()
 	LAZYCLEARLIST(round_end_events)
 
-	to_chat(world, span_filter_system("<br><br><br><H1>A round of [mode.name] has ended!</H1>"))
+	to_chat(world, span_filter_system("<BR><BR><BR><H1>The round has ended.</H1>"))
+	log_game("The round has ended.")
+	for(var/channel_tag in CONFIG_GET(str_list/channel_announce_end_game))
+		send2chat(new /datum/tgs_message_content("[GLOB.round_id ? "Round [GLOB.round_id]" : "The round has"] just ended."), channel_tag)
+	send2adminchat("Server", "Round just ended.")
+
 	for(var/mob/Player in GLOB.player_list)
 		if(Player.mind && !isnewplayer(Player))
 			if(Player.stat != DEAD)
@@ -57,13 +62,15 @@
 			continue
 
 		if (!robo.connected_ai)
+			var/list/robot_stat_display = list()
 			if (robo.stat != 2)
-				to_chat(world, span_filter_system(span_bold("[robo.name] survived as an AI-less stationbound synthetic! Its laws were:"))) // VOREStation edit
+				robot_stat_display += span_filter_system(span_bold("[robo.name] survived as an AI-less stationbound synthetic! Its laws were:"))
 			else
-				to_chat(world, span_filter_system(span_bold("[robo.name] was unable to survive the rigors of being a stationbound synthetic without an AI. Its laws were:"))) // VOREStation edit
+				robot_stat_display += span_filter_system(span_bold("[robo.name] was unable to survive the rigors of being a stationbound synthetic without an AI. Its laws were:"))
 
 			if(robo) //How the hell do we lose robo between here and the world messages directly above this?
-				robo.laws.show_laws(world)
+				robot_stat_display += robo.laws.get_formatted_laws()
+			to_chat(world, robot_stat_display.Join("\n"))
 
 	if(dronecount)
 		to_chat(world, span_filter_system(span_bold("There [dronecount>1 ? "were" : "was"] [dronecount] industrious maintenance [dronecount>1 ? "drones" : "drone"] at the end of this round.")))

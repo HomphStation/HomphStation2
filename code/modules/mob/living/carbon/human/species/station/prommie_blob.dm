@@ -97,7 +97,7 @@
 	update_icon()
 
 	if(!humanform) // If we somehow have a blob with no human, lets just clean up.
-		log_debug("Cleaning up blob with no prommie!")
+		log_runtime("Cleaning up blob with no prommie!")
 		qdel(src)
 	return
 
@@ -510,6 +510,7 @@
 
 	if(blob.mob_radio)
 		blob.mob_radio.forceMove(src)
+		equip_to_appropriate_slot(blob.mob_radio) // Actually put it back on the mob in a slot
 		blob.mob_radio = null
 	if(blob.myid)
 		blob.myid = null

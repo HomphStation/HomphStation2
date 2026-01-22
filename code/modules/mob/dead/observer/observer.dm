@@ -183,6 +183,7 @@ Works together with spawning an observer, noted above.
 //RS Port #658 End
 
 /mob/proc/ghostize(var/can_reenter_corpse = 1, var/aghost = FALSE)
+	reset_perspective(src) // End any remoteview we're in
 	if(key)
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
@@ -557,9 +558,9 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	//ChompEDIT START - deal with weird behavior on qdelled ghosts
 	if(client) //qdelling a ghost with a client = make a new ghost i guess
 		ghostize()
-	if(key) //qdelling a ghost with a key = remove the key first to prevent logging into the GC queue
-		key = null
 	//ChompEDIT END
+	if(key)
+		key = null
 	return ..()
 
 /mob/Moved(atom/old_loc, direction, forced = FALSE)
@@ -768,9 +769,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		)
 		toggle_ghost_visibility(TRUE)
 	else
-		var/datum/gender/T = GLOB.gender_datums[user.get_visible_gender()]
 		user.visible_message ( \
-			span_warning("\The [user] just tried to smash [T.his] book into that ghost!  It's not very effective."), \
+			span_warning("\The [user] just tried to smash [user.p_their()] book into that ghost!  It's not very effective."), \
 			span_warning("You get the feeling that the ghost can't become any more visible.") \
 		)
 
@@ -907,7 +907,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			return 0
 		var/msg = tgui_input_text(src, "Message:", "Spectral Whisper", "", MAX_MESSAGE_LEN)
 		if(msg)
-			log_say("(SPECWHISP to [key_name(M)]): [msg]", src)
+			log_talk("(SPECWHISP to [key_name(M)]): [msg]", LOG_WHISPER)
 			to_chat(M, span_warning(" You hear a strange, unidentifiable voice in your head... [span_purple("[msg]")]"))
 			to_chat(src, span_warning(" You said: '[msg]' to [M]."))
 		else
@@ -1003,7 +1003,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(message)
 		to_chat(src, span_ghostalert(span_huge("[message]")))
 		if(source)
-			throw_alert("\ref[source]_notify_revive", /obj/screen/alert/notify_cloning, new_master = source)
+			throw_alert("\ref[source]_notify_revive", /atom/movable/screen/alert/notify_cloning, new_master = source)
 	to_chat(src, span_ghostalert("<a href='byond://?src=[REF(src)];reenter=1'>(Click to re-enter)</a>"))
 	if(sound)
 		SEND_SOUND(src, sound(sound))

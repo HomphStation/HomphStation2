@@ -9,7 +9,7 @@
 	icon_living = "mouse_gray"
 	icon_dead = "mouse_gray_dead"
 	icon_rest = "mouse_gray_sleep"
-	faction = "mouse_army"
+	faction = FACTION_MOUSE_ARMY
 
 	maxHealth = 50
 	health = 50
@@ -184,7 +184,7 @@
 			visible_message(span_critical("\The [src]'s tank ruptures!"))
 			ruptured = 1
 			adjust_fire_stacks(2)
-			IgniteMob()
+			ignite_mob()
 	return ..()
 
 //Ammo Mouse
@@ -366,7 +366,7 @@
 	icon = 'icons/mob/mouse_army.dmi'
 	icon_state = "whisker"
 	wreckage = /obj/structure/loot_pile/mecha/mouse_tank
-	faction = "mouse_army"
+	faction = FACTION_MOUSE_ARMY
 
 	maxHealth = 150
 	armor = list(

@@ -84,28 +84,21 @@
 	R.scrubbing = FALSE
 
 /obj/item/robot_module/Destroy()
-	for(var/module in modules)
-		qdel(module)
-	for(var/emg in emag)
-		qdel(emg)
-	for(var/synth in synths)
-		qdel(synth)
-	modules.Cut()
-	synths.Cut()
-	emag.Cut()
+	QDEL_LIST(modules)
+	QDEL_LIST(emag)
+	QDEL_LIST(synths)
 	return ..()
 
-/obj/item/robot_module/emp_act(severity)
+/obj/item/robot_module/emp_act(severity, recursive)
 	if(modules)
 		for(var/obj/O in modules)
-			O.emp_act(severity)
+			O.emp_act(severity, recursive)
 	if(emag)
 		for(var/obj/O in emag)
-			O.emp_act(severity)
+			O.emp_act(severity, recursive)
 	if(synths)
 		for(var/datum/matter_synth/S in synths)
-			S.emp_act(severity)
-	..()
+			S.emp_act(severity, recursive)
 	return
 
 /obj/item/robot_module/proc/respawn_consumable(var/mob/living/silicon/robot/R, var/rate)
@@ -200,6 +193,7 @@
 	src.modules += new /obj/item/tool/crowbar/cyborg(src)
 	src.modules += new /obj/item/melee/robotic/jaws/small(src)
 	src.modules += new /obj/item/gripper/scene(src)
+	src.modules += new /obj/item/robo_dice(src)
 
 /obj/item/robot_module/robot/standard
 	name = "standard robot module"

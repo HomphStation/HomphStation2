@@ -99,7 +99,7 @@ var/datum/antagonist/wizard/wizards
 		break
 	if(!survivor)
 		feedback_set_details("round_end_result","loss - wizard killed")
-		to_world(span_boldannounce(span_large("The [(current_antagonists.len>1)?"[role_text_plural] have":"[role_text] has"] been killed by the crew!")))
+		to_chat(world, span_boldannounce(span_large("The [(current_antagonists.len>1)?"[role_text_plural] have":"[role_text] has"] been killed by the crew!")))
 
 // Removing antag should remove spells
 /datum/antagonist/wizard/remove_antagonist(datum/mind/player, show_message, implanted)
@@ -113,6 +113,10 @@ var/datum/antagonist/wizard/wizards
 
 /obj/item/clothing
 	var/wizard_garb = 0
+	///Var for attack_self chain
+	var/special_handling = FALSE
+	///Var for attack_self chain as well
+	var/helmet_handling = FALSE
 
 // Does this clothing slot count as wizard garb? (Combines a few checks)
 /proc/is_wiz_garb(var/obj/item/clothing/C)
