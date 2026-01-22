@@ -1,7 +1,7 @@
 // To be filled out when more progress on the new map occurs.
 /datum/map/soluna_nexus
-	name = "Soluna Nexus"
-	full_name = "Soluna Nexus"
+	name = "Solaris Junction"
+	full_name = "Solaris Junction"
 	path = "soluna_nexus"
 
 	lobby_screens = list('modular_chomp/html/lobby/chompstation.webp')
@@ -15,14 +15,15 @@
 
 	zlevel_datum_type = /datum/map_z_level/soluna_nexus
 
-	station_name  = "NLS Soluna Nexus"
-	station_short = "Soluna Nexus"
-	dock_name     = "NCS Northern Star" // Now we're the centcom!
-	boss_name     = "Central Command"
-	boss_short    = "Centcom"
-	company_name  = "NanoTrasen"
-	company_short = "NT"
-	starsys_name  = "Vir"
+	station_name  = "SR Solaris Junction"
+	station_short = "Solaris Junction"
+	facility_type = "station"
+	dock_name     = "SL Transfer Outpost" // Now we're the centcom!
+	boss_name     = "Control Center"
+	boss_short    = "Control"
+	company_name  = "SilTech"
+	company_short = "ST"
+	starsys_name  = "Mizar"
 	use_overmap = TRUE
 	overmap_size = 50
 	overmap_event_areas = 44
@@ -130,7 +131,7 @@
 
 /datum/map/soluna_nexus/get_map_info()
 	. = list()
-	. +=  "The NLS [full_name] is a small waystation in orbit of the frozen garden world of Sif, jewel of the Vir system.<br>"
+	. +=  "The SR [full_name] is a small waystation in orbit of the frozen garden world of Sif, jewel of the Vir system.<br>"
 	. +=  "Though Vir is typically peaceful, the system has seen its fair share of conflict in the face of technological extremists, rogue drone intelligence, and worse.<br>"
 	. +=  "As an employee of NanoTrasen, operators of the Southern Cross and one of the galaxy's largest research corporations, you're probably just here to do a job."
 	return jointext(., "<br>")
