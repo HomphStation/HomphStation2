@@ -4,7 +4,7 @@
 	full_name = "Solaris Junction"
 	path = "soluna_nexus"
 
-	lobby_screens = list('modular_chomp/html/lobby/chompstation.webp')
+	lobby_screens = list('modular_homph/html/lobby/filler_spacestation.png')
 	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'
 
 	holomap_smoosh = list(list(
